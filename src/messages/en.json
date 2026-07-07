@@ -1,0 +1,414 @@
+{
+  "meta": {
+    "title": "St. Mark Coptic Academy — Your Accredited Gateway to Theology & Coptic Studies",
+    "description": "The leading academic reference in ecclesiastical education and scholarly research, under the patronage of His Holiness Pope Tawadros II. Accredited Master's, Doctorate and Diploma programs, a theses digital library, and a peer-reviewed academic journal."
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "programs": "Programs",
+    "theses": "Theses Library",
+    "articles": "Articles",
+    "events": "Events",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "login": "Log in",
+    "register": "Register",
+    "apply": "Apply Now",
+    "search": "Search",
+    "searchPlaceholder": "Search theses, articles and programs…",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu",
+    "switchLocale": "العربية"
+  },
+  "hero": {
+    "eyebrow": "Coptic Orthodox Patriarchate",
+    "title": "St. Mark Coptic Academy",
+    "subtitle": "Your accredited academic gateway to theology, Coptic studies and scholarly research,",
+    "patronPrefix": "under the patronage of",
+    "patron": "His Holiness Pope Tawadros II.",
+    "ctaPrimary": "Discover Academic Programs",
+    "ctaSecondary": "Apply for Admission",
+    "imageAlt": "St. Mark Coptic Academy campus at the Logos Center"
+  },
+  "partners": {
+    "label": "Our Partners in Service"
+  },
+  "vision": {
+    "label": "Our Vision",
+    "subtitle": "What is our goal for the future?",
+    "cardTitle": "Our Vision",
+    "body": "To be the leading, integrated academic reference in ecclesiastical education and church-based scholarly research — uniting theological colleges and ecclesiastical institutes under one umbrella; safeguarding the Apostolic Tradition and preserving the Patristic heritage; strengthening Coptic identity and affirming its presence in the modern era; serving the Church and society through innovative education, research and creativity; and enriching cultural and scholarly dialogue locally, regionally and internationally — drawing inspiration from the spirit of the early Christian School of Alexandria.",
+    "imageAlt1": "Academic conference in the grand lecture hall",
+    "imageAlt2": "Manuscripts and references from the academy library"
+  },
+  "stats": {
+    "items": [
+      { "value": 2500, "label": "students & researchers" },
+      { "value": 120, "label": "advanced degrees awarded" },
+      { "value": 14, "label": "theological colleges & institutes" },
+      { "value": 60, "label": "thousand m² at the Logos Center" }
+    ]
+  },
+  "programs": {
+    "label": "Academic Programs",
+    "subtitle": "Accredited degrees for every stage of your journey",
+    "duration": "Duration",
+    "cardCta": "Details & Application",
+    "showAll": "Explore All Programs",
+    "status": {
+      "open": "Open for Enrollment",
+      "soon": "Coming Soon",
+      "closed": "Closed"
+    },
+    "items": [
+      {
+        "id": "masters",
+        "title": "MA in Theology & Coptic Studies",
+        "description": "An in-depth research degree in dogmatic and biblical theology and patristics, supervised by distinguished specialized professors.",
+        "duration": "2–3 years",
+        "status": "open",
+        "image": "/images/photo-2.jpg"
+      },
+      {
+        "id": "doctorate",
+        "title": "PhD in Theological Studies",
+        "description": "The highest academic degree for researchers in Coptic heritage and patristic theology, with peer-reviewed publication.",
+        "duration": "3–5 years",
+        "status": "open",
+        "image": "/images/photo-1.jpg"
+      },
+      {
+        "id": "diplomas",
+        "title": "Specialized Diplomas",
+        "description": "Focused programs in theology, church history, the Coptic language and ecclesial education.",
+        "duration": "1 academic year",
+        "status": "open",
+        "image": "/images/photo-3.jpg"
+      },
+      {
+        "id": "certificates",
+        "title": "Foundational Certificates",
+        "description": "Short accredited courses for servants and new students, on campus or online via the TEACH platform.",
+        "duration": "1 semester",
+        "status": "soon",
+        "image": "/images/photo-4.jpg"
+      }
+    ]
+  },
+  "theses": {
+    "label": "Theses Digital Library",
+    "subtitle": "Accredited Master's and Doctoral theses",
+    "degreeMasters": "Master's",
+    "degreeDoctorate": "Doctorate",
+    "researcher": "Researcher",
+    "year": "Year",
+    "showAll": "Browse the Theses Library",
+    "showAllHint": "Advanced search and filtering by researcher, topic and year",
+    "items": [
+      {
+        "title": "The Theological School of Alexandria and Its Impact on Early Christian Thought",
+        "researcher": "Mina Adel Gerges",
+        "degree": "Doctorate",
+        "institution": "Clerical College, Cairo",
+        "year": "2024"
+      },
+      {
+        "title": "The Theology of the Incarnation in St. Athanasius the Apostolic — A Patristic Study",
+        "researcher": "Mariam Atef Fahmy",
+        "degree": "Master's",
+        "institution": "Coptic Orthodox Theological College",
+        "year": "2023"
+      },
+      {
+        "title": "Coptic Art in the Byzantine Era — A Documentary Analytical Reading",
+        "researcher": "Kyrillos William Fouad",
+        "degree": "Master's",
+        "institution": "Institute of Coptic Studies",
+        "year": "2024"
+      },
+      {
+        "title": "The Liturgy of St. Mark — Its Origin and Textual Development",
+        "researcher": "Daniel Samuel Hanna",
+        "degree": "Doctorate",
+        "institution": "Clerical College, Alexandria",
+        "year": "2022"
+      }
+    ]
+  },
+  "features": {
+    "label": "Academy Distinctions",
+    "subtitle": "Why St. Mark Academy?",
+    "items": [
+      {
+        "index": "01",
+        "title": "Official Accreditation",
+        "summary": "Certificates authenticated by the Holy Synod",
+        "body": "Academy certificates are issued authenticated and accredited by the Holy Synod of the Coptic Orthodox Church, guaranteeing ecclesiastical and academic recognition of your degrees in Egypt and abroad."
+      },
+      {
+        "index": "02",
+        "title": "Faculty",
+        "summary": "Metropolitans, bishops and internationally specialized professors",
+        "body": "Programs are supervised by a distinguished body of metropolitans, bishops and university professors specialized in theology and Coptic studies from Egypt and around the world — combining academic rigor with ecclesial experience."
+      },
+      {
+        "index": "03",
+        "title": "Infrastructure",
+        "summary": "Equipped halls, a digital library and conference centers",
+        "body": "A fully integrated campus at the Logos Center in Wadi El-Natrun: equipped lecture halls, a vast physical and digital library, and conference centers hosting international scholarly events."
+      },
+      {
+        "index": "04",
+        "title": "Hybrid Learning",
+        "summary": "On campus or online via the international TEACH platform",
+        "body": "Study the way that suits you: on campus, or remotely via the international TEACH platform with live interactive lectures and a recordings library available around the clock."
+      }
+    ]
+  },
+  "articles": {
+    "label": "Articles & Publications",
+    "subtitle": "From the academy journal and periodicals",
+    "readingTime": "{minutes} min read",
+    "cardCta": "Read Article",
+    "showAll": "Browse All Articles",
+    "access": {
+      "public": "Public",
+      "members": "Members Only"
+    },
+    "items": [
+      {
+        "category": "Patristics",
+        "title": "The Spirit of the School of Alexandria: From Pantaenus to Origen",
+        "excerpt": "How did the first theological school in Christian history shape ecclesial education to this day?",
+        "author": "Dr. Basilios Sobhy",
+        "date": "June 15, 2026",
+        "minutes": 12,
+        "access": "public",
+        "image": "/images/photo-1.jpg"
+      },
+      {
+        "category": "Coptic Heritage",
+        "title": "Coptic Manuscripts of Wadi El-Natrun: Treasures Beneath the Sands",
+        "excerpt": "A documentary journey through the monastery manuscripts that preserved the patristic heritage across sixteen centuries.",
+        "author": "Prof. Marina Nabil",
+        "date": "May 28, 2026",
+        "minutes": 9,
+        "access": "public",
+        "image": "/images/photo-4.jpg"
+      },
+      {
+        "category": "Research",
+        "title": "Theological Research Methodology in the Digital Age",
+        "excerpt": "Modern tools, databases and methods opening new horizons for the contemporary church researcher.",
+        "author": "Dr. Youhanna Fawzy",
+        "date": "May 10, 2026",
+        "minutes": 7,
+        "access": "members",
+        "image": "/images/photo-3.jpg"
+      }
+    ]
+  },
+  "testimonials": {
+    "label": "What Our Students Say",
+    "subtitle": "How was studying with us?",
+    "items": [
+      { "name": "Mariam Atef", "role": "MA student", "quote": "The academy gave me an integrated research environment that changed my academic path — precise supervision and rich scholarly resources." },
+      { "name": "Mina Adel", "role": "PhD researcher", "quote": "The academy doesn't just teach — it understands the student's mission and nurtures the spirit of research and service together." },
+      { "name": "Marina Samir", "role": "Diploma student", "quote": "From day one the experience was organized and clear — rigorous lectures and continuous follow-up from supervisors." },
+      { "name": "Karin Wadie", "role": "Independent researcher", "quote": "I benefited from the scholarly archive from my first week, finding rare references I couldn't locate anywhere else." },
+      { "name": "Kyrillos William", "role": "Diploma student", "quote": "I only realized how much scholarly methodology I was missing after joining the academy; my whole way of thinking changed." },
+      { "name": "Daniel Samuel", "role": "Church servant", "quote": "I finally found a place that unites the depth of patristic heritage with the modern tools of education." },
+      { "name": "Clara Morcos", "role": "Coptology researcher", "quote": "From registration to the thesis defense, attention to detail was evident at every step." },
+      { "name": "Eva Nashy", "role": "New student", "quote": "The academy helped me launch into research with confidence, thanks to foundational courses and academic advising." },
+      { "name": "Morcos Fawzy", "role": "Visiting academic", "quote": "It is rare to find an institution balancing academic rigor with authentic ecclesial spirit so well." },
+      { "name": "Rachel Fouad", "role": "Programs coordinator", "quote": "Every step was well designed — precise questions and guidance that exceeded expectations at every stage." },
+      { "name": "Abanoub Fayez", "role": "PhD researcher", "quote": "Despite the tight schedule of my final semester, I found all the support to finish my thesis on time." },
+      { "name": "Teresa Younan", "role": "Theology student", "quote": "It wasn't just study — it was a transformation of thought. I'm proud to belong to this institution." }
+    ]
+  },
+  "events": {
+    "label": "Events & Conferences",
+    "subtitle": "The academy calendar for the current term",
+    "register": "Register",
+    "registered": "Fully Booked",
+    "online": "Online",
+    "emptyState": "No events in this category right now — check back soon.",
+    "filters": {
+      "all": "All",
+      "conference": "Conferences",
+      "seminar": "Seminars",
+      "discussion": "Discussions"
+    },
+    "status": {
+      "open": "Registration Open",
+      "full": "Fully Booked",
+      "online": "Online"
+    },
+    "items": [
+      {
+        "type": "conference",
+        "title": "3rd International Patristic Studies Conference",
+        "day": "24",
+        "month": "September",
+        "year": "2026",
+        "dateRange": "September 24–26, 2026",
+        "location": "Logos Center, Wadi El-Natrun",
+        "status": "open"
+      },
+      {
+        "type": "seminar",
+        "title": "Seminar: Coptic Heritage in the Digital Age",
+        "day": "15",
+        "month": "August",
+        "year": "2026",
+        "dateRange": "August 15, 2026",
+        "location": "Online via the TEACH platform",
+        "status": "online"
+      },
+      {
+        "type": "discussion",
+        "title": "Panel: Methods of Theological Research",
+        "day": "30",
+        "month": "July",
+        "year": "2026",
+        "dateRange": "July 30, 2026",
+        "location": "Grand Conference Hall, Logos Center",
+        "status": "full"
+      }
+    ]
+  },
+  "apply": {
+    "label": "Apply for Admission",
+    "subtitle": "Start your academic journey here",
+    "intro": "Fill in the form and our admissions team will contact you within 48 working hours.",
+    "fields": {
+      "fullName": "Full name",
+      "fullNamePlaceholder": "Enter your full name",
+      "email": "Email address",
+      "emailPlaceholder": "name@example.com",
+      "phone": "Phone number",
+      "phonePlaceholder": "+20 1X XXX XXXX",
+      "program": "Desired program",
+      "programPlaceholder": "Choose a program",
+      "programOptions": {
+        "masters": "MA in Theology & Coptic Studies",
+        "doctorate": "PhD in Theological Studies",
+        "diploma": "Specialized Diploma",
+        "certificate": "Foundational Certificate"
+      },
+      "qualification": "Highest qualification",
+      "qualificationPlaceholder": "e.g. BA in Theology — 2020",
+      "message": "Your message (optional)",
+      "messagePlaceholder": "Tell us briefly about your research interest…"
+    },
+    "validation": {
+      "fullNameRequired": "Please enter your full name.",
+      "emailRequired": "Email address is required.",
+      "emailInvalid": "Please enter a valid email address.",
+      "phoneRequired": "Phone number is required.",
+      "phoneInvalid": "Please enter a valid phone number.",
+      "programRequired": "Please choose a program.",
+      "qualificationRequired": "Please state your qualification."
+    },
+    "submit": "Submit Application",
+    "submitting": "Submitting…",
+    "successTitle": "Your application has been received!",
+    "successBody": "Thank you for your interest in joining St. Mark Coptic Academy. Our admissions team will contact you by email within 48 working hours.",
+    "successCta": "Submit another application",
+    "errorTitle": "Submission failed",
+    "errorBody": "An unexpected error occurred. Please try again or email us at info@smcacademy.net."
+  },
+  "faq": {
+    "label": "Frequently Asked Questions",
+    "subtitle": "Registration steps — what, how and why?",
+    "noResults": "No results match your search — try different keywords.",
+    "imageAlt": "Students inside the academy campus",
+    "items": [
+      {
+        "question": "How do I register at the academy?",
+        "answer": "Create an account on the platform, then fill in the admission form and attach your documents (academic qualification and ID). You'll receive a preliminary acceptance email within 48 working hours, followed by a short introductory interview."
+      },
+      {
+        "question": "What are the admission requirements for postgraduate programs?",
+        "answer": "A recognized university degree, a church recommendation from your priest or spiritual guide, and passing the personal interview. The PhD program requires a Master's degree or its equivalent."
+      },
+      {
+        "question": "Are the certificates accredited?",
+        "answer": "Yes — all certificates are issued authenticated and accredited by the Holy Synod of the Coptic Orthodox Church, carry the signature of His Holiness the Pope, and are recognized by partner theological colleges and institutes."
+      },
+      {
+        "question": "What are the tuition payment methods?",
+        "answer": "You can pay by bank transfer, online payment through the platform, or in cash at the academy — with the option of installments per semester. Partial scholarships are available for servants and distinguished researchers."
+      },
+      {
+        "question": "Can I study remotely?",
+        "answer": "Yes — the academy offers hybrid learning via the international TEACH platform: live interactive lectures, recordings available around the clock, and optional intensive on-campus meetings."
+      },
+      {
+        "question": "How does the academy advance church scholarly research?",
+        "answer": "Through the digital theses library, a peer-reviewed academic journal, annual international conferences, specialized supervision of Master's and PhD theses, and research partnerships with theological colleges and institutes."
+      },
+      {
+        "question": "Are there international partnerships?",
+        "answer": "Yes — the academy holds cooperation agreements with theological colleges and institutes in Egypt and abroad, including researcher exchange, mutual recognition of degrees, and participation in international conferences."
+      },
+      {
+        "question": "How do I access the theses library and articles?",
+        "answer": "After creating your account you can search the theses library for free. Some articles are public, while exclusive content requires a modest annual subscription that supports the scholarly journal."
+      }
+    ]
+  },
+  "footer": {
+    "addressHeading": "Address",
+    "address": "Logos Center, Monastery of St. Bishoy, Wadi El-Natrun, Egypt",
+    "email": "info@smcacademy.net",
+    "quickLinksHeading": "Quick Links",
+    "links": {
+      "home": "Home",
+      "about": "About",
+      "features": "Distinctions",
+      "programs": "Programs",
+      "campus": "Campus",
+      "articles": "Articles",
+      "contact": "Contact"
+    },
+    "newsletterHeading": "Newsletter",
+    "newsletterHint": "Subscribe for academy news and events",
+    "newsletterPlaceholder": "Your email address",
+    "newsletterCta": "Subscribe",
+    "newsletterSuccess": "You're subscribed — welcome!",
+    "mapTitle": "Logos Center location on the map",
+    "copyright": "All rights reserved © St. Mark Coptic Academy 2026",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions"
+  },
+  "auth": {
+    "loginTitle": "Log in",
+    "loginSubtitle": "Welcome back to the academy",
+    "registerTitle": "Create an account",
+    "registerSubtitle": "Join the academy's scholarly community",
+    "accountType": "Account type",
+    "accountTypes": {
+      "student": "Student",
+      "member": "Member / Subscriber",
+      "organization": "Organization"
+    },
+    "fullName": "Full name",
+    "email": "Email address",
+    "password": "Password",
+    "loginCta": "Log in",
+    "registerCta": "Create account",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "goRegister": "Register",
+    "goLogin": "Log in",
+    "comingSoon": "The student portal is launching soon — register your interest via the admission form."
+  },
+  "misc": {
+    "backHome": "Back to home",
+    "comingSoonTitle": "Coming Soon",
+    "comingSoonBody": "This page is under construction — it will launch with the full platform featuring advanced search and filtering.",
+    "scrollDown": "Scroll down"
+  }
+}

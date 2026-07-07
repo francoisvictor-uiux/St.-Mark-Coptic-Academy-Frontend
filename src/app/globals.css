@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+@theme {
+  /* ——— Color system (from Figma "Final Design" → Colors) ——— */
+  --color-creamy-50: #fffcfa;
+  --color-creamy-100: #fef6f0;
+  --color-creamy-200: #fef1e8;
+  --color-creamy-300: #feebde;
+  --color-creamy-400: #fde7d8;
+  --color-creamy-500: #fde1ce;
+  --color-creamy-600: #e6cdbb;
+  --color-creamy-700: #b4a092;
+  --color-creamy-800: #8b7c71;
+  --color-creamy-900: #6a5f57;
+
+  --color-brown-50: #eeeae9;
+  --color-brown-100: #cbbcbb;
+  --color-brown-200: #b19c9a;
+  --color-brown-300: #8e6f6c;
+  --color-brown-400: #78534f;
+  --color-brown-500: #562823;
+  --color-brown-600: #4e2420;
+  --color-brown-700: #3d1c19;
+  --color-brown-800: #2f1613;
+  --color-brown-900: #24110f;
+
+  --color-blue-50: #e8edef;
+  --color-blue-100: #b9c7cf;
+  --color-blue-200: #97acb7;
+  --color-blue-300: #678696;
+  --color-blue-400: #496e82;
+  --color-blue-500: #1c4a63;
+  --color-blue-600: #19435a;
+  --color-blue-700: #143546;
+  --color-blue-800: #0f2936;
+  --color-blue-900: #0c1f2a;
+
+  --color-red-50: #fcf1f1;
+  --color-red-100: #f4d2d2;
+  --color-red-200: #efbcbc;
+  --color-red-300: #e89e9e;
+  --color-red-400: #e48b8b;
+  --color-red-500: #dd6e6e;
+  --color-red-600: #c96464;
+  --color-red-700: #9d4e4e;
+  --color-red-800: #7a3d3d;
+  --color-red-900: #5d2e2e;
+
+  --color-ink-50: #eaeaea;
+  --color-ink-100: #bebebe;
+  --color-ink-200: #9e9e9e;
+  --color-ink-300: #727272;
+  --color-ink-400: #565656;
+  --color-ink-500: #2c2c2c;
+  --color-ink-600: #282828;
+  --color-ink-700: #1f1f1f;
+  --color-ink-800: #181818;
+  --color-ink-900: #121212;
+
+  /* Semantic aliases */
+  --color-surface: #fef6f0; /* page background */
+  --color-card: #fffcfa; /* raised card background */
+  --color-line: #cbbcbb; /* hairline borders */
+  --color-muted: #585858; /* section subtitles */
+
+  /* ——— Typography ——— */
+  --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-serif-var), Georgia, serif;
+  --font-display: var(--font-display-var), Georgia, serif;
+  --font-thulth: var(--font-thulth-var), var(--font-display-var), serif;
+  --font-archivo: var(--font-archivo-var), var(--font-sans-var), sans-serif;
+
+  /* ——— Radii ——— */
+  --radius-card: 40px;
+  --radius-map: 32px;
+
+  /* ——— Easing ——— */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-brown-900);
+  font-family: var(--font-serif);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-brown-500);
+  color: var(--color-creamy-100);
+}
+
+/* Marquee keyframes (partners band, testimonials) — GSAP handles scroll
+   animations; continuous marquees stay in CSS so they run without JS. */
+@keyframes marquee-rtl {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(50%);
+  }
+}
+
+@keyframes marquee-ltr {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee-rtl var(--marquee-duration, 40s) linear infinite;
+}
+
+.marquee-track-reverse {
+  animation: marquee-ltr var(--marquee-duration, 40s) linear infinite;
+}
+
+.marquee-paused:hover .marquee-track,
+.marquee-paused:hover .marquee-track-reverse {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .marquee-track-reverse {
+    animation: none;
+  }
+}

@@ -21,6 +21,21 @@ export default function Hero() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // Autoplay insurance for mobile: browsers only allow it when the
+        // video is muted, and some (iOS Low Power Mode, data saver) still
+        // block it until the first user gesture — so kick playback
+        // explicitly and retry once on first touch/click.
+        const video = videoRef.current;
+        const tryPlay = () => {
+          if (video && video.paused) {
+            video.muted = true;
+            video.play().catch(() => {});
+          }
+        };
+        tryPlay();
+        window.addEventListener("touchstart", tryPlay, { once: true, passive: true });
+        window.addEventListener("click", tryPlay, { once: true });
+
         // Hold the entrance until the preloader sheet has lifted away.
         const preloading = document.querySelector("[data-preloader]") !== null;
 
@@ -69,7 +84,11 @@ export default function Hero() {
           },
         });
 
-        return () => window.removeEventListener("preloader:done", startEntrance);
+        return () => {
+          window.removeEventListener("preloader:done", startEntrance);
+          window.removeEventListener("touchstart", tryPlay);
+          window.removeEventListener("click", tryPlay);
+        };
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

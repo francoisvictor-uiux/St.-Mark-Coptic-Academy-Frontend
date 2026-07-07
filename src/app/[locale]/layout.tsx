@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import Preloader from "@/components/layout/Preloader";
 import {
   thmanyahSans,
   thmanyahSerifText,
@@ -51,7 +52,10 @@ export default async function LocaleLayout({
       className={`${thmanyahSans.variable} ${thmanyahSerifText.variable} ${thmanyahSerifDisplay.variable} ${moshrefThulth.variable} ${archivo.variable}`}
     >
       <body className="min-h-screen">
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <Preloader />
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

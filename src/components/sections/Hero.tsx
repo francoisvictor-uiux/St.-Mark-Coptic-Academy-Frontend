@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -15,15 +14,18 @@ export default function Hero() {
   const t = useTranslations("hero");
   const locale = useLocale();
   const ref = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // Entrance choreography
-        gsap
-          .timeline({ defaults: { ease: "power3.out" } })
+        // Hold the entrance until the preloader sheet has lifted away.
+        const preloading = document.querySelector("[data-preloader]") !== null;
+
+        const entrance = gsap
+          .timeline({ defaults: { ease: "power3.out" }, paused: preloading })
           .from("[data-hero-eyebrow]", { autoAlpha: 0, y: 24, duration: 0.7 })
           .from(
             "[data-hero-title]",
@@ -38,8 +40,13 @@ export default function Hero() {
             "-=0.6",
           );
 
-        // Gentle parallax on the campus photograph while scrolling away.
-        gsap.to("[data-hero-image] img", {
+        const startEntrance = () => entrance.play();
+        if (preloading) {
+          window.addEventListener("preloader:done", startEntrance, { once: true });
+        }
+
+        // Gentle parallax on the campus video while scrolling away.
+        gsap.to("[data-hero-image] video", {
           yPercent: 8,
           ease: "none",
           scrollTrigger: {
@@ -61,6 +68,12 @@ export default function Hero() {
             scrub: true,
           },
         });
+
+        return () => window.removeEventListener("preloader:done", startEntrance);
+      });
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        videoRef.current?.pause();
       });
     },
     { scope: ref },
@@ -126,18 +139,22 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Campus photograph, blended into the cream sky */}
+      {/* Campus film, blended into the cream sky */}
       <div
         data-hero-image
         className="relative mt-10 h-[300px] w-full sm:h-[400px] md:mt-14 md:h-[540px] lg:h-[620px]"
       >
-        <Image
-          src="/images/campus.webp"
-          alt={t("imageAlt")}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-[center_62%]"
+        <video
+          ref={videoRef}
+          src="/videos/hero.mp4"
+          poster="/videos/hero-poster.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-label={t("imageAlt")}
+          className="absolute inset-0 size-full object-cover"
         />
         <div
           aria-hidden="true"

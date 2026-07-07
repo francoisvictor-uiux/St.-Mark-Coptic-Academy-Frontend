@@ -408,6 +408,7 @@
     "backHome": "Back to home",
     "comingSoonTitle": "Coming Soon",
     "comingSoonBody": "This page is under construction — it will launch with the full platform featuring advanced search and filtering.",
-    "scrollDown": "Scroll down"
+    "scrollDown": "Scroll down",
+    "loading": "Loading the academy"
   }
 }

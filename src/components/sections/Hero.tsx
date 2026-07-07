@@ -72,18 +72,6 @@ export default function Hero() {
           },
         });
 
-        // Pattern band drifts slightly slower than the scroll.
-        gsap.to("[data-hero-pattern]", {
-          yPercent: -14,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ref.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-          },
-        });
-
         return () => {
           window.removeEventListener("preloader:done", startEntrance);
           window.removeEventListener("touchstart", tryPlay);
@@ -105,13 +93,6 @@ export default function Hero() {
       aria-labelledby="hero-title"
       className="relative flex min-h-svh flex-col overflow-hidden bg-creamy-100 pt-[112px] md:pt-[140px]"
     >
-      {/* Decorative motif band behind the campus image (Figma hero pattern) */}
-      <div
-        data-hero-pattern
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-[38%] h-[430px] opacity-[0.05] [background-image:url('/Pattern.svg')] [background-size:374px_212px] [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)]"
-      />
-
       {/* Content */}
       <div className="relative z-10 mx-auto flex w-full max-w-[820px] flex-col items-center gap-8 px-4 text-center md:gap-10">
         <div className="flex flex-col items-center gap-8 md:gap-10">
@@ -158,10 +139,10 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Campus film, blended into the cream sky */}
+      {/* Campus film, pulled up under the CTAs and blended into the cream sky */}
       <div
         data-hero-image
-        className="relative mt-10 h-[300px] w-full sm:h-[400px] md:mt-14 md:h-[540px] lg:h-[620px]"
+        className="relative -mt-32 h-[440px] w-full sm:-mt-48 sm:h-[580px] md:-mt-72 md:h-[800px] lg:-mt-88 lg:h-[920px]"
       >
         <video
           ref={videoRef}
@@ -177,7 +158,7 @@ export default function Hero() {
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-b from-creamy-100 from-5% via-creamy-100/35 via-40% to-transparent"
+          className="absolute inset-0 bg-gradient-to-b from-creamy-100 from-[22%] via-creamy-100/35 via-[58%] to-transparent"
         />
       </div>
     </section>

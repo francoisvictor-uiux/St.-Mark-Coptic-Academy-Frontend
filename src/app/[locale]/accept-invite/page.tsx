@@ -1,0 +1,20 @@
+import { setRequestLocale } from "next-intl/server";
+import AuthShell from "@/components/auth/AuthShell";
+import AcceptInviteForm from "@/components/auth/AcceptInviteForm";
+
+export default async function AcceptInvitePage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ token?: string }>;
+}) {
+  const { locale } = await params;
+  const { token } = await searchParams;
+  setRequestLocale(locale);
+  return (
+    <AuthShell>
+      <AcceptInviteForm token={token ?? ""} />
+    </AuthShell>
+  );
+}

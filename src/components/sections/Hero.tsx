@@ -10,7 +10,7 @@ import PillButton from "@/components/ui/PillButton";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-export default function Hero() {
+export default function Hero({ overrides }: { overrides?: { eyebrow?: string; title?: string; subtitle?: string; patronPrefix?: string; patron?: string; ctaPrimary?: string; ctaSecondary?: string } }) {
   const t = useTranslations("hero");
   const locale = useLocale();
   const ref = useRef<HTMLElement>(null);
@@ -99,7 +99,7 @@ export default function Hero() {
           <div data-hero-eyebrow className="flex items-center justify-center gap-2">
             <CopticCross className="size-5 text-brown-500" />
             <p className="font-serif text-[15px] text-brown-500 [font-feature-settings:'swsh'_1] md:text-lg">
-              {t("eyebrow")}
+              {overrides?.eyebrow ?? t("eyebrow")}
             </p>
           </div>
 
@@ -112,28 +112,28 @@ export default function Hero() {
                 : "font-display text-[clamp(44px,7.5vw,96px)] font-bold leading-[1.02]"
             }`}
           >
-            {t("title")}
+            {overrides?.title ?? t("title")}
           </h1>
 
           <p
             data-hero-subtitle
             className="max-w-[712px] text-pretty font-serif text-[17px] leading-[1.7] text-brown-300 md:text-xl md:leading-[30px]"
           >
-            {t("subtitle")}
-            <br className="hidden md:block" /> {t("patronPrefix")}{" "}
-            <strong className="font-black text-brown-500">{t("patron")}</strong>
+            {overrides?.subtitle ?? t("subtitle")}
+            <br className="hidden md:block" /> {overrides?.patronPrefix ?? t("patronPrefix")}{" "}
+            <strong className="font-black text-brown-500">{overrides?.patron ?? t("patron")}</strong>
           </p>
         </div>
 
         <div className="flex flex-col items-center gap-4 sm:flex-row">
           <span data-hero-cta>
             <PillButton href="#programs" variant="primary" withArrow>
-              {t("ctaPrimary")}
+              {overrides?.ctaPrimary ?? t("ctaPrimary")}
             </PillButton>
           </span>
           <span data-hero-cta>
             <PillButton href="#apply" variant="outline">
-              {t("ctaSecondary")}
+              {overrides?.ctaSecondary ?? t("ctaSecondary")}
             </PillButton>
           </span>
         </div>

@@ -29,12 +29,12 @@ const STATUS_STYLES: Record<EventItem["status"], string> = {
   full: "bg-ink-50 text-ink-400",
 };
 
-export default function Events() {
+export default function Events({ items }: { items?: EventItem[] }) {
   const t = useTranslations("events");
   const messages = useMessages() as {
     events: { items: EventItem[] };
   };
-  const events = messages.events.items;
+  const events = items && items.length > 0 ? items : messages.events.items;
 
   const [filter, setFilter] = useState<FilterKey>("all");
   const listRef = useRef<HTMLDivElement>(null);

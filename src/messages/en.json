@@ -44,10 +44,22 @@
   },
   "stats": {
     "items": [
-      { "value": 2500, "label": "students & researchers" },
-      { "value": 120, "label": "advanced degrees awarded" },
-      { "value": 14, "label": "theological colleges & institutes" },
-      { "value": 60, "label": "thousand m² at the Logos Center" }
+      {
+        "value": 2500,
+        "label": "students & researchers"
+      },
+      {
+        "value": 120,
+        "label": "advanced degrees awarded"
+      },
+      {
+        "value": 14,
+        "label": "theological colleges & institutes"
+      },
+      {
+        "value": 60,
+        "label": "thousand m² at the Logos Center"
+      }
     ]
   },
   "programs": {
@@ -206,24 +218,73 @@
         "access": "members",
         "image": "/images/photo-3.jpg"
       }
-    ]
+    ],
+    "emptyState": "No published articles yet — check back soon."
   },
   "testimonials": {
     "label": "What Our Students Say",
     "subtitle": "How was studying with us?",
     "items": [
-      { "name": "Mariam Atef", "role": "MA student", "quote": "The academy gave me an integrated research environment that changed my academic path — precise supervision and rich scholarly resources." },
-      { "name": "Mina Adel", "role": "PhD researcher", "quote": "The academy doesn't just teach — it understands the student's mission and nurtures the spirit of research and service together." },
-      { "name": "Marina Samir", "role": "Diploma student", "quote": "From day one the experience was organized and clear — rigorous lectures and continuous follow-up from supervisors." },
-      { "name": "Karin Wadie", "role": "Independent researcher", "quote": "I benefited from the scholarly archive from my first week, finding rare references I couldn't locate anywhere else." },
-      { "name": "Kyrillos William", "role": "Diploma student", "quote": "I only realized how much scholarly methodology I was missing after joining the academy; my whole way of thinking changed." },
-      { "name": "Daniel Samuel", "role": "Church servant", "quote": "I finally found a place that unites the depth of patristic heritage with the modern tools of education." },
-      { "name": "Clara Morcos", "role": "Coptology researcher", "quote": "From registration to the thesis defense, attention to detail was evident at every step." },
-      { "name": "Eva Nashy", "role": "New student", "quote": "The academy helped me launch into research with confidence, thanks to foundational courses and academic advising." },
-      { "name": "Morcos Fawzy", "role": "Visiting academic", "quote": "It is rare to find an institution balancing academic rigor with authentic ecclesial spirit so well." },
-      { "name": "Rachel Fouad", "role": "Programs coordinator", "quote": "Every step was well designed — precise questions and guidance that exceeded expectations at every stage." },
-      { "name": "Abanoub Fayez", "role": "PhD researcher", "quote": "Despite the tight schedule of my final semester, I found all the support to finish my thesis on time." },
-      { "name": "Teresa Younan", "role": "Theology student", "quote": "It wasn't just study — it was a transformation of thought. I'm proud to belong to this institution." }
+      {
+        "name": "Mariam Atef",
+        "role": "MA student",
+        "quote": "The academy gave me an integrated research environment that changed my academic path — precise supervision and rich scholarly resources."
+      },
+      {
+        "name": "Mina Adel",
+        "role": "PhD researcher",
+        "quote": "The academy doesn't just teach — it understands the student's mission and nurtures the spirit of research and service together."
+      },
+      {
+        "name": "Marina Samir",
+        "role": "Diploma student",
+        "quote": "From day one the experience was organized and clear — rigorous lectures and continuous follow-up from supervisors."
+      },
+      {
+        "name": "Karin Wadie",
+        "role": "Independent researcher",
+        "quote": "I benefited from the scholarly archive from my first week, finding rare references I couldn't locate anywhere else."
+      },
+      {
+        "name": "Kyrillos William",
+        "role": "Diploma student",
+        "quote": "I only realized how much scholarly methodology I was missing after joining the academy; my whole way of thinking changed."
+      },
+      {
+        "name": "Daniel Samuel",
+        "role": "Church servant",
+        "quote": "I finally found a place that unites the depth of patristic heritage with the modern tools of education."
+      },
+      {
+        "name": "Clara Morcos",
+        "role": "Coptology researcher",
+        "quote": "From registration to the thesis defense, attention to detail was evident at every step."
+      },
+      {
+        "name": "Eva Nashy",
+        "role": "New student",
+        "quote": "The academy helped me launch into research with confidence, thanks to foundational courses and academic advising."
+      },
+      {
+        "name": "Morcos Fawzy",
+        "role": "Visiting academic",
+        "quote": "It is rare to find an institution balancing academic rigor with authentic ecclesial spirit so well."
+      },
+      {
+        "name": "Rachel Fouad",
+        "role": "Programs coordinator",
+        "quote": "Every step was well designed — precise questions and guidance that exceeded expectations at every stage."
+      },
+      {
+        "name": "Abanoub Fayez",
+        "role": "PhD researcher",
+        "quote": "Despite the tight schedule of my final semester, I found all the support to finish my thesis on time."
+      },
+      {
+        "name": "Teresa Younan",
+        "role": "Theology student",
+        "quote": "It wasn't just study — it was a transformation of thought. I'm proud to belong to this institution."
+      }
     ]
   },
   "events": {
@@ -275,7 +336,8 @@
         "location": "Grand Conference Hall, Logos Center",
         "status": "full"
       }
-    ]
+    ],
+    "pastTitle": "Past events"
   },
   "apply": {
     "label": "Apply for Admission",
@@ -383,26 +445,198 @@
     "terms": "Terms & Conditions"
   },
   "auth": {
-    "loginTitle": "Log in",
-    "loginSubtitle": "Welcome back to the academy",
-    "registerTitle": "Create an account",
-    "registerSubtitle": "Join the academy's scholarly community",
-    "accountType": "Account type",
-    "accountTypes": {
-      "student": "Student",
-      "member": "Member / Subscriber",
-      "organization": "Organization"
+    "shell": {
+      "backHome": "Back to home page",
+      "brandQuote": "A beacon of theological learning and Coptic heritage, everywhere",
+      "brandCaption": "St. Mark Coptic Academy"
     },
-    "fullName": "Full name",
-    "email": "Email address",
-    "password": "Password",
-    "loginCta": "Log in",
-    "registerCta": "Create account",
-    "noAccount": "Don't have an account?",
-    "haveAccount": "Already have an account?",
-    "goRegister": "Register",
-    "goLogin": "Log in",
-    "comingSoon": "The student portal is launching soon — register your interest via the admission form."
+    "password": {
+      "show": "Show password",
+      "hide": "Hide password",
+      "strength": {
+        "1": "Weak",
+        "2": "Fair",
+        "3": "Good",
+        "4": "Strong"
+      }
+    },
+    "select": {
+      "searchPlaceholder": "Search…",
+      "noResults": "No results"
+    },
+    "wizard": {
+      "progressLabel": "Registration steps",
+      "stepOf": "Step {current} of {total}",
+      "back": "Back",
+      "continue": "Continue"
+    },
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Welcome back to the Academy",
+      "identifier": "Email",
+      "password": "Password",
+      "rememberMe": "Remember me on this device",
+      "forgot": "Forgot password?",
+      "cta": "Sign in",
+      "noAccount": "Don't have an account?",
+      "goRegister": "Create account",
+      "capsLock": "Heads up: Caps Lock is on",
+      "forgotSuggestion": "Reset your password",
+      "errors": {
+        "required": "This field is required",
+        "network": "Could not reach the server — check your connection and try again",
+        "invalid": "Incorrect email or password",
+        "suspended": "This account is suspended. Please contact the Academy office",
+        "locked": "For your safety, sign-in is temporarily paused. Try again in 15 minutes or",
+        "throttled": "Too many attempts — wait a moment and try again"
+      }
+    },
+    "verify": {
+      "title": "Check your email",
+      "sentTo": "We sent a 6-digit code to",
+      "changeEmail": "Change",
+      "codeLabel": "6-digit verification code",
+      "cta": "Activate account",
+      "resend": "Resend code",
+      "resendIn": "Resend available in",
+      "resent": "We sent a fresh code to your email",
+      "resendLimit": "Too many codes requested — wait an hour and try again",
+      "wrongCode": "The code is incorrect or has expired — check and try again",
+      "tooManyAttempts": "Too many wrong attempts — request a new code",
+      "spamHint": "Nothing yet? Check your spam folder",
+      "network": "Could not reach the server — try again"
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "Join the Academy's learning community",
+      "steps": {
+        "account": "Account",
+        "academic": "Academic details",
+        "verify": "Verification"
+      },
+      "draftRestored": "We restored your previous answers",
+      "createCta": "Create account",
+      "haveAccount": "Already have an account?",
+      "goLogin": "Sign in",
+      "emailTakenHint": "This email is already registered —",
+      "emailTakenLogin": "sign in instead",
+      "churchOtherAction": "Can't find your church? Add it manually",
+      "consent": "I agree to the <terms>Terms & Conditions</terms> and the <privacy>Privacy Policy</privacy>",
+      "fields": {
+        "firstNameAr": "First name (Arabic)",
+        "lastNameAr": "Family name (Arabic)",
+        "fullNameEn": "Full name in English",
+        "email": "Email",
+        "phone": "Mobile number (optional)",
+        "password": "Password",
+        "confirm": "Confirm password",
+        "country": "Country",
+        "diocese": "Diocese",
+        "church": "Church",
+        "churchOther": "Church name",
+        "program": "Program of interest"
+      },
+      "hints": {
+        "fullNameEn": "As in your passport — used on certificates",
+        "phone": "International format, e.g. +20 100 123 4567",
+        "churchOther": "Write the church name and city — the Academy team will review it",
+        "program": "You can change this later"
+      },
+      "placeholders": {
+        "country": "Choose a country",
+        "diocese": "Choose a diocese",
+        "church": "Choose a church",
+        "program": "Choose a program"
+      },
+      "errors": {
+        "required": "This field is required",
+        "arabicName": "Enter the name in Arabic letters (2–50 characters)",
+        "latinName": "Enter the name in Latin letters (2–100 characters)",
+        "email": "Enter a valid email address",
+        "emailTaken": "This email is already registered",
+        "phone": "Enter a valid number in international format",
+        "passwordLength": "Password must be at least 10 characters",
+        "passwordWeak": "Password is weak — mix upper/lowercase letters, digits and symbols",
+        "confirmMismatch": "Passwords do not match",
+        "terms": "You must accept the Terms and Privacy Policy",
+        "validation": "Some fields are invalid — review your details and try again",
+        "network": "Could not reach the server — check your connection and try again"
+      },
+      "success": {
+        "title": "Welcome to St. Mark Coptic Academy",
+        "line": "Your account is now active, {name} — we wish you a blessed learning journey",
+        "portal": "Go to the portal"
+      }
+    },
+    "forgot": {
+      "title": "Reset your password",
+      "subtitle": "Enter your email and we'll send you a recovery code",
+      "emailLabel": "Email",
+      "cta": "Send recovery code",
+      "neutralSent": "If this email is registered with us, a message with the code is on its way",
+      "codeTitle": "Enter the recovery code",
+      "codeSubtitle": "We sent a 6-digit code to",
+      "codeLabel": "6-digit recovery code",
+      "resend": "Resend code",
+      "resendIn": "Resend available in",
+      "resent": "We sent a fresh code to your email",
+      "startOver": "Start over",
+      "passwordTitle": "New password",
+      "passwordSubtitle": "Choose a strong password you haven't used before",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "resetCta": "Update password",
+      "backToLogin": "Back to sign in",
+      "done": {
+        "title": "Password updated",
+        "sessionsRevoked": "We signed you out of all devices to keep you safe",
+        "cta": "Sign in"
+      },
+      "errors": {
+        "email": "Enter a valid email address",
+        "wrongCode": "The code is incorrect or has expired — check and try again",
+        "tooManyAttempts": "Too many wrong attempts —",
+        "resendLimit": "Too many codes requested — wait an hour and try again",
+        "network": "Could not reach the server — try again",
+        "passwordLength": "Password must be at least 10 characters",
+        "passwordWeak": "Password is weak — mix upper/lowercase letters, digits and symbols",
+        "confirmMismatch": "Passwords do not match",
+        "reused": "You cannot reuse a recent password",
+        "tokenExpired": "The recovery session has expired —"
+      }
+    },
+    "portal": {
+      "title": "Student portal",
+      "welcome": "Hello, {name}",
+      "loading": "Loading…",
+      "email": "Email",
+      "type": "Account type",
+      "types": {
+        "student": "Student",
+        "admin": "Administrator",
+        "super_admin": "Super Admin"
+      },
+      "comingSoon": "The full student dashboard is under construction — your account is active and ready",
+      "signOut": "Sign out",
+      "completeProfile": "Complete your profile"
+    },
+    "acceptInvite": {
+      "title": "Welcome to the Academy team",
+      "subtitle": "Set a strong password to activate your admin account",
+      "password": "Password",
+      "confirm": "Confirm password",
+      "cta": "Activate account",
+      "missingToken": "The invitation link is incomplete — open it from your email",
+      "goLogin": "Go to sign in",
+      "askNewInvite": "Ask the administration to send a fresh invitation.",
+      "errors": {
+        "passwordLength": "Password must be at least 10 characters",
+        "passwordWeak": "Password is weak — mix upper/lowercase letters, digits and symbols",
+        "confirmMismatch": "Passwords do not match",
+        "expired": "The invitation link is invalid or has expired (72 hours).",
+        "network": "Could not reach the server — try again"
+      }
+    }
   },
   "misc": {
     "backHome": "Back to home",
@@ -410,5 +644,1146 @@
     "comingSoonBody": "This page is under construction — it will launch with the full platform featuring advanced search and filtering.",
     "scrollDown": "Scroll down",
     "loading": "Loading the academy"
+  },
+  "gallery": {
+    "title": "Photo Gallery",
+    "subtitle": "Moments from the Academy's life and gatherings",
+    "dragHint": "Drag or scroll to explore the photos"
+  },
+  "admin": {
+    "shell": {
+      "title": "Academy Admin Console",
+      "breadcrumb": "St. Mark Coptic Academy — Admin Console",
+      "nav": {
+        "users": "Users",
+        "roles": "Roles & Permissions",
+        "audit": "Audit Log",
+        "articles": "Articles",
+        "events": "Events",
+        "media": "Media",
+        "categories": "Categories",
+        "news": "News",
+        "faqs": "FAQs",
+        "pages": "Pages",
+        "homepage": "Homepage",
+        "programs": "Programs",
+        "theses": "Theses"
+      },
+      "types": {
+        "super_admin": "Super Admin",
+        "admin": "Administrator",
+        "student": "Student"
+      },
+      "signOut": "Sign out"
+    },
+    "status": {
+      "active": "Active",
+      "suspended": "Suspended",
+      "pending_verification": "Pending verification",
+      "invited": "Invited",
+      "pending_approval": "Pending approval"
+    },
+    "common": {
+      "cancel": "Cancel",
+      "typeToConfirm": "To confirm, type:"
+    },
+    "users": {
+      "title": "Users",
+      "count": "{count} users",
+      "addAdmin": "Add administrator",
+      "searchPlaceholder": "Search by name or email…",
+      "filters": {
+        "type": "Account type",
+        "allTypes": "All types",
+        "superAdmins": "Super Admins",
+        "admins": "Administrators",
+        "students": "Students",
+        "status": "Status",
+        "allStatuses": "All statuses",
+        "active": "Active",
+        "suspended": "Suspended",
+        "pending": "Pending verification",
+        "invited": "Invited"
+      },
+      "columns": {
+        "name": "Name",
+        "email": "Email",
+        "type": "Type",
+        "roles": "Roles",
+        "status": "Status",
+        "lastLogin": "Last login"
+      },
+      "rowActions": "Row actions",
+      "actions": {
+        "view": "View",
+        "edit": "Edit",
+        "resendInvite": "Resend invite",
+        "revokeInvite": "Revoke invite",
+        "resetPassword": "Reset password",
+        "activate": "Activate",
+        "deactivate": "Deactivate",
+        "delete": "Delete"
+      },
+      "toasts": {
+        "deactivated": "{name} deactivated and signed out everywhere",
+        "activated": "{name} activated",
+        "resetSent": "Reset code emailed to the user",
+        "inviteResent": "Invitation resent",
+        "inviteRevoked": "Invitation revoked — the old link no longer works",
+        "deleted": "{name} deleted"
+      },
+      "errors": {
+        "network": "Could not reach the server",
+        "load": "Could not load users"
+      },
+      "retry": "Retry",
+      "empty": "No users yet",
+      "emptyFiltered": "No results for your search",
+      "loading": "Loading…",
+      "loadMore": "Load more",
+      "confirm": {
+        "deactivate": {
+          "title": "Deactivate account",
+          "body": "{name} will be suspended and signed out of all devices immediately. You can reactivate later.",
+          "cta": "Deactivate"
+        },
+        "activate": {
+          "title": "Activate account",
+          "body": "{name} will be able to sign in again.",
+          "cta": "Activate"
+        },
+        "reset": {
+          "title": "Reset password",
+          "body": "We'll email {name} a recovery code — the password is never shown to anyone.",
+          "cta": "Send code"
+        },
+        "revoke-invite": {
+          "title": "Revoke invitation",
+          "body": "The invitation link sent to {name} will stop working immediately.",
+          "cta": "Revoke"
+        },
+        "delete": {
+          "title": "Delete account",
+          "body": "{name}'s account will be deleted (restorable within 30 days via the database).",
+          "cta": "Delete"
+        }
+      }
+    },
+    "drawer": {
+      "createTitle": "Add administrator",
+      "editTitle": "Edit {name}",
+      "close": "Close",
+      "sections": {
+        "identity": "Identity",
+        "roles": "Roles",
+        "preview": "Permission preview",
+        "options": "Options"
+      },
+      "fields": {
+        "firstNameAr": "First name (Arabic)",
+        "lastNameAr": "Family name (Arabic)",
+        "fullNameEn": "Full name in English",
+        "email": "Email",
+        "phone": "Mobile (optional)",
+        "expiry": "Account expiry (optional)"
+      },
+      "errors": {
+        "email": "Enter a valid email",
+        "emailTaken": "This email is already registered",
+        "arabicName": "Enter the name in Arabic letters",
+        "latinName": "Enter the name in Latin letters",
+        "rolesRequired": "Choose at least one role",
+        "expiryFuture": "Date must be in the future",
+        "network": "Could not reach the server"
+      },
+      "selfRoles": "You cannot edit your own roles — another Super Admin must do that",
+      "previewCount": "{count} permissions",
+      "previewEmpty": "Select roles to preview the resulting permissions",
+      "guardedNote": "{count} guarded permissions — grantable by Super Admins only",
+      "expiryHint": "For temporary staff — the account deactivates automatically after this date",
+      "saveCta": "Save",
+      "inviteCta": "Send invitation",
+      "cancel": "Cancel",
+      "saved": "Changes saved",
+      "invited": "Invitation sent — a set-password email is on its way",
+      "actions": {
+        "view": "View",
+        "create": "Create",
+        "edit": "Edit",
+        "delete": "Delete",
+        "publish": "Publish",
+        "approve": "Approve",
+        "export": "Export",
+        "import": "Import",
+        "assign": "Assign",
+        "archive": "Archive",
+        "restore": "Restore"
+      }
+    },
+    "userDetail": {
+      "back": "Users",
+      "tabs": {
+        "overview": "Overview",
+        "permissions": "Roles & permissions",
+        "activity": "Activity",
+        "sessions": "Sessions"
+      },
+      "fields": {
+        "email": "Email",
+        "phone": "Mobile",
+        "locale": "Language",
+        "created": "Created",
+        "emailVerified": "Verified on",
+        "invitedBy": "Invited by",
+        "expiry": "Account expiry"
+      },
+      "actions": {
+        "view": "View",
+        "create": "Create",
+        "edit": "Edit",
+        "delete": "Delete",
+        "publish": "Publish",
+        "approve": "Approve",
+        "export": "Export",
+        "import": "Import",
+        "assign": "Assign",
+        "archive": "Archive",
+        "restore": "Restore",
+        "resetPassword": "Reset password",
+        "activate": "Activate",
+        "deactivate": "Deactivate"
+      },
+      "noRoles": "No roles assigned",
+      "superAdminAll": "Super Admins implicitly hold every permission",
+      "noPermissions": "No permissions — assign a role first",
+      "noActivity": "No recorded activity yet",
+      "noSessions": "No active sessions",
+      "sessionStarted": "Session started",
+      "sessionExpires": "Expires",
+      "endSession": "End session",
+      "endAllSessions": "End all sessions",
+      "toasts": {
+        "resetSent": "Reset code sent",
+        "deactivated": "Account deactivated",
+        "activated": "Account activated",
+        "sessionRevoked": "Session ended",
+        "allSessionsRevoked": "{count} sessions ended"
+      },
+      "errors": {
+        "load": "Could not load the user",
+        "network": "Could not reach the server"
+      },
+      "retry": "Retry",
+      "confirm": {
+        "deactivate": {
+          "title": "Deactivate account",
+          "body": "{name} will be suspended and signed out immediately.",
+          "cta": "Deactivate"
+        },
+        "activate": {
+          "title": "Activate account",
+          "body": "{name} will be able to sign in again.",
+          "cta": "Activate"
+        },
+        "reset": {
+          "title": "Reset password",
+          "body": "We'll email {name} a recovery code.",
+          "cta": "Send"
+        }
+      }
+    },
+    "roles": {
+      "title": "Roles & Permissions",
+      "createRole": "Create role",
+      "cardActions": "Role actions",
+      "actions": {
+        "open": "Open matrix",
+        "duplicate": "Duplicate",
+        "delete": "Delete"
+      },
+      "permissionCount": "{count} permissions",
+      "memberCount": "{count} members",
+      "systemLock": "System role",
+      "empty": "No roles yet — create the first one",
+      "errors": {
+        "load": "Could not load roles",
+        "network": "Could not reach the server"
+      },
+      "retry": "Retry",
+      "toasts": {
+        "created": "Role created — set its permissions now",
+        "deleted": "Role deleted",
+        "duplicated": "Role duplicated"
+      },
+      "fields": {
+        "nameAr": "Role name (Arabic)",
+        "nameEn": "Role name (English)",
+        "description": "Description (optional)"
+      },
+      "createCta": "Create",
+      "deleteConfirm": {
+        "title": "Delete role",
+        "body": "The role {name} will be permanently deleted.",
+        "cta": "Delete"
+      },
+      "blocked": {
+        "title": "Cannot delete",
+        "body": "The role {name} still has members — move them to another role first from the Users page.",
+        "cta": "OK"
+      }
+    },
+    "matrix": {
+      "back": "Roles",
+      "roleName": "Role name",
+      "members": "{count} members",
+      "systemReadOnly": "System role — read only",
+      "moduleColumn": "Module",
+      "allColumn": "All",
+      "groups": {
+        "content": "Content",
+        "academic": "Academic",
+        "events": "Events",
+        "system": "System"
+      },
+      "guardedTooltip": "Guarded permission — grantable by Super Admins only",
+      "toggleModule": "Toggle all {module} permissions",
+      "pendingChanges": "unsaved changes",
+      "discard": "Discard",
+      "reviewSave": "Review & save",
+      "reviewTitle": "Review changes",
+      "addedList": "Added ({count})",
+      "removedList": "Removed ({count})",
+      "affectedNote": "This takes effect immediately for {count} members.",
+      "confirmSave": "Confirm save",
+      "saved": "Role saved — permissions updated for {count} members",
+      "nameSaved": "Name saved",
+      "errors": {
+        "load": "Could not load the matrix",
+        "network": "Could not reach the server"
+      },
+      "retry": "Retry"
+    },
+    "audit": {
+      "title": "Audit Log",
+      "subtitle": "An immutable record of every sensitive action",
+      "filters": {
+        "module": "Module",
+        "allModules": "All modules",
+        "actionPlaceholder": "user.invited…",
+        "from": "From",
+        "to": "To"
+      },
+      "empty": "No matching entries",
+      "errors": {
+        "load": "Could not load the log"
+      },
+      "retry": "Retry",
+      "loading": "Loading…",
+      "loadMore": "Load more",
+      "retention": "Entries are retained for 24 months",
+      "diff": {
+        "field": "Field",
+        "before": "Before",
+        "after": "After"
+      }
+    },
+    "content": {
+      "status": {
+        "draft": "Draft",
+        "published": "Published",
+        "archived": "Archived"
+      }
+    },
+    "media": {
+      "title": "Media Library",
+      "searchPlaceholder": "Search images…",
+      "upload": "Upload images",
+      "uploading": "Uploading {count}…",
+      "uploaded": "{count} images uploaded",
+      "empty": "No images yet — upload the first one",
+      "loadMore": "Load more",
+      "errors": {
+        "load": "Could not load the library",
+        "upload": "Upload failed",
+        "network": "Could not reach the server"
+      },
+      "retry": "Retry",
+      "altLabel": "Alt text",
+      "altSaved": "Alt text saved",
+      "urlCopied": "URL copied",
+      "copyUrl": "Copy URL",
+      "delete": "Delete image",
+      "deleted": "Image deleted",
+      "deleteConfirm": "The file will be permanently deleted — articles using it lose the image.",
+      "deleteCta": "Confirm delete",
+      "saveCta": "Save",
+      "pickerTitle": "Choose an image"
+    },
+    "categories": {
+      "title": "Categories",
+      "create": "Create category",
+      "edit": "Edit",
+      "editTitle": "Edit category",
+      "delete": "Delete",
+      "empty": "No categories yet",
+      "errors": {
+        "load": "Could not load categories",
+        "network": "Could not reach the server"
+      },
+      "retry": "Retry",
+      "columns": {
+        "name": "Name",
+        "slug": "Slug",
+        "articles": "Articles"
+      },
+      "fields": {
+        "nameAr": "Name (Arabic)",
+        "nameEn": "Name (English, optional)"
+      },
+      "saveCta": "Save",
+      "toasts": {
+        "created": "Category created",
+        "saved": "Category saved",
+        "deleted": "Category deleted"
+      },
+      "deleteTitle": "Delete category",
+      "deleteBody": "The category {name} will be deleted — {count} articles become uncategorized.",
+      "deleteCta": "Delete"
+    },
+    "articles": {
+      "title": "Articles",
+      "create": "New article",
+      "searchPlaceholder": "Search titles…",
+      "filters": {
+        "status": "Status",
+        "allStatuses": "All statuses",
+        "draft": "Draft",
+        "published": "Published",
+        "archived": "Archived",
+        "category": "Category",
+        "allCategories": "All categories"
+      },
+      "columns": {
+        "title": "Title",
+        "category": "Category",
+        "status": "Status",
+        "author": "Author",
+        "updated": "Updated"
+      },
+      "empty": "No articles yet — write the first one",
+      "errors": {
+        "load": "Could not load articles"
+      },
+      "retry": "Retry",
+      "loadMore": "Load more"
+    },
+    "articleEditor": {
+      "back": "Articles",
+      "unsaved": "Unsaved changes",
+      "viewOnSite": "View on site",
+      "delete": "Delete",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "save": "Save",
+      "saved": "Article saved",
+      "published": "Published — now visible on the site",
+      "unpublished": "Unpublished — back to draft",
+      "titleRequired": "The Arabic title is required",
+      "errors": {
+        "load": "Could not load the article",
+        "network": "Could not reach the server"
+      },
+      "retry": "Retry",
+      "fields": {
+        "titleAr": "Title (Arabic)",
+        "titleEn": "Title (English)",
+        "excerptAr": "Excerpt (shown on cards)",
+        "excerptEn": "Excerpt (English)",
+        "bodyAr": "Article body (Arabic)",
+        "bodyEn": "Article body (English)",
+        "category": "Category",
+        "slug": "Slug",
+        "cover": "Cover image",
+        "featured": "Featured article",
+        "tags": "Tags"
+      },
+      "bodyPlaceholder": "ابدأ كتابة المقال هنا…",
+      "bodyPlaceholderEn": "Write the English version here…",
+      "enOptional": "The English version is optional — when empty, the Arabic text is shown on the English site",
+      "noCategory": "No category",
+      "slugAuto": "Generated from the title automatically",
+      "pickCover": "Pick a cover from the library",
+      "changeCover": "Change image",
+      "removeCover": "Remove",
+      "deleteTitle": "Delete article",
+      "deleteBody": "The article “{title}” will be permanently deleted.",
+      "deleteCta": "Delete",
+      "deleted": "Article deleted",
+      "featuredHint": "Shown in the featured section",
+      "tagsPlaceholder": "Add a tag, press Enter"
+    },
+    "editor": {
+      "toolbar": "Editor toolbar",
+      "h2": "Heading",
+      "h3": "Subheading",
+      "bold": "Bold",
+      "italic": "Italic",
+      "bulletList": "Bullet list",
+      "orderedList": "Numbered list",
+      "quote": "Quote",
+      "link": "Link",
+      "image": "Insert image",
+      "undo": "Undo",
+      "redo": "Redo",
+      "linkPrompt": "Enter the URL:"
+    },
+    "events": {
+      "title": "Events",
+      "create": "New event",
+      "editTitle": "Edit event",
+      "empty": "No events yet — create the first one",
+      "errors": {
+        "load": "Could not load events",
+        "network": "Could not reach the server"
+      },
+      "retry": "Retry",
+      "loadMore": "Load more",
+      "requiredHint": "Title and date are required",
+      "rowActions": "Actions",
+      "columns": {
+        "title": "Title",
+        "type": "Type",
+        "date": "Date",
+        "location": "Location",
+        "capacity": "Registration",
+        "status": "Status"
+      },
+      "types": {
+        "conference": "Conference",
+        "seminar": "Seminar",
+        "discussion": "Discussion"
+      },
+      "capacity": {
+        "open": "Registration open",
+        "full": "Fully booked",
+        "online": "Online"
+      },
+      "fields": {
+        "titleAr": "Title (Arabic)",
+        "titleEn": "Title (English)",
+        "type": "Type",
+        "capacity": "Registration status",
+        "date": "Date",
+        "time": "Time",
+        "location": "Location",
+        "description": "Description",
+        "cover": "Event image"
+      },
+      "pickCover": "Pick from the library",
+      "removeCover": "Remove image",
+      "saveCta": "Save",
+      "edit": "Edit",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "delete": "Delete",
+      "deleteTitle": "Delete event",
+      "deleteBody": "The event “{title}” will be permanently deleted.",
+      "deleteCta": "Delete",
+      "toasts": {
+        "created": "Event created as a draft — publish it to show on the site",
+        "saved": "Event saved",
+        "published": "Event published",
+        "unpublished": "Event unpublished",
+        "deleted": "Event deleted"
+      }
+    },
+    "news": {
+      "title": "News",
+      "create": "New item",
+      "searchPlaceholder": "Search news…",
+      "filters": {
+        "status": "Status",
+        "allStatuses": "All statuses",
+        "draft": "Draft",
+        "published": "Published",
+        "archived": "Archived"
+      },
+      "columns": {
+        "title": "Title",
+        "status": "Status",
+        "updated": "Updated"
+      },
+      "empty": "No news yet",
+      "errors": {
+        "load": "Could not load news"
+      },
+      "retry": "Retry",
+      "loadMore": "Load more"
+    },
+    "newsEditor": {
+      "back": "News",
+      "save": "Save",
+      "saved": "Saved",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "published": "Published",
+      "unpublished": "Unpublished",
+      "delete": "Delete",
+      "deleted": "Deleted",
+      "titleRequired": "The title is required",
+      "errors": {
+        "load": "Could not load the item",
+        "network": "Could not reach the server"
+      },
+      "retry": "Retry",
+      "fields": {
+        "titleAr": "Title (Arabic)",
+        "titleEn": "Title (English)",
+        "excerptAr": "Excerpt",
+        "bodyAr": "Body",
+        "slug": "Slug",
+        "cover": "Cover image"
+      },
+      "slugAuto": "Generated automatically",
+      "pickCover": "Pick from the library",
+      "removeCover": "Remove image",
+      "deleteTitle": "Delete news item",
+      "deleteBody": "“{title}” will be permanently deleted.",
+      "deleteCta": "Delete"
+    },
+    "faqs": {
+      "title": "FAQs",
+      "create": "New question",
+      "editTitle": "Edit question",
+      "edit": "Edit",
+      "delete": "Delete",
+      "empty": "No questions yet",
+      "errors": {
+        "load": "Could not load FAQs",
+        "network": "Could not reach the server"
+      },
+      "retry": "Retry",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "publishedBadge": "Visible — click to hide",
+      "draftBadge": "Hidden — click to publish",
+      "fields": {
+        "questionAr": "Question (Arabic)",
+        "answerAr": "Answer (Arabic)",
+        "questionEn": "Question (English)",
+        "answerEn": "Answer (English)"
+      },
+      "saveCta": "Save",
+      "deleteTitle": "Delete question",
+      "deleteBody": "The question will be permanently deleted.",
+      "deleteCta": "Delete",
+      "toasts": {
+        "created": "Question added (hidden) — publish it to show on the site",
+        "saved": "Saved",
+        "deleted": "Deleted",
+        "published": "Now visible on the site",
+        "unpublished": "Hidden"
+      }
+    },
+    "pages": {
+      "title": "Website Pages",
+      "hint": "Published pages appear at /pages/… — slugs terms and privacy replace the Terms and Privacy pages",
+      "create": "New page",
+      "editTitle": "Edit page",
+      "edit": "Edit",
+      "delete": "Delete",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "empty": "No pages yet",
+      "errors": {
+        "load": "Could not load pages",
+        "network": "Could not reach the server"
+      },
+      "retry": "Retry",
+      "fields": {
+        "titleAr": "Title (Arabic)",
+        "titleEn": "Title (English)",
+        "slug": "Slug"
+      },
+      "slugHint": "e.g. terms, privacy, about",
+      "saveCta": "Save",
+      "deleteTitle": "Delete page",
+      "deleteBody": "“{title}” will be permanently deleted.",
+      "deleteCta": "Delete",
+      "toasts": {
+        "created": "Page created as a draft",
+        "saved": "Page saved",
+        "deleted": "Page deleted",
+        "published": "Page published",
+        "unpublished": "Page unpublished"
+      }
+    },
+    "homepage": {
+      "title": "Homepage",
+      "hint": "Edit the hero copy — changes appear within a minute",
+      "heroSection": "Hero",
+      "fields": {
+        "hero_eyebrow_ar": "Eyebrow (Arabic)",
+        "hero_title_ar": "Main title (Arabic)",
+        "hero_subtitle_ar": "Subtitle (Arabic)",
+        "hero_eyebrow_en": "Eyebrow (English)",
+        "hero_title_en": "Main title (English)",
+        "hero_subtitle_en": "Subtitle (English)"
+      },
+      "emptyFallback": "Leave empty to use the original copy",
+      "fallbackNote": "Any empty field shows the originally designed text",
+      "saveCta": "Save changes",
+      "saved": "Saved — live on the site within a minute",
+      "errors": {
+        "load": "Could not load settings",
+        "network": "Could not reach the server"
+      },
+      "retry": "Retry"
+    },
+    "testimonials": {
+      "publishedBadge": "Visible — click to hide",
+      "draftBadge": "Hidden — click to publish",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "edit": "Edit",
+      "delete": "Delete",
+      "saveCta": "Save",
+      "retry": "Retry",
+      "pickImage": "Pick from the library",
+      "changeImage": "Change image",
+      "deleteCta": "Delete",
+      "title": "Testimonials",
+      "create": "Add testimonial",
+      "editTitle": "Edit testimonial",
+      "empty": "No testimonials yet — add the first one",
+      "errors": {
+        "load": "Could not load",
+        "network": "Could not reach the server"
+      },
+      "fields": {
+        "nameAr": "Name (Arabic)",
+        "roleAr": "Role (Arabic)",
+        "quoteAr": "Quote (Arabic)",
+        "nameEn": "Name (English)",
+        "roleEn": "Role (English)",
+        "quoteEn": "Quote (English)"
+      },
+      "deleteTitle": "Delete testimonial",
+      "deleteBody": "This testimonial will be permanently deleted.",
+      "toasts": {
+        "created": "Added (hidden) — publish to show",
+        "saved": "Saved",
+        "deleted": "Deleted",
+        "published": "Now visible on the site",
+        "unpublished": "Hidden"
+      }
+    },
+    "partners": {
+      "publishedBadge": "Visible — click to hide",
+      "draftBadge": "Hidden — click to publish",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "edit": "Edit",
+      "delete": "Delete",
+      "saveCta": "Save",
+      "retry": "Retry",
+      "pickImage": "Pick from the library",
+      "changeImage": "Change image",
+      "deleteCta": "Delete",
+      "title": "Partners",
+      "create": "Add partner",
+      "editTitle": "Edit partner",
+      "empty": "No partners yet",
+      "errors": {
+        "load": "Could not load",
+        "network": "Could not reach the server"
+      },
+      "fields": {
+        "nameAr": "Name (Arabic)",
+        "nameEn": "Name (English)",
+        "logo": "Logo",
+        "url": "Website URL (optional)"
+      },
+      "deleteTitle": "Delete partner",
+      "deleteBody": "This partner will be permanently deleted.",
+      "toasts": {
+        "created": "Added (hidden) — publish to show",
+        "saved": "Saved",
+        "deleted": "Deleted",
+        "published": "Now visible",
+        "unpublished": "Hidden"
+      }
+    },
+    "galleryManager": {
+      "publishedBadge": "Visible — click to hide",
+      "draftBadge": "Hidden — click to publish",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "edit": "Edit",
+      "delete": "Delete",
+      "saveCta": "Save",
+      "retry": "Retry",
+      "pickImage": "Pick from the library",
+      "changeImage": "Change image",
+      "deleteCta": "Delete",
+      "title": "Gallery",
+      "create": "Add image",
+      "editTitle": "Edit image",
+      "empty": "Gallery is empty — add images from the library",
+      "errors": {
+        "load": "Could not load",
+        "network": "Could not reach the server"
+      },
+      "fields": {
+        "image": "Image",
+        "captionAr": "Short caption (optional)",
+        "captionEn": "Caption (English)"
+      },
+      "deleteTitle": "Remove from gallery",
+      "deleteBody": "The image is removed from the gallery (stays in the library).",
+      "toasts": {
+        "created": "Added to the gallery",
+        "saved": "Saved",
+        "deleted": "Removed",
+        "published": "Now visible",
+        "unpublished": "Hidden"
+      }
+    },
+    "thesesAdmin": {
+      "publishedBadge": "Visible — click to hide",
+      "draftBadge": "Hidden — click to publish",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "edit": "Edit",
+      "delete": "Delete",
+      "saveCta": "Save",
+      "retry": "Retry",
+      "pickImage": "Pick from the library",
+      "changeImage": "Change image",
+      "deleteCta": "Delete",
+      "title": "Theses Library",
+      "create": "Add thesis",
+      "editTitle": "Edit thesis",
+      "empty": "No theses yet",
+      "errors": {
+        "load": "Could not load",
+        "network": "Could not reach the server"
+      },
+      "fields": {
+        "titleAr": "Title (Arabic)",
+        "researcherAr": "Researcher (Arabic)",
+        "degree": "Degree",
+        "institutionAr": "Institution (Arabic)",
+        "year": "Year",
+        "titleEn": "Title (English)",
+        "researcherEn": "Researcher (English)",
+        "institutionEn": "Institution (English)"
+      },
+      "options": {
+        "masters": "Master's",
+        "doctorate": "Doctorate"
+      },
+      "deleteTitle": "Delete thesis",
+      "deleteBody": "This thesis will be permanently deleted.",
+      "toasts": {
+        "created": "Added (hidden) — publish to show",
+        "saved": "Saved",
+        "deleted": "Deleted",
+        "published": "Now visible",
+        "unpublished": "Hidden"
+      }
+    },
+    "programsAdmin": {
+      "publishedBadge": "Visible — click to hide",
+      "draftBadge": "Hidden — click to publish",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "edit": "Edit",
+      "delete": "Delete",
+      "saveCta": "Save",
+      "retry": "Retry",
+      "pickImage": "Pick from the library",
+      "changeImage": "Change image",
+      "deleteCta": "Delete",
+      "title": "Academic Programs",
+      "create": "New program",
+      "editTitle": "Edit program",
+      "empty": "No programs yet",
+      "errors": {
+        "load": "Could not load",
+        "network": "Could not reach the server"
+      },
+      "fields": {
+        "nameAr": "Name (Arabic)",
+        "nameEn": "Name (English)",
+        "descriptionAr": "Description (Arabic)",
+        "descriptionEn": "Description (English)",
+        "durationAr": "Duration (Arabic)",
+        "durationEn": "Duration (English)",
+        "status": "Enrollment status",
+        "cover": "Cover image"
+      },
+      "options": {
+        "open": "Registration open",
+        "soon": "Coming soon",
+        "closed": "Closed"
+      },
+      "deleteTitle": "Delete program",
+      "deleteBody": "This program will be permanently deleted.",
+      "toasts": {
+        "created": "Created (hidden) — publish to show",
+        "saved": "Saved",
+        "deleted": "Deleted",
+        "published": "Now visible on the site",
+        "unpublished": "Hidden"
+      }
+    },
+    "homeEditor": {
+      "title": "Homepage",
+      "hint": "Every homepage section in one place — texts, testimonials, partners, gallery",
+      "tabs": {
+        "texts": "Section texts",
+        "testimonials": "Testimonials",
+        "partners": "Partners",
+        "gallery": "Gallery"
+      },
+      "groups": {
+        "hero": "Hero",
+        "vision": "Vision & photos",
+        "stats": "Statistics",
+        "features": "Academy features",
+        "sections": "Other section headings"
+      },
+      "emptyFallback": "Leave empty for the original copy",
+      "fallbackNote": "Any empty field shows the originally designed text — you can't break anything",
+      "saveCta": "Save changes",
+      "saved": "Saved — live on the site within a minute",
+      "errors": {
+        "load": "Could not load settings",
+        "network": "Could not reach the server"
+      },
+      "retry": "Retry",
+      "pickImage": "Pick image",
+      "changeImage": "Change image",
+      "removeImage": "Remove",
+      "addStat": "Add stat",
+      "addFeature": "Add feature",
+      "removeRow": "Remove",
+      "featureN": "Feature {n}",
+      "fields": {
+        "eyebrow_ar": "Eyebrow (Arabic)",
+        "title_ar": "Main title (Arabic)",
+        "subtitle_ar": "Subtitle (Arabic)",
+        "patron_prefix_ar": "Patronage phrase (Arabic)",
+        "patron_ar": "Patron name (Arabic)",
+        "cta_primary_ar": "Primary button (Arabic)",
+        "cta_secondary_ar": "Secondary button (Arabic)",
+        "eyebrow_en": "Eyebrow (English)",
+        "title_en": "Main title (English)",
+        "subtitle_en": "Section subtitle (English)",
+        "patron_prefix_en": "Patronage phrase (English)",
+        "patron_en": "Patron name (English)",
+        "cta_primary_en": "Primary button (English)",
+        "cta_secondary_en": "Secondary button (English)",
+        "label_ar": "Section heading (Arabic)",
+        "card_title_ar": "Card title (Arabic)",
+        "body_ar": "Vision text (Arabic)",
+        "label_en": "Section heading (English)",
+        "card_title_en": "Card title (English)",
+        "body_en": "Vision text (English)",
+        "image_1": "First photo",
+        "image_2": "Second photo",
+        "statValue": "Number",
+        "statLabelAr": "Label (Arabic)",
+        "statLabelEn": "Label (English)",
+        "feature_title_ar": "Title (Arabic)",
+        "feature_title_en": "Title (English)",
+        "feature_summary_ar": "Summary (Arabic)",
+        "feature_summary_en": "Summary (English)",
+        "feature_body_ar": "Details (Arabic)",
+        "feature_body_en": "Details (English)",
+        "programs_label_ar": "Programs — heading (Arabic)",
+        "programs_subtitle_ar": "Programs — subtitle (Arabic)",
+        "programs_label_en": "Programs — heading (English)",
+        "programs_subtitle_en": "Programs — subtitle (English)",
+        "theses_label_ar": "Theses — heading (Arabic)",
+        "theses_subtitle_ar": "Theses — subtitle (Arabic)",
+        "theses_label_en": "Theses — heading (English)",
+        "theses_subtitle_en": "Theses — subtitle (English)",
+        "features_label_ar": "Features — heading (Arabic)",
+        "features_subtitle_ar": "Features — subtitle (Arabic)",
+        "features_label_en": "Features — heading (English)",
+        "features_subtitle_en": "Features — subtitle (English)",
+        "testimonials_label_ar": "Testimonials — heading (Arabic)",
+        "testimonials_subtitle_ar": "Testimonials — subtitle (Arabic)",
+        "testimonials_label_en": "Testimonials — heading (English)",
+        "testimonials_subtitle_en": "Testimonials — subtitle (English)",
+        "gallery_label_ar": "Gallery — heading (Arabic)",
+        "gallery_subtitle_ar": "Gallery — subtitle (Arabic)",
+        "gallery_label_en": "Gallery — heading (English)",
+        "gallery_subtitle_en": "Gallery — subtitle (English)",
+        "partners_label_ar": "Partners — heading (Arabic)",
+        "partners_label_en": "Partners — heading (English)",
+        "apply_label_ar": "Apply — heading (Arabic)",
+        "apply_subtitle_ar": "Apply — subtitle (Arabic)",
+        "apply_intro_ar": "Apply — intro (Arabic)",
+        "apply_label_en": "Apply — heading (English)",
+        "apply_subtitle_en": "Apply — subtitle (English)",
+        "apply_intro_en": "Apply — intro (English)"
+      }
+    }
+  },
+  "portalProfile": {
+    "backToPortal": "Portal",
+    "title": "Your profile",
+    "subtitle": "Complete your details to ease admissions — each section saves on its own",
+    "completionLabel": "Profile {pct}% complete",
+    "saveCta": "Save",
+    "savedCta": "Saved",
+    "sections": {
+      "photo": "Profile photo",
+      "basic": "Basic information",
+      "education": "Education",
+      "church": "Church information",
+      "emergency": "Emergency contact",
+      "bio": "About you",
+      "documents": "Documents"
+    },
+    "uploadPhoto": "Upload photo",
+    "changePhoto": "Change photo",
+    "removePhoto": "Remove photo",
+    "photoHint": "JPG or PNG — resized automatically",
+    "fields": {
+      "gender": "Gender",
+      "dob": "Date of birth",
+      "nationality": "Nationality",
+      "nationalityPlaceholder": "Choose nationality",
+      "educationLevel": "Education level",
+      "educationLevelPlaceholder": "Choose level",
+      "educationField": "Field / University",
+      "churchService": "Current service",
+      "confessionFather": "Confession father",
+      "emergencyName": "Name",
+      "emergencyRelation": "Relation",
+      "emergencyPhone": "Mobile"
+    },
+    "gender": {
+      "male": "Male",
+      "female": "Female"
+    },
+    "educationLevels": {
+      "secondary": "Secondary",
+      "bachelor": "Bachelor's",
+      "master": "Master's",
+      "doctorate": "Doctorate",
+      "other": "Other"
+    },
+    "registeredChurch": "Your registered church:",
+    "emergencyHint": "If you fill any field, all three become required together",
+    "documentsHint": "PDF or JPG/PNG — up to 5 files, 10MB each",
+    "uploadDocument": "Upload document",
+    "documentsFull": "Limit reached (5)",
+    "deleteDocument": "Delete",
+    "verified": "Verified",
+    "errors": {
+      "load": "Could not load your profile",
+      "network": "Could not reach the server — try again",
+      "emergencyAllOrNone": "Fill all three emergency fields together, or leave them empty"
+    }
+  },
+  "news": {
+    "label": "News",
+    "subtitle": "The latest from the Academy",
+    "emptyState": "No published news yet — check back soon."
+  },
+  "articlesPage": {
+    "breadcrumb": {
+      "label": "Breadcrumb",
+      "home": "Home",
+      "articles": "Articles"
+    },
+    "hero": {
+      "eyebrow": "The Academy Digital Library",
+      "title": "Articles & Academic Publications",
+      "subtitle": "Theological articles, academic papers, and church publications — from the Academy's journal and scholarly periodicals.",
+      "searchLabel": "Search articles",
+      "searchPlaceholder": "Search an article, topic, or author…",
+      "searchHint": "Press /",
+      "statArticles": "Published",
+      "statCategories": "Categories",
+      "statAuthors": "Authors"
+    },
+    "filters": {
+      "filters": "Filters",
+      "category": "Category",
+      "allCategories": "All categories",
+      "author": "Author",
+      "allAuthors": "All authors",
+      "year": "Year",
+      "allYears": "All years",
+      "readingTime": "Reading time",
+      "anyLength": "Any length",
+      "reading": {
+        "short": "Short (5 min)",
+        "medium": "Medium",
+        "long": "Long (12+ min)"
+      },
+      "sortBy": "Sort",
+      "sort": {
+        "newest": "Newest",
+        "oldest": "Oldest",
+        "popular": "Most read",
+        "updated": "Recently updated",
+        "alphabetical": "A–Z"
+      },
+      "clearAll": "Clear all",
+      "close": "Close",
+      "apply": "Show results"
+    },
+    "featured": {
+      "title": "Featured articles",
+      "badge": "Featured",
+      "cta": "Read article"
+    },
+    "results": {
+      "count": "{count} articles",
+      "loading": "Loading…"
+    },
+    "card": {
+      "minutes": "{minutes} min read",
+      "bookmark": "Save article",
+      "bookmarked": "Saved",
+      "share": "Share"
+    },
+    "sidebar": {
+      "saved": "You have {count} saved articles",
+      "categories": "Categories",
+      "authors": "Top authors",
+      "tags": "Popular tags",
+      "recent": "Recent articles",
+      "articleCount": "{count} articles"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "prev": "Previous",
+      "next": "Next"
+    },
+    "empty": {
+      "none": "No published articles yet — check back soon.",
+      "filtered": "No articles match your search. Try adjusting the filters.",
+      "clear": "Clear filters"
+    },
+    "error": {
+      "text": "Couldn't load articles — check your connection.",
+      "retry": "Retry"
+    },
+    "newsletter": {
+      "title": "Subscribe to the Academy newsletter",
+      "subtitle": "Get the latest articles and academic publications in your inbox.",
+      "emailLabel": "Email",
+      "placeholder": "name@example.com",
+      "cta": "Subscribe",
+      "thanks": "Thanks for subscribing — the newsletter is on its way."
+    }
   }
 }

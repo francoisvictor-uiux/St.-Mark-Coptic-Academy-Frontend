@@ -3,7 +3,9 @@ import { useTranslations } from "next-intl";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Reveal from "@/components/ui/Reveal";
 
-const PARTNERS = [
+type PartnerLogo = { src: string; name: string; w?: number };
+
+const PARTNERS: PartnerLogo[] = [
   { src: "/partners/partner-1.png", name: "Institute of Coptic Studies", w: 328 },
   { src: "/partners/partner-2.jpg", name: "Clerical College", w: 280 },
   { src: "/partners/partner-3.png", name: "Tanta University", w: 210 },
@@ -11,15 +13,15 @@ const PARTNERS = [
   { src: "/partners/partner-5.png", name: "Coptic Orthodox Theological College", w: 350 },
 ];
 
-function LogoRow() {
+function LogoRow({ logos }: { logos: PartnerLogo[] }) {
   return (
     <>
-      {PARTNERS.map((p) => (
+      {logos.map((p) => (
         <Image
           key={p.src}
           src={p.src}
           alt={p.name}
-          width={p.w}
+          width={p.w ?? 280}
           height={112}
           className="h-20 w-auto shrink-0 object-contain opacity-90 grayscale mix-blend-multiply transition-all duration-300 hover:opacity-100 hover:grayscale-0 md:h-28"
         />
@@ -29,7 +31,7 @@ function LogoRow() {
 }
 
 /** Marquee half — rendered twice inside a track for a seamless loop. */
-function MarqueeRow({ reverse = false }: { reverse?: boolean }) {
+function MarqueeRow({ logos, reverse = false }: { logos: PartnerLogo[]; reverse?: boolean }) {
   return (
     <div className="flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
       <div
@@ -38,24 +40,25 @@ function MarqueeRow({ reverse = false }: { reverse?: boolean }) {
         }`}
         style={{ "--marquee-duration": "36s" } as React.CSSProperties}
       >
-        <LogoRow />
-        <LogoRow />
-        <LogoRow />
-        <LogoRow />
+        <LogoRow logos={logos} />
+        <LogoRow logos={logos} />
+        <LogoRow logos={logos} />
+        <LogoRow logos={logos} />
       </div>
     </div>
   );
 }
 
-export default function Partners() {
+export default function Partners({ items, label }: { items?: PartnerLogo[]; label?: string }) {
   const t = useTranslations("partners");
+  const logos = items && items.length > 0 ? items : PARTNERS;
 
   return (
-    <section aria-label={t("label")} className="bg-creamy-100 py-16 md:py-24">
+    <section aria-label={label || t("label")} className="bg-creamy-100 py-16 md:py-24">
       <Reveal className="mx-auto flex max-w-[1248px] flex-col gap-10 px-4 md:gap-14 md:px-8">
-        <SectionHeader label={t("label")} />
+        <SectionHeader label={label || t("label")} />
         <div className="marquee-paused flex flex-col opacity-70" data-reveal dir="ltr">
-          <MarqueeRow />
+          <MarqueeRow logos={logos} />
         </div>
       </Reveal>
     </section>

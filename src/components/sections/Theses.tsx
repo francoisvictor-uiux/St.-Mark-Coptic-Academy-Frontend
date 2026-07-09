@@ -11,12 +11,12 @@ type ThesisItem = {
   year: string;
 };
 
-export default function Theses() {
+export default function Theses({ items: itemsProp, labels }: { items?: ThesisItem[]; labels?: { label?: string; subtitle?: string } }) {
   const t = useTranslations("theses");
   const messages = useMessages() as {
     theses: { items: ThesisItem[] };
   };
-  const theses = messages.theses.items;
+  const theses = itemsProp && itemsProp.length > 0 ? itemsProp : messages.theses.items;
 
   return (
     <section id="theses" aria-labelledby="theses-label" className="bg-creamy-100 py-8 md:py-12">
@@ -24,7 +24,7 @@ export default function Theses() {
         {/* Dark editorial band, echoing the vision card surface */}
         <Reveal className="rounded-card bg-brown-500 px-6 py-14 md:px-14 md:py-20">
           <div className="mx-auto flex max-w-[1248px] flex-col gap-10 md:gap-14 [&_h2]:text-creamy-100 [&_svg]:text-creamy-100 [&_p]:text-creamy-100/70">
-            <SectionHeader label={t("label")} subtitle={t("subtitle")} />
+            <SectionHeader label={labels?.label || t("label")} subtitle={labels?.subtitle || t("subtitle")} />
           </div>
 
           <div className="mx-auto mt-10 grid max-w-[1248px] gap-5 md:mt-14 md:grid-cols-2 xl:grid-cols-4">

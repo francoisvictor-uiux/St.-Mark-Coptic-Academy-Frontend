@@ -16,7 +16,7 @@ type Status = "idle" | "submitting" | "success" | "error";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+\d][\d\s\-()]{6,}$/;
 
-export default function ApplyForm() {
+export default function ApplyForm({ labels, programOptions }: { labels?: { label?: string; subtitle?: string; intro?: string }; programOptions?: { value: string; label: string }[] }) {
   const t = useTranslations("apply");
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>("idle");
@@ -94,7 +94,7 @@ export default function ApplyForm() {
       className="bg-creamy-100 py-16 md:py-24"
     >
       <Reveal className="mx-auto flex max-w-[1248px] flex-col gap-10 px-4 md:gap-14 md:px-8">
-        <SectionHeader label={t("label")} subtitle={t("subtitle")} />
+        <SectionHeader label={labels?.label || t("label")} subtitle={labels?.subtitle || t("subtitle")} />
 
         <div className="mx-auto w-full max-w-[820px]" data-reveal>
           <div
@@ -126,7 +126,7 @@ export default function ApplyForm() {
             ) : (
               <>
                 <p className="mb-8 text-center font-serif text-[16px] font-light text-brown-400">
-                  {t("intro")}
+                  {labels?.intro || t("intro")}
                 </p>
                 <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
                   {/* Honeypot */}

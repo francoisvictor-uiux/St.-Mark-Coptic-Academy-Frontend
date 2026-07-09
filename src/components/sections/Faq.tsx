@@ -13,12 +13,12 @@ type FaqItem = {
   answer: string;
 };
 
-export default function Faq() {
+export default function Faq({ items: itemsProp }: { items?: FaqItem[] }) {
   const t = useTranslations("faq");
   const messages = useMessages() as {
     faq: { items: FaqItem[] };
   };
-  const items = messages.faq.items;
+  const items = itemsProp && itemsProp.length > 0 ? itemsProp : messages.faq.items;
 
   const [open, setOpen] = useState<number | null>(0);
   const listRef = useRef<HTMLDivElement>(null);

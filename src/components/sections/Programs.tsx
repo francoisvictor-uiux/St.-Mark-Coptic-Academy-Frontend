@@ -21,17 +21,17 @@ const STATUS_STYLES: Record<ProgramItem["status"], string> = {
   closed: "bg-ink-50 text-ink-400",
 };
 
-export default function Programs() {
+export default function Programs({ items: itemsProp, labels }: { items?: ProgramItem[]; labels?: { label?: string; subtitle?: string } }) {
   const t = useTranslations("programs");
   const messages = useMessages() as {
     programs: { items: ProgramItem[] };
   };
-  const programs = messages.programs.items;
+  const programs = itemsProp && itemsProp.length > 0 ? itemsProp : messages.programs.items;
 
   return (
     <section id="programs" aria-labelledby="programs-label" className="bg-creamy-100 py-16 md:py-24">
       <Reveal className="mx-auto flex max-w-[1248px] flex-col gap-10 px-4 md:gap-14 md:px-8">
-        <SectionHeader label={t("label")} subtitle={t("subtitle")} />
+        <SectionHeader label={labels?.label || t("label")} subtitle={labels?.subtitle || t("subtitle")} />
 
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {programs.map((program) => (

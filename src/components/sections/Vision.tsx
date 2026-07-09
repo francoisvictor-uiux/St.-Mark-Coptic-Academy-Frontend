@@ -6,17 +6,22 @@ import StatCounter from "@/components/ui/StatCounter";
 
 type StatItem = { value: number; label: string };
 
-export default function Vision() {
+export type VisionData = {
+  label?: string; subtitle?: string; cardTitle?: string; body?: string;
+  image1?: string; image2?: string; stats?: StatItem[];
+};
+
+export default function Vision({ data }: { data?: VisionData }) {
   const t = useTranslations("vision");
   const messages = useMessages() as {
     stats: { items: StatItem[] };
   };
-  const stats = messages.stats.items;
+  const stats = data?.stats && data.stats.length > 0 ? data.stats : messages.stats.items;
 
   return (
     <section id="vision" aria-labelledby="vision-title" className="bg-creamy-100 py-16 md:py-24">
       <Reveal className="mx-auto flex max-w-[1248px] flex-col gap-10 px-4 md:gap-14 md:px-8">
-        <SectionHeader label={t("label")} subtitle={t("subtitle")} />
+        <SectionHeader label={data?.label || t("label")} subtitle={data?.subtitle || t("subtitle")} />
 
         <div className="grid gap-[30px] lg:grid-cols-[1fr_407px]">
           {/* Vision card */}
@@ -25,10 +30,10 @@ export default function Vision() {
             className="relative overflow-hidden rounded-card bg-brown-500 p-8 pb-32 text-creamy-100 md:p-14 md:pb-36 lg:min-h-[570px]"
           >
             <h3 id="vision-title" className="font-serif text-3xl font-medium md:text-5xl md:leading-[1.6]">
-              {t("cardTitle")}
+              {data?.cardTitle || t("cardTitle")}
             </h3>
             <p className="mt-6 max-w-[704px] font-serif text-lg font-light leading-[1.75] text-creamy-100/95 md:text-2xl md:leading-[38px]">
-              {t("body")}
+              {data?.body || t("body")}
             </p>
 
             {/* Inverted-corner notch with the red cross medallion (Figma motif) */}
@@ -56,7 +61,7 @@ export default function Vision() {
           <div className="grid grid-cols-2 gap-[30px] lg:grid-cols-1 lg:grid-rows-[327px_213px]">
             <div data-reveal className="relative h-48 overflow-hidden rounded-card sm:h-64 lg:h-auto">
               <Image
-                src="/images/photo-2.jpg"
+                src={data?.image1 || "/images/photo-2.jpg"}
                 alt={t("imageAlt1")}
                 fill
                 sizes="(min-width: 1024px) 407px, 50vw"
@@ -65,7 +70,7 @@ export default function Vision() {
             </div>
             <div data-reveal className="relative h-48 overflow-hidden rounded-card sm:h-64 lg:h-auto">
               <Image
-                src="/images/photo-1.jpg"
+                src={data?.image2 || "/images/photo-1.jpg"}
                 alt={t("imageAlt2")}
                 fill
                 sizes="(min-width: 1024px) 407px, 50vw"

@@ -29,7 +29,7 @@ function Stars() {
 
 function TestimonialCard({ item, tint }: { item: TestimonialItem; tint: string }) {
   return (
-    <figure className="flex w-[300px] shrink-0 flex-col gap-5 rounded-card border border-line bg-card p-7 md:w-[350px]">
+    <figure className="flex min-h-[250px] w-[min(85vw,300px)] shrink-0 flex-col gap-5 rounded-card border border-line bg-card p-7 md:w-[350px]">
       <figcaption className="flex items-center gap-3">
         <span
           aria-hidden="true"
@@ -50,44 +50,43 @@ function TestimonialCard({ item, tint }: { item: TestimonialItem; tint: string }
   );
 }
 
-export default function Testimonials() {
+export default function Testimonials({ items: itemsProp, labels }: { items?: TestimonialItem[]; labels?: { label?: string; subtitle?: string } }) {
   const t = useTranslations("testimonials");
   const messages = useMessages() as {
     testimonials: { items: TestimonialItem[] };
   };
-  const items = messages.testimonials.items;
-  const rowA = items.filter((_, i) => i % 2 === 0);
-  const rowB = items.filter((_, i) => i % 2 === 1);
+  const items = itemsProp && itemsProp.length > 0 ? itemsProp : messages.testimonials.items;
+
+  // One seamless marquee line: repeat the set until a half-track holds at
+  // least 8 cards, so even 1–2 testimonials fill the screen with no gaps.
+  const repeats = Math.max(1, Math.ceil(8 / items.length));
+  const half = Array.from({ length: repeats }, () => items).flat();
 
   return (
     <section aria-labelledby="testimonials-label" className="overflow-hidden bg-creamy-100 py-16 md:py-24">
       <Reveal className="flex flex-col gap-10 md:gap-14">
         <div className="mx-auto max-w-[1248px] px-4 md:px-8">
-          <SectionHeader label={t("label")} subtitle={t("subtitle")} />
+          <SectionHeader label={labels?.label || t("label")} subtitle={labels?.subtitle || t("subtitle")} />
         </div>
 
         <div
-          className="marquee-paused flex flex-col gap-5 [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+          className="marquee-paused [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
           data-reveal
           dir="ltr"
         >
-          {[
-            { row: rowA, reverse: false },
-            { row: rowB, reverse: true },
-          ].map(({ row, reverse }, rowIndex) => (
-            <div key={rowIndex} className="flex overflow-hidden">
-              <div
-                className={`flex w-max gap-5 pe-5 ${reverse ? "marquee-track-reverse" : "marquee-track"}`}
-                style={{ "--marquee-duration": "70s" } as React.CSSProperties}
-              >
-                {[...row, ...row].map((item, i) => (
-                  <div key={`${item.name}-${i}`} dir="auto">
-                    <TestimonialCard item={item} tint={AVATAR_TINTS[i % AVATAR_TINTS.length]} />
-                  </div>
-                ))}
-              </div>
+          <div className="flex overflow-hidden">
+            <div
+              className="marquee-track flex w-max gap-5 pe-5"
+              style={{ "--marquee-duration": `${Math.max(40, half.length * 9)}s` } as React.CSSProperties}
+            >
+              {[...half, ...half].map((item, i) => (
+                // flex wrapper → the card stretches to the tallest in the row
+                <div key={`${item.name}-${i}`} dir="auto" className="flex">
+                  <TestimonialCard item={item} tint={AVATAR_TINTS[i % AVATAR_TINTS.length]} />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </Reveal>
     </section>

@@ -1,5 +1,6 @@
 import { setRequestLocale } from "next-intl/server";
-import AuthCard from "@/components/auth/AuthCard";
+import AuthShell from "@/components/auth/AuthShell";
+import LoginForm from "@/components/auth/LoginForm";
 
 export default async function LoginPage({
   params,
@@ -8,5 +9,9 @@ export default async function LoginPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <AuthCard mode="login" />;
+  return (
+    <AuthShell withBrandPane>
+      <LoginForm />
+    </AuthShell>
+  );
 }

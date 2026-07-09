@@ -14,12 +14,12 @@ type FeatureItem = {
   body: string;
 };
 
-export default function Features() {
+export default function Features({ items: itemsProp, labels }: { items?: FeatureItem[]; labels?: { label?: string; subtitle?: string } }) {
   const t = useTranslations("features");
   const messages = useMessages() as {
     features: { items: FeatureItem[] };
   };
-  const items = messages.features.items;
+  const items = itemsProp && itemsProp.length > 0 ? itemsProp : messages.features.items;
 
   const [open, setOpen] = useState<number | null>(0);
   const listRef = useRef<HTMLDivElement>(null);
@@ -45,7 +45,7 @@ export default function Features() {
   return (
     <section id="features" aria-labelledby="features-label" className="bg-creamy-100 py-16 md:py-24">
       <Reveal className="mx-auto flex max-w-[1248px] flex-col gap-10 px-4 md:gap-14 md:px-8">
-        <SectionHeader label={t("label")} subtitle={t("subtitle")} />
+        <SectionHeader label={labels?.label || t("label")} subtitle={labels?.subtitle || t("subtitle")} />
 
         <div ref={listRef} className="flex flex-col">
           {items.map((item, i) => {

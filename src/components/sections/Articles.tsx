@@ -15,14 +15,16 @@ type ArticleItem = {
   minutes: number;
   access: "public" | "members";
   image: string;
+  /** Real CMS articles link to their detail page; placeholders to the index. */
+  href?: string;
 };
 
-export default function Articles() {
+export default function Articles({ items }: { items?: ArticleItem[] }) {
   const t = useTranslations("articles");
   const messages = useMessages() as {
     articles: { items: ArticleItem[] };
   };
-  const articles = messages.articles.items;
+  const articles = items && items.length > 0 ? items : messages.articles.items;
 
   return (
     <section id="articles" aria-labelledby="articles-label" className="bg-creamy-100 py-16 md:py-24">
@@ -32,7 +34,7 @@ export default function Articles() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => (
             <article key={article.title} data-reveal className="group flex flex-col gap-5">
-              <Link href="/articles" className="relative block h-56 overflow-hidden rounded-card md:h-60">
+              <Link href={article.href ?? "/articles"} className="relative block h-56 overflow-hidden rounded-card md:h-60">
                 <Image
                   src={article.image}
                   alt=""
@@ -61,7 +63,7 @@ export default function Articles() {
                   {article.category}
                 </span>
                 <h3 className="font-serif text-xl font-bold leading-[1.5] text-brown-900 transition-colors group-hover:text-brown-500">
-                  <Link href="/articles">{article.title}</Link>
+                  <Link href={article.href ?? "/articles"}>{article.title}</Link>
                 </h3>
                 <p className="font-serif text-[15px] font-light leading-[1.7] text-brown-400">
                   {article.excerpt}
@@ -77,7 +79,7 @@ export default function Articles() {
                     <span className="font-serif text-sm text-brown-400">{article.author}</span>
                   </p>
                   <Link
-                    href="/articles"
+                    href={article.href ?? "/articles"}
                     className="inline-flex items-center gap-1.5 font-serif text-sm font-bold text-brown-500 transition-colors hover:text-red-600"
                     aria-label={`${t("cardCta")}: ${article.title}`}
                   >

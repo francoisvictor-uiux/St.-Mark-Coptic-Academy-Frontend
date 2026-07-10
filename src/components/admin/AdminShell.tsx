@@ -34,17 +34,19 @@ const toastStyles = {
 
 /* ─── Shell ─── */
 
+// Ordered so live-site page editing leads: Pages first, then the Homepage
+// builder, then the content collections, with system administration last.
 const NAV = [
+  { href: "/admin/pages", key: "pages", permission: "pages.view" },
+  { href: "/admin/homepage", key: "homepage", permission: "homepage.view" },
   { href: "/admin/articles", key: "articles", permission: "articles.view" },
   { href: "/admin/news", key: "news", permission: "news.view" },
   { href: "/admin/events", key: "events", permission: "events.view" },
-  { href: "/admin/media", key: "media", permission: "media.view" },
-  { href: "/admin/categories", key: "categories", permission: "categories.view" },
-  { href: "/admin/faqs", key: "faqs", permission: "faqs.view" },
-  { href: "/admin/pages", key: "pages", permission: "pages.view" },
   { href: "/admin/programs-admin", key: "programs", permission: "programs.view" },
   { href: "/admin/theses-admin", key: "theses", permission: "theses.view" },
-  { href: "/admin/homepage", key: "homepage", permission: "homepage.view" },
+  { href: "/admin/faqs", key: "faqs", permission: "faqs.view" },
+  { href: "/admin/categories", key: "categories", permission: "categories.view" },
+  { href: "/admin/media", key: "media", permission: "media.view" },
   { href: "/admin/users", key: "users", permission: "users.view" },
   { href: "/admin/roles", key: "roles", permission: "roles.view" },
   { href: "/admin/audit", key: "audit", permission: "audit.view" },

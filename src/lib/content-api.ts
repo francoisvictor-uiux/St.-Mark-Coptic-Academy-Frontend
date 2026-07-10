@@ -101,6 +101,28 @@ function json(method: string, body: unknown): RequestInit {
   return { method, body: JSON.stringify(body) };
 }
 
+/**
+ * Ask Next.js to refresh the public site's ISR cache. Fire-and-forget: the
+ * mutation has already succeeded on the backend, so a failed ping only means
+ * the edit falls back to the 60s time-based window instead of appearing
+ * instantly. Runs in the browser (admin screens are client components).
+ */
+function pingRevalidate(): void {
+  if (typeof fetch === "undefined") return;
+  void fetch("/api/revalidate", { method: "POST", keepalive: true }).catch(() => {});
+}
+
+/**
+ * Wrapper for content-mutating requests (create/update/delete/publish). On
+ * success it triggers on-demand revalidation so the change reflects on the
+ * live website immediately. Read-only calls keep using `authedRequest`.
+ */
+async function mutate<T>(path: string, init: RequestInit): Promise<T> {
+  const result = await authedRequest<T>(path, init);
+  pingRevalidate();
+  return result;
+}
+
 // ─── Categories ───
 
 export function listCategories() {
@@ -108,15 +130,15 @@ export function listCategories() {
 }
 
 export function createCategory(payload: { name_ar: string; name_en?: string }) {
-  return authedRequest<Category>("/admin/content/categories", json("POST", payload));
+  return mutate<Category>("/admin/content/categories", json("POST", payload));
 }
 
 export function updateCategory(id: string, payload: Partial<{ name_ar: string; name_en: string; is_active: boolean }>) {
-  return authedRequest<Category>(`/admin/content/categories/${id}`, json("PATCH", payload));
+  return mutate<Category>(`/admin/content/categories/${id}`, json("PATCH", payload));
 }
 
 export function deleteCategory(id: string) {
-  return authedRequest<void>(`/admin/content/categories/${id}`, { method: "DELETE" });
+  return mutate<void>(`/admin/content/categories/${id}`, { method: "DELETE" });
 }
 
 // ─── Media ───
@@ -133,15 +155,15 @@ export function uploadMedia(file: File, altAr = "") {
   const form = new FormData();
   form.append("file", file);
   if (altAr) form.append("alt_ar", altAr);
-  return authedRequest<MediaAsset>("/admin/content/media", { method: "POST", body: form });
+  return mutate<MediaAsset>("/admin/content/media", { method: "POST", body: form });
 }
 
 export function updateMedia(id: string, payload: { alt_ar?: string; alt_en?: string }) {
-  return authedRequest<MediaAsset>(`/admin/content/media/${id}`, json("PATCH", payload));
+  return mutate<MediaAsset>(`/admin/content/media/${id}`, json("PATCH", payload));
 }
 
 export function deleteMedia(id: string) {
-  return authedRequest<void>(`/admin/content/media/${id}`, { method: "DELETE" });
+  return mutate<void>(`/admin/content/media/${id}`, { method: "DELETE" });
 }
 
 // ─── Articles ───
@@ -154,7 +176,7 @@ export function listArticles(params: { q?: string; status?: string; category?: s
 }
 
 export function createArticle(payload: ArticlePayload & { title_ar: string }) {
-  return authedRequest<ArticleDetail>("/admin/content/articles", json("POST", payload));
+  return mutate<ArticleDetail>("/admin/content/articles", json("POST", payload));
 }
 
 export function getArticle(id: string) {
@@ -162,15 +184,15 @@ export function getArticle(id: string) {
 }
 
 export function updateArticle(id: string, payload: ArticlePayload) {
-  return authedRequest<ArticleDetail>(`/admin/content/articles/${id}`, json("PATCH", payload));
+  return mutate<ArticleDetail>(`/admin/content/articles/${id}`, json("PATCH", payload));
 }
 
 export function deleteArticle(id: string) {
-  return authedRequest<void>(`/admin/content/articles/${id}`, { method: "DELETE" });
+  return mutate<void>(`/admin/content/articles/${id}`, { method: "DELETE" });
 }
 
 export function setArticleStatus(id: string, action: "publish" | "unpublish" | "archive") {
-  return authedRequest<ArticleDetail>(`/admin/content/articles/${id}/${action}`, { method: "POST" });
+  return mutate<ArticleDetail>(`/admin/content/articles/${id}/${action}`, { method: "POST" });
 }
 
 // ─── Events ───
@@ -183,7 +205,7 @@ export function listEvents(params: { q?: string; status?: string; cursor?: strin
 }
 
 export function createEvent(payload: EventPayload & { title_ar: string; event_type: string; starts_at: string }) {
-  return authedRequest<EventItem>("/admin/content/events", json("POST", payload));
+  return mutate<EventItem>("/admin/content/events", json("POST", payload));
 }
 
 export function getEvent(id: string) {
@@ -191,15 +213,15 @@ export function getEvent(id: string) {
 }
 
 export function updateEvent(id: string, payload: EventPayload) {
-  return authedRequest<EventItem>(`/admin/content/events/${id}`, json("PATCH", payload));
+  return mutate<EventItem>(`/admin/content/events/${id}`, json("PATCH", payload));
 }
 
 export function deleteEvent(id: string) {
-  return authedRequest<void>(`/admin/content/events/${id}`, { method: "DELETE" });
+  return mutate<void>(`/admin/content/events/${id}`, { method: "DELETE" });
 }
 
 export function setEventStatus(id: string, action: "publish" | "unpublish" | "archive") {
-  return authedRequest<EventItem>(`/admin/content/events/${id}/${action}`, { method: "POST" });
+  return mutate<EventItem>(`/admin/content/events/${id}/${action}`, { method: "POST" });
 }
 
 // ─── News ───
@@ -239,7 +261,7 @@ export function listNews(params: { q?: string; status?: string; cursor?: string 
 }
 
 export function createNews(payload: NewsPayload & { title_ar: string }) {
-  return authedRequest<NewsDetail>("/admin/content/news", json("POST", payload));
+  return mutate<NewsDetail>("/admin/content/news", json("POST", payload));
 }
 
 export function getNews(id: string) {
@@ -247,15 +269,15 @@ export function getNews(id: string) {
 }
 
 export function updateNews(id: string, payload: NewsPayload) {
-  return authedRequest<NewsDetail>(`/admin/content/news/${id}`, json("PATCH", payload));
+  return mutate<NewsDetail>(`/admin/content/news/${id}`, json("PATCH", payload));
 }
 
 export function deleteNews(id: string) {
-  return authedRequest<void>(`/admin/content/news/${id}`, { method: "DELETE" });
+  return mutate<void>(`/admin/content/news/${id}`, { method: "DELETE" });
 }
 
 export function setNewsStatus(id: string, action: "publish" | "unpublish" | "archive") {
-  return authedRequest<NewsDetail>(`/admin/content/news/${id}/${action}`, { method: "POST" });
+  return mutate<NewsDetail>(`/admin/content/news/${id}/${action}`, { method: "POST" });
 }
 
 // ─── Pages ───
@@ -286,7 +308,7 @@ export function listPages() {
 }
 
 export function createPage(payload: PagePayload & { title_ar: string }) {
-  return authedRequest<SitePage>("/admin/content/pages", json("POST", payload));
+  return mutate<SitePage>("/admin/content/pages", json("POST", payload));
 }
 
 export function getPage(id: string) {
@@ -294,15 +316,15 @@ export function getPage(id: string) {
 }
 
 export function updatePage(id: string, payload: PagePayload) {
-  return authedRequest<SitePage>(`/admin/content/pages/${id}`, json("PATCH", payload));
+  return mutate<SitePage>(`/admin/content/pages/${id}`, json("PATCH", payload));
 }
 
 export function deletePage(id: string) {
-  return authedRequest<void>(`/admin/content/pages/${id}`, { method: "DELETE" });
+  return mutate<void>(`/admin/content/pages/${id}`, { method: "DELETE" });
 }
 
 export function setPageStatus(id: string, action: "publish" | "unpublish") {
-  return authedRequest<SitePage>(`/admin/content/pages/${id}/${action}`, { method: "POST" });
+  return mutate<SitePage>(`/admin/content/pages/${id}/${action}`, { method: "POST" });
 }
 
 // ─── FAQs ───
@@ -325,19 +347,19 @@ export function listFaqs() {
 }
 
 export function createFaq(payload: FaqPayload & { question_ar: string; answer_ar: string }) {
-  return authedRequest<FaqItem>("/admin/content/faqs", json("POST", payload));
+  return mutate<FaqItem>("/admin/content/faqs", json("POST", payload));
 }
 
 export function updateFaq(id: string, payload: FaqPayload) {
-  return authedRequest<FaqItem>(`/admin/content/faqs/${id}`, json("PATCH", payload));
+  return mutate<FaqItem>(`/admin/content/faqs/${id}`, json("PATCH", payload));
 }
 
 export function deleteFaq(id: string) {
-  return authedRequest<void>(`/admin/content/faqs/${id}`, { method: "DELETE" });
+  return mutate<void>(`/admin/content/faqs/${id}`, { method: "DELETE" });
 }
 
 export function reorderFaqs(orderedIds: string[]) {
-  return authedRequest<{ faqs: FaqItem[] }>("/admin/content/faqs/reorder", {
+  return mutate<{ faqs: FaqItem[] }>("/admin/content/faqs/reorder", {
     method: "PUT",
     body: JSON.stringify({ ordered_ids: orderedIds }),
   });
@@ -359,7 +381,7 @@ export function getHomepageSettings() {
 }
 
 export function saveHomepageSettings(payload: HomepageSettings) {
-  return authedRequest<{ homepage: HomepageSettings }>("/admin/content/homepage", {
+  return mutate<{ homepage: HomepageSettings }>("/admin/content/homepage", {
     method: "PUT",
     body: JSON.stringify(payload),
   });
@@ -425,11 +447,11 @@ function collectionApi<T>(base: string, listKey: string): CollectionApi<T> {
       const data = await authedRequest<Record<string, T[]>>(base);
       return data[listKey] ?? [];
     },
-    create: (payload) => authedRequest<T>(base, json("POST", payload)),
-    patch: (id, payload) => authedRequest<T>(`${base}/${id}`, json("PATCH", payload)),
-    remove: (id) => authedRequest<void>(`${base}/${id}`, { method: "DELETE" }),
+    create: (payload) => mutate<T>(base, json("POST", payload)),
+    patch: (id, payload) => mutate<T>(`${base}/${id}`, json("PATCH", payload)),
+    remove: (id) => mutate<void>(`${base}/${id}`, { method: "DELETE" }),
     reorder: async (orderedIds) => {
-      const data = await authedRequest<Record<string, T[]>>(`${base}/reorder`, {
+      const data = await mutate<Record<string, T[]>>(`${base}/reorder`, {
         method: "PUT",
         body: JSON.stringify({ ordered_ids: orderedIds }),
       });
@@ -459,7 +481,7 @@ export function getHomeSettings() {
 }
 
 export function saveHomeSettings(payload: HomeSettings) {
-  return authedRequest<{ homepage: HomeSettings }>("/admin/content/homepage-v2", {
+  return mutate<{ homepage: HomeSettings }>("/admin/content/homepage-v2", {
     method: "PUT",
     body: JSON.stringify(payload),
   });

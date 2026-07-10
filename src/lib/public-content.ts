@@ -1,7 +1,15 @@
 /** Server-side fetchers for published CMS content (public APIs, no auth). */
 
 const BACKEND = process.env.BACKEND_URL ?? "http://localhost:8000";
-const REVALIDATE = 60; // seconds — publish appears on the site within a minute
+const REVALIDATE = 60; // seconds — fallback window if on-demand revalidation is missed
+
+/**
+ * Cache tag every public CMS fetch carries. The admin dashboard triggers
+ * `revalidateTag(CMS_TAG)` (via POST /api/revalidate) after each content
+ * mutation, so edits appear on the live site immediately; the 60s ISR window
+ * above is just a safety net.
+ */
+export const CMS_TAG = "cms-content";
 
 export type PublicMedia = { url: string; alt_ar: string; alt_en: string };
 
@@ -38,7 +46,7 @@ export type PublicEvent = {
 
 async function safeFetch<T>(path: string, fallback: T): Promise<T> {
   try {
-    const res = await fetch(`${BACKEND}/api/v1${path}`, { next: { revalidate: REVALIDATE } });
+    const res = await fetch(`${BACKEND}/api/v1${path}`, { next: { revalidate: REVALIDATE, tags: [CMS_TAG] } });
     if (!res.ok) return fallback;
     return (await res.json()) as T;
   } catch {
@@ -104,7 +112,7 @@ export async function getFeaturedArticles(): Promise<ArticleCard[]> {
 export async function getArticleBySlug(slug: string): Promise<PublicArticleDetail | null> {
   try {
     const res = await fetch(`${BACKEND}/api/v1/content/articles/${encodeURIComponent(slug)}`, {
-      next: { revalidate: REVALIDATE },
+      next: { revalidate: REVALIDATE, tags: [CMS_TAG] },
     });
     if (!res.ok) return null;
     return (await res.json()) as PublicArticleDetail;
@@ -215,7 +223,7 @@ export async function getPublishedNews(): Promise<PublicNews[]> {
 export async function getNewsBySlug(slug: string): Promise<PublicNewsDetail | null> {
   try {
     const res = await fetch(`${BACKEND}/api/v1/content/news/${encodeURIComponent(slug)}`, {
-      next: { revalidate: 60 },
+      next: { revalidate: 60, tags: [CMS_TAG] },
     });
     if (!res.ok) return null;
     return (await res.json()) as PublicNewsDetail;
@@ -227,7 +235,7 @@ export async function getNewsBySlug(slug: string): Promise<PublicNewsDetail | nu
 export async function getPageBySlug(slug: string): Promise<PublicPage | null> {
   try {
     const res = await fetch(`${BACKEND}/api/v1/content/pages/${encodeURIComponent(slug)}`, {
-      next: { revalidate: 60 },
+      next: { revalidate: 60, tags: [CMS_TAG] },
     });
     if (!res.ok) return null;
     return (await res.json()) as PublicPage;

@@ -2,38 +2,36 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import CopticCross from "@/components/ui/CopticCross";
 import SearchableSelect from "@/components/auth/SearchableSelect";
 import {
-  queryArticles,
+  queryTheses,
   pickLang,
-  formatDate,
-  type ArticleCard as ArticleData,
-  type ArticleFacets,
+  type ThesisCard as ThesisData,
+  type ThesisFacets,
 } from "@/lib/public-content";
-import ArticleCard, { ArticleCardSkeleton } from "./ArticleCard";
-import { SearchIcon, SlidersIcon, XIcon, ArrowIcon, ChevronRight } from "./icons";
+import ThesisCard, { ThesisCardSkeleton } from "./ThesisCard";
+import { SearchIcon, SlidersIcon, XIcon, ChevronRight } from "./icons";
 
 type Query = {
-  q: string; category: string; author: string; year: string;
-  tag: string; reading_time: string; sort: string; page: number;
+  q: string; category: string; degree: string; year: string;
+  keyword: string; sort: string; page: number;
 };
 
-const EMPTY: Query = { q: "", category: "", author: "", year: "", tag: "", reading_time: "", sort: "newest", page: 1 };
+const EMPTY: Query = { q: "", category: "", degree: "", year: "", keyword: "", sort: "newest", page: 1 };
 
-const EMPTY_FACETS: ArticleFacets = {
-  total_articles: 0, categories: [], authors: [], years: [], tags: [], recent: [],
+const EMPTY_FACETS: ThesisFacets = {
+  total_theses: 0, categories: [], degrees: [], years: [], keywords: [],
 };
 
-export default function ArticlesExplorer() {
-  const t = useTranslations("articlesPage");
+export default function ThesesExplorer() {
+  const t = useTranslations("thesesPage");
   const locale = useLocale();
 
   const [query, setQuery] = useState<Query>(EMPTY);
   const [searchInput, setSearchInput] = useState("");
-  const [results, setResults] = useState<ArticleData[]>([]);
-  const [facets, setFacets] = useState<ArticleFacets>(EMPTY_FACETS);
+  const [results, setResults] = useState<ThesisData[]>([]);
+  const [facets, setFacets] = useState<ThesisFacets>(EMPTY_FACETS);
   const [pages, setPages] = useState(1);
   const [total, setTotal] = useState(0);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
@@ -44,17 +42,17 @@ export default function ArticlesExplorer() {
   const firstLoad = useRef(true);
 
   const filtersActive = useMemo(
-    () => query.category || query.author || query.year || query.tag || query.reading_time || query.q,
+    () => query.category || query.degree || query.year || query.keyword || query.q,
     [query],
   );
 
   const load = useCallback(async (q: Query) => {
     setStatus("loading");
     try {
-      const res = await queryArticles({
-        q: q.q || undefined, category: q.category || undefined, author: q.author || undefined,
-        year: q.year || undefined, tag: q.tag || undefined,
-        reading_time: q.reading_time || undefined, sort: q.sort, page: q.page, page_size: 9,
+      const res = await queryTheses({
+        q: q.q || undefined, category: q.category || undefined, degree: q.degree || undefined,
+        year: q.year || undefined, keyword: q.keyword || undefined,
+        sort: q.sort, page: q.page, page_size: 9,
       });
       setResults(res.results);
       setFacets(res.facets);
@@ -66,7 +64,6 @@ export default function ArticlesExplorer() {
     }
   }, []);
 
-  // Load whenever query changes
   useEffect(() => {
     load(query);
     if (!firstLoad.current) {
@@ -109,32 +106,28 @@ export default function ArticlesExplorer() {
     const c = facets.categories.find((x) => x.slug === slug);
     return c ? pickLang(locale, c.name_ar, c.name_en) : slug;
   };
-  const authorName = (id: string) => {
-    const a = facets.authors.find((x) => x.id === id);
-    return a ? pickLang(locale, a.name_ar, a.name_en) : id;
-  };
+  const degreeName = (d: string) => t(`degree.${d}` as "degree.masters");
 
   const chips: { key: string; label: string; clear: () => void }[] = [];
   if (query.q) chips.push({ key: "q", label: `"${query.q}"`, clear: () => { setSearchInput(""); patch({ q: "" }); } });
   if (query.category) chips.push({ key: "cat", label: catName(query.category), clear: () => patch({ category: "" }) });
-  if (query.author) chips.push({ key: "auth", label: authorName(query.author), clear: () => patch({ author: "" }) });
+  if (query.degree) chips.push({ key: "deg", label: degreeName(query.degree), clear: () => patch({ degree: "" }) });
   if (query.year) chips.push({ key: "year", label: query.year, clear: () => patch({ year: "" }) });
-  if (query.tag) chips.push({ key: "tag", label: `#${query.tag}`, clear: () => patch({ tag: "" }) });
+  if (query.keyword) chips.push({ key: "kw", label: `#${query.keyword}`, clear: () => patch({ keyword: "" }) });
 
   const stats = [
-    { value: facets.total_articles, label: t("hero.statArticles") },
+    { value: facets.total_theses, label: t("hero.statTheses") },
     { value: facets.categories.length, label: t("hero.statCategories") },
-    { value: facets.authors.length, label: t("hero.statAuthors") },
+    { value: facets.years.length, label: t("hero.statYears") },
   ];
 
   return (
     <>
       {/* ─── Hero ─── */}
       <section className="relative overflow-hidden bg-surface text-brown-900">
-        {/* Hero photo, blended into the cream surface like the homepage hero video */}
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[72%]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/articles-hero.jpg" alt="" className="absolute inset-0 size-full object-cover" />
+          <img src="/images/books-hero.svg" alt="" className="absolute inset-0 size-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-surface from-[6%] via-surface/45 via-[45%] to-surface" />
         </div>
         <div className="relative mx-auto max-w-[900px] px-4 pb-14 pt-8 text-center md:pb-16 md:pt-10">
@@ -179,7 +172,7 @@ export default function ArticlesExplorer() {
       </section>
 
       <div className="mx-auto max-w-[1280px] px-4 md:px-8">
-        {/* ─── Filter bar (static, at the top right after the hero) ─── */}
+        {/* ─── Filter bar ─── */}
         <div className="mt-8 mb-8">
           <div className="rounded-2xl border border-line bg-card px-4 py-3">
             <div className="flex flex-wrap items-center gap-2.5">
@@ -188,9 +181,9 @@ export default function ArticlesExplorer() {
                 <FilterSelect label={t("filters.category")} value={query.category}
                   onChange={(v) => patch({ category: v })} placeholder={t("filters.allCategories")}
                   options={facets.categories.map((c) => ({ value: c.slug, label: `${pickLang(locale, c.name_ar, c.name_en)} (${c.count})` }))} />
-                <FilterSelect label={t("filters.author")} value={query.author}
-                  onChange={(v) => patch({ author: v })} placeholder={t("filters.allAuthors")}
-                  options={facets.authors.map((a) => ({ value: a.id, label: `${pickLang(locale, a.name_ar, a.name_en)} (${a.count})` }))} />
+                <FilterSelect label={t("filters.degree")} value={query.degree} searchable={false}
+                  onChange={(v) => patch({ degree: v })} placeholder={t("filters.allDegrees")}
+                  options={facets.degrees.map((d) => ({ value: d.degree, label: `${degreeName(d.degree)} (${d.count})` }))} />
                 <FilterSelect label={t("filters.year")} value={query.year} searchable={false}
                   onChange={(v) => patch({ year: v })} placeholder={t("filters.allYears")}
                   options={facets.years.map((y) => ({ value: String(y), label: String(y) }))} />
@@ -207,12 +200,12 @@ export default function ArticlesExplorer() {
                 {chips.length > 0 ? <span className="flex size-5 items-center justify-center rounded-full bg-brown-500 text-[11px] text-creamy-50">{chips.length}</span> : null}
               </button>
 
-              {/* Sort — always visible, pushed to the end */}
+              {/* Sort */}
               <div className="ms-auto flex items-center gap-2.5">
                 <span className="hidden font-sans text-[13px] text-brown-300 sm:inline">{t("filters.sortBy")}</span>
-                <FilterSelect label={t("filters.sortBy")} value={query.sort} searchable={false} hideLabel
+                <FilterSelect label={t("filters.sortBy")} value={query.sort} searchable={false}
                   onChange={(v) => patch({ sort: v || "newest" })} placeholder={t("filters.sort.newest")}
-                  options={["newest", "oldest", "popular", "updated", "alphabetical"].map((s) => ({ value: s, label: t(`filters.sort.${s}` as "filters.sort.newest") }))} />
+                  options={["newest", "oldest", "updated", "alphabetical"].map((s) => ({ value: s, label: t(`filters.sort.${s}` as "filters.sort.newest") }))} />
               </div>
             </div>
 
@@ -234,15 +227,10 @@ export default function ArticlesExplorer() {
           </div>
         </div>
 
-        {/* ─── Results (scroll target when filters change) ─── */}
+        {/* ─── Results ─── */}
         <div ref={gridRef} className="scroll-mt-[104px] md:scroll-mt-[120px]">
-          {/* ─── Grid + sidebar ─── */}
-          <div className="grid gap-8 lg:grid-cols-[300px_1fr]">
-            {/* Sidebar (right side in RTL) */}
-            <Sidebar facets={facets} query={query} patch={patch} />
-
+          <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
             <div>
-              {/* Results count */}
               <p className="mb-5 font-sans text-[13.5px] text-brown-400" role="status" aria-live="polite">
                 {status === "ready" ? t("results.count", { count: total }) : t("results.loading")}
               </p>
@@ -251,26 +239,24 @@ export default function ArticlesExplorer() {
                 <ErrorState onRetry={() => load(query)} />
               ) : status === "loading" ? (
                 <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                  {Array.from({ length: 6 }).map((_, i) => <ArticleCardSkeleton key={i} />)}
+                  {Array.from({ length: 6 }).map((_, i) => <ThesisCardSkeleton key={i} />)}
                 </div>
               ) : results.length === 0 ? (
                 <EmptyState filtered={!!filtersActive} onClear={clearAll} />
               ) : (
                 <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                  {results.map((a) => <ArticleCard key={a.slug} article={a} />)}
+                  {results.map((th) => <ThesisCard key={th.id} thesis={th} />)}
                 </div>
               )}
 
-              {/* Pagination */}
               {status === "ready" && pages > 1 ? (
                 <Pagination page={query.page} pages={pages} onGo={(p) => patch({ page: p })} />
               ) : null}
             </div>
+
+            <Sidebar facets={facets} query={query} patch={patch} />
           </div>
         </div>
-
-        {/* ─── Newsletter CTA ─── */}
-        <NewsletterCTA />
       </div>
 
       {/* ─── Mobile filter drawer ─── */}
@@ -284,11 +270,11 @@ export default function ArticlesExplorer() {
   );
 }
 
-/* ── Filter select wrapper (compact, label-less trigger) ── */
+/* ── Filter select ── */
 function FilterSelect({
-  label, hideLabel, value, onChange, options, placeholder, searchable = true,
+  label, value, onChange, options, placeholder, searchable = true,
 }: {
-  label: string; hideLabel?: boolean; value: string;
+  label: string; value: string;
   onChange: (v: string) => void; placeholder: string;
   options: { value: string; label: string }[]; searchable?: boolean;
 }) {
@@ -308,7 +294,7 @@ function FilterSelect({
 
 /* ── Pagination ── */
 function Pagination({ page, pages, onGo }: { page: number; pages: number; onGo: (p: number) => void }) {
-  const t = useTranslations("articlesPage");
+  const t = useTranslations("thesesPage");
   const nums = pageWindow(page, pages);
   return (
     <nav className="mt-12 flex items-center justify-center gap-1.5" aria-label={t("pagination.label")}>
@@ -351,44 +337,23 @@ function pageWindow(page: number, pages: number): (number | "…")[] {
 function Sidebar({
   facets, query, patch,
 }: {
-  facets: ArticleFacets; query: Query; patch: (p: Partial<Query>) => void;
+  facets: ThesisFacets; query: Query; patch: (p: Partial<Query>) => void;
 }) {
-  const t = useTranslations("articlesPage");
+  const t = useTranslations("thesesPage");
   const locale = useLocale();
   return (
     <aside className="hidden flex-col gap-8 lg:flex">
-      <SidebarBlock title={t("sidebar.categories")}>
-        <ul className="flex flex-col gap-1">
-          {facets.categories.slice(0, 8).map((c) => (
-            <li key={c.slug}>
-              <button type="button" onClick={() => patch({ category: query.category === c.slug ? "" : c.slug })}
-                className={`flex w-full items-center justify-between rounded-lg px-3 py-2 font-sans text-[13.5px] transition-colors ${
-                  query.category === c.slug ? "bg-brown-500/10 font-bold text-brown-500" : "text-brown-500 hover:bg-creamy-200"
-                }`}>
-                <span>{pickLang(locale, c.name_ar, c.name_en)}</span>
-                <span className="font-archivo text-[12px] text-brown-300" dir="ltr">{c.count}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </SidebarBlock>
-
-      {facets.authors.length > 0 ? (
-        <SidebarBlock title={t("sidebar.authors")}>
-          <ul className="flex flex-col gap-1.5">
-            {facets.authors.slice(0, 6).map((a) => (
-              <li key={a.id}>
-                <button type="button" onClick={() => patch({ author: query.author === a.id ? "" : a.id })}
-                  className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-start transition-colors hover:bg-creamy-200">
-                  <span aria-hidden className="flex size-8 shrink-0 items-center justify-center rounded-full bg-creamy-400 font-serif text-[13px] font-bold text-brown-500">
-                    {pickLang(locale, a.name_ar, a.name_en).slice(0, 1)}
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className={`block truncate font-sans text-[13px] ${query.author === a.id ? "font-bold text-brown-900" : "text-brown-700"}`}>
-                      {pickLang(locale, a.name_ar, a.name_en)}
-                    </span>
-                    <span className="font-sans text-[11.5px] text-brown-300">{t("sidebar.articleCount", { count: a.count })}</span>
-                  </span>
+      {facets.categories.length > 0 ? (
+        <SidebarBlock title={t("sidebar.categories")}>
+          <ul className="flex flex-col gap-1">
+            {facets.categories.slice(0, 8).map((c) => (
+              <li key={c.slug}>
+                <button type="button" onClick={() => patch({ category: query.category === c.slug ? "" : c.slug })}
+                  className={`flex w-full items-center justify-between rounded-lg px-3 py-2 font-sans text-[13.5px] transition-colors ${
+                    query.category === c.slug ? "bg-brown-500/10 font-bold text-brown-500" : "text-brown-500 hover:bg-creamy-200"
+                  }`}>
+                  <span>{pickLang(locale, c.name_ar, c.name_en)}</span>
+                  <span className="font-archivo text-[12px] text-brown-300" dir="ltr">{c.count}</span>
                 </button>
               </li>
             ))}
@@ -396,35 +361,36 @@ function Sidebar({
         </SidebarBlock>
       ) : null}
 
-      {facets.tags.length > 0 ? (
-        <SidebarBlock title={t("sidebar.tags")}>
-          <div className="flex flex-wrap gap-2">
-            {facets.tags.slice(0, 14).map((tg) => (
-              <button key={tg.tag} type="button" onClick={() => patch({ tag: query.tag === tg.tag ? "" : tg.tag })}
-                className={`rounded-full px-3 py-1 font-sans text-[12.5px] transition-colors ${
-                  query.tag === tg.tag ? "bg-brown-500 text-creamy-50" : "bg-creamy-200 text-brown-500 hover:bg-creamy-300"
-                }`}>
-                #{tg.tag}
-              </button>
-            ))}
-          </div>
-        </SidebarBlock>
-      ) : null}
-
-      {facets.recent.length > 0 ? (
-        <SidebarBlock title={t("sidebar.recent")}>
-          <ul className="flex flex-col divide-y divide-line">
-            {facets.recent.slice(0, 5).map((a) => (
-              <li key={a.slug}>
-                <Link href={`/articles/${a.slug}`} className="group flex flex-col gap-1 py-2.5">
-                  <span className="font-serif text-[13.5px] font-bold leading-[1.5] text-brown-900 transition-colors group-hover:text-brown-500">
-                    {pickLang(locale, a.title_ar, a.title_en)}
-                  </span>
-                  <span className="font-sans text-[11.5px] text-brown-300">{formatDate(locale, a.published_at)}</span>
-                </Link>
+      {facets.degrees.length > 0 ? (
+        <SidebarBlock title={t("sidebar.degrees")}>
+          <ul className="flex flex-col gap-1">
+            {facets.degrees.map((d) => (
+              <li key={d.degree}>
+                <button type="button" onClick={() => patch({ degree: query.degree === d.degree ? "" : d.degree })}
+                  className={`flex w-full items-center justify-between rounded-lg px-3 py-2 font-sans text-[13.5px] transition-colors ${
+                    query.degree === d.degree ? "bg-brown-500/10 font-bold text-brown-500" : "text-brown-500 hover:bg-creamy-200"
+                  }`}>
+                  <span>{t(`degree.${d.degree}` as "degree.masters")}</span>
+                  <span className="font-archivo text-[12px] text-brown-300" dir="ltr">{d.count}</span>
+                </button>
               </li>
             ))}
           </ul>
+        </SidebarBlock>
+      ) : null}
+
+      {facets.keywords.length > 0 ? (
+        <SidebarBlock title={t("sidebar.keywords")}>
+          <div className="flex flex-wrap gap-2">
+            {facets.keywords.slice(0, 16).map((kw) => (
+              <button key={kw.keyword} type="button" onClick={() => patch({ keyword: query.keyword === kw.keyword ? "" : kw.keyword })}
+                className={`rounded-full px-3 py-1 font-sans text-[12.5px] transition-colors ${
+                  query.keyword === kw.keyword ? "bg-brown-500 text-creamy-50" : "bg-creamy-200 text-brown-500 hover:bg-creamy-300"
+                }`}>
+                #{kw.keyword}
+              </button>
+            ))}
+          </div>
         </SidebarBlock>
       ) : null}
     </aside>
@@ -442,7 +408,7 @@ function SidebarBlock({ title, children }: { title: string; children: React.Reac
 
 /* ── States ── */
 function EmptyState({ filtered, onClear }: { filtered: boolean; onClear: () => void }) {
-  const t = useTranslations("articlesPage");
+  const t = useTranslations("thesesPage");
   return (
     <div className="flex flex-col items-center gap-4 rounded-[24px] border border-dashed border-line bg-card py-20 text-center">
       <span aria-hidden className="text-[40px] text-brown-100">✢</span>
@@ -459,7 +425,7 @@ function EmptyState({ filtered, onClear }: { filtered: boolean; onClear: () => v
 }
 
 function ErrorState({ onRetry }: { onRetry: () => void }) {
-  const t = useTranslations("articlesPage");
+  const t = useTranslations("thesesPage");
   return (
     <div className="flex flex-col items-center gap-3 rounded-[24px] border border-danger/30 bg-danger-tint py-16 text-center">
       <p className="font-serif text-[16px] text-danger">{t("error.text")}</p>
@@ -474,10 +440,10 @@ function ErrorState({ onRetry }: { onRetry: () => void }) {
 function MobileFilters({
   facets, query, patch, onClose, onClear, chipsCount,
 }: {
-  facets: ArticleFacets; query: Query; patch: (p: Partial<Query>) => void;
+  facets: ThesisFacets; query: Query; patch: (p: Partial<Query>) => void;
   onClose: () => void; onClear: () => void; chipsCount: number;
 }) {
-  const t = useTranslations("articlesPage");
+  const t = useTranslations("thesesPage");
   const locale = useLocale();
   useEffect(() => {
     function onKey(e: KeyboardEvent) { if (e.key === "Escape") onClose(); }
@@ -499,10 +465,18 @@ function MobileFilters({
         </div>
 
         <div className="flex flex-col gap-5">
-          <MobileGroup title={t("filters.category")}>
-            {facets.categories.map((c) => (
-              <Choice key={c.slug} active={query.category === c.slug} onClick={() => patch({ category: query.category === c.slug ? "" : c.slug })}
-                label={pickLang(locale, c.name_ar, c.name_en)} count={c.count} />
+          {facets.categories.length > 0 ? (
+            <MobileGroup title={t("filters.category")}>
+              {facets.categories.map((c) => (
+                <Choice key={c.slug} active={query.category === c.slug} onClick={() => patch({ category: query.category === c.slug ? "" : c.slug })}
+                  label={pickLang(locale, c.name_ar, c.name_en)} count={c.count} />
+              ))}
+            </MobileGroup>
+          ) : null}
+          <MobileGroup title={t("filters.degree")}>
+            {facets.degrees.map((d) => (
+              <Choice key={d.degree} active={query.degree === d.degree} onClick={() => patch({ degree: query.degree === d.degree ? "" : d.degree })}
+                label={t(`degree.${d.degree}` as "degree.masters")} count={d.count} />
             ))}
           </MobileGroup>
           <MobileGroup title={t("filters.year")}>
@@ -510,10 +484,10 @@ function MobileFilters({
               <Choice key={y} active={query.year === String(y)} onClick={() => patch({ year: query.year === String(y) ? "" : String(y) })} label={String(y)} />
             ))}
           </MobileGroup>
-          {facets.tags.length > 0 ? (
-            <MobileGroup title={t("sidebar.tags")}>
-              {facets.tags.slice(0, 16).map((tg) => (
-                <Choice key={tg.tag} active={query.tag === tg.tag} onClick={() => patch({ tag: query.tag === tg.tag ? "" : tg.tag })} label={`#${tg.tag}`} />
+          {facets.keywords.length > 0 ? (
+            <MobileGroup title={t("sidebar.keywords")}>
+              {facets.keywords.slice(0, 16).map((kw) => (
+                <Choice key={kw.keyword} active={query.keyword === kw.keyword} onClick={() => patch({ keyword: query.keyword === kw.keyword ? "" : kw.keyword })} label={`#${kw.keyword}`} />
               ))}
             </MobileGroup>
           ) : null}
@@ -552,32 +526,5 @@ function Choice({ active, onClick, label, count }: { active: boolean; onClick: (
       {label}
       {count !== undefined ? <span className="font-archivo text-[11px] opacity-70" dir="ltr">{count}</span> : null}
     </button>
-  );
-}
-
-/* ── Newsletter ── */
-function NewsletterCTA() {
-  const t = useTranslations("articlesPage");
-  const [email, setEmail] = useState("");
-  const [done, setDone] = useState(false);
-  return (
-    <section className="my-20 overflow-hidden rounded-[32px] border border-line bg-brown-500 px-6 py-14 text-center text-creamy-100 md:px-14 md:py-16">
-      <div aria-hidden className="mx-auto mb-4 text-[13px] tracking-[10px] text-creamy-100/40">✢ ✦ ✢</div>
-      <h2 className="text-balance font-serif text-[26px] font-bold md:text-[32px]">{t("newsletter.title")}</h2>
-      <p className="mx-auto mt-3 max-w-[480px] font-serif text-[16px] font-light text-creamy-100/75">{t("newsletter.subtitle")}</p>
-      {done ? (
-        <p className="mt-6 font-serif text-[16px] text-creamy-100" role="status">{t("newsletter.thanks")}</p>
-      ) : (
-        <form className="mx-auto mt-7 flex max-w-[460px] flex-col gap-3 sm:flex-row"
-          onSubmit={(e) => { e.preventDefault(); if (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) setDone(true); }}>
-          <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" dir="ltr" required
-            aria-label={t("newsletter.emailLabel")} placeholder={t("newsletter.placeholder")}
-            className="h-13 flex-1 rounded-full bg-creamy-50 px-5 py-3.5 font-serif text-[15px] text-brown-900 placeholder:text-brown-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-brown-500" />
-          <button type="submit" className="rounded-full bg-red-500 px-7 py-3.5 font-sans text-[14.5px] font-bold text-creamy-50 transition-colors hover:bg-red-600">
-            {t("newsletter.cta")}
-          </button>
-        </form>
-      )}
-    </section>
   );
 }

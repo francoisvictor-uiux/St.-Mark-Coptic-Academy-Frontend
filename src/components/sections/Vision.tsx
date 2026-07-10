@@ -11,7 +11,7 @@ export type VisionData = {
   image1?: string; image2?: string; stats?: StatItem[];
 };
 
-export default function Vision({ data }: { data?: VisionData }) {
+export default function Vision({ data, showStats = true }: { data?: VisionData; showStats?: boolean }) {
   const t = useTranslations("vision");
   const messages = useMessages() as {
     stats: { items: StatItem[] };
@@ -81,6 +81,7 @@ export default function Vision({ data }: { data?: VisionData }) {
         </div>
 
         {/* Stats */}
+        {showStats ? (
         <dl className="grid grid-cols-2 gap-x-6 gap-y-10 py-6 md:py-14 lg:grid-cols-4 lg:justify-items-center">
           {stats.map((stat) => (
             <div key={stat.label} className="flex flex-col items-center gap-2" data-reveal>
@@ -107,6 +108,7 @@ export default function Vision({ data }: { data?: VisionData }) {
             </div>
           ))}
         </dl>
+        ) : null}
       </Reveal>
     </section>
   );

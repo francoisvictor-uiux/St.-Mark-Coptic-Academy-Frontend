@@ -17,14 +17,23 @@ function LogoRow({ logos }: { logos: PartnerLogo[] }) {
   return (
     <>
       {logos.map((p) => (
-        <Image
-          key={p.src}
-          src={p.src}
-          alt={p.name}
-          width={p.w ?? 280}
-          height={112}
-          className="h-20 w-auto shrink-0 object-contain opacity-90 grayscale mix-blend-multiply transition-all duration-300 hover:opacity-100 hover:grayscale-0 md:h-28"
-        />
+        <div key={p.src} className="group relative flex shrink-0 items-center">
+          <Image
+            src={p.src}
+            alt={p.name}
+            width={p.w ?? 280}
+            height={112}
+            style={{ width: "auto", height: "auto" }}
+            className="h-20 max-h-20 w-auto shrink-0 object-contain opacity-90 grayscale mix-blend-multiply transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0 md:h-28 md:max-h-28"
+          />
+          {/* Name reveals on hover of the individual logo (band pauses on hover). */}
+          <span
+            role="tooltip"
+            className="pointer-events-none absolute -top-1 left-1/2 z-10 -translate-x-1/2 -translate-y-full whitespace-nowrap rounded-full bg-ink-900/95 px-3 py-1.5 text-xs font-medium text-creamy-50 opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100"
+          >
+            {p.name}
+          </span>
+        </div>
       ))}
     </>
   );

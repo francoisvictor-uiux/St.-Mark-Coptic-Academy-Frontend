@@ -12,7 +12,7 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "articlesPage" });
-  return { title: t("hero.title"), description: t("hero.subtitle") };
+  return { title: t("hero.title"), description: t("hero.eyebrow") };
 }
 
 export default async function ArticlesPage({
@@ -28,8 +28,8 @@ export default async function ArticlesPage({
     <>
       <Header />
       <main>
-        {/* Breadcrumb */}
-        <nav aria-label={t("breadcrumb.label")} className="mx-auto max-w-[1280px] px-4 pt-6 md:px-8">
+        {/* Breadcrumb — offset below the fixed header (72/84px) so it isn't hidden underneath */}
+        <nav aria-label={t("breadcrumb.label")} className="mx-auto max-w-[1280px] px-4 pt-24 pb-1 md:px-8 md:pt-28">
           <ol className="flex items-center gap-1.5 font-sans text-[13px] text-brown-300">
             <li><Link href="/" className="transition-colors hover:text-brown-500">{t("breadcrumb.home")}</Link></li>
             <li aria-hidden><ChevronRight className="size-3.5 rtl:rotate-180" /></li>

@@ -1,11 +1,15 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { Link } from "@/i18n/navigation";
 import { pickLang, formatDate, type ArticleCard as ArticleCardData } from "@/lib/public-content";
-import { useBookmarks } from "@/lib/bookmarks";
-import { BookmarkIcon, ShareIcon, EyeIcon, ClockIcon, ArrowIcon } from "./icons";
+import { ShareIcon, EyeIcon, ClockIcon } from "./icons";
+
+gsap.registerPlugin(useGSAP);
 
 function formatViews(n: number, locale: string) {
   if (n >= 1000) return `${(n / 1000).toFixed(1)}${locale === "ar" ? " ألف" : "k"}`;
@@ -15,9 +19,39 @@ function formatViews(n: number, locale: string) {
 export default function ArticleCard({ article }: { article: ArticleCardData }) {
   const t = useTranslations("articlesPage");
   const locale = useLocale();
-  const { has, toggle } = useBookmarks();
-  const bookmarked = has(article.slug);
   const href = `/articles/${article.slug}`;
+  const cardRef = useRef<HTMLElement>(null);
+
+  // Simple, smooth hover: a gentle lift + subtle image zoom, driven by GSAP.
+  useGSAP(
+    (_ctx, contextSafe) => {
+      const card = cardRef.current;
+      if (!card || !contextSafe) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      const media = card.querySelector<HTMLElement>("[data-card-media]");
+      const enter = contextSafe(() => {
+        gsap.to(card, { y: -6, duration: 0.4, ease: "power2.out" });
+        if (media) gsap.to(media, { scale: 1.05, duration: 0.5, ease: "power2.out" });
+      });
+      const leave = contextSafe(() => {
+        gsap.to(card, { y: 0, duration: 0.4, ease: "power2.out" });
+        if (media) gsap.to(media, { scale: 1, duration: 0.5, ease: "power2.out" });
+      });
+
+      card.addEventListener("pointerenter", enter);
+      card.addEventListener("pointerleave", leave);
+      card.addEventListener("focusin", enter);
+      card.addEventListener("focusout", leave);
+      return () => {
+        card.removeEventListener("pointerenter", enter);
+        card.removeEventListener("pointerleave", leave);
+        card.removeEventListener("focusin", enter);
+        card.removeEventListener("focusout", leave);
+      };
+    },
+    { scope: cardRef },
+  );
 
   async function share(e: React.MouseEvent) {
     e.preventDefault();
@@ -32,18 +66,22 @@ export default function ArticleCard({ article }: { article: ArticleCardData }) {
   }
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-[24px] border border-line bg-card transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_-24px_rgba(86,40,35,0.5)] focus-within:-translate-y-1">
+    <article ref={cardRef} className="group relative flex flex-col overflow-hidden rounded-[24px] border border-line bg-card will-change-transform">
       <Link href={href} aria-hidden="true" tabIndex={-1} className="relative block aspect-[16/10] overflow-hidden bg-creamy-300">
         {article.cover ? (
           <Image
+            data-card-media
             src={article.cover.url}
             alt=""
             fill
             sizes="(min-width:1024px) 360px, (min-width:640px) 45vw, 92vw"
-            className="object-cover transition-transform duration-[600ms] ease-out group-hover:scale-[1.06] motion-reduce:group-hover:scale-100"
+            className="object-cover will-change-transform"
           />
         ) : (
-          <span className="flex h-full items-center justify-center text-[34px] text-brown-100">✢</span>
+          <div aria-hidden className="relative flex h-full items-center justify-center bg-gradient-to-br from-creamy-200 to-creamy-400">
+            <span className="absolute inset-0 opacity-[0.10]" style={{ backgroundImage: "url(/Pattern.svg)", backgroundSize: "180px" }} />
+            <span data-card-media className="relative text-[42px] text-brown-300/70 will-change-transform">✢</span>
+          </div>
         )}
         {article.category ? (
           <span className="absolute top-3.5 start-3.5 rounded-full bg-creamy-50/95 px-3 py-1 font-sans text-[12px] font-bold text-brown-500 backdrop-blur">
@@ -51,21 +89,6 @@ export default function ArticleCard({ article }: { article: ArticleCardData }) {
           </span>
         ) : null}
       </Link>
-
-      {/* Floating bookmark */}
-      <button
-        type="button"
-        onClick={(e) => { e.preventDefault(); toggle(article.slug); }}
-        aria-pressed={bookmarked}
-        aria-label={bookmarked ? t("card.bookmarked") : t("card.bookmark")}
-        className={`absolute end-3.5 top-3.5 flex size-9 items-center justify-center rounded-full border backdrop-blur transition-colors ${
-          bookmarked
-            ? "border-red-500 bg-red-500 text-creamy-50"
-            : "border-line bg-creamy-50/90 text-brown-400 hover:text-brown-900"
-        }`}
-      >
-        <BookmarkIcon filled={bookmarked} className="size-[18px]" />
-      </button>
 
       <div className="flex flex-1 flex-col gap-3 p-5">
         <h3 className="font-serif text-[19px] font-bold leading-[1.5] text-brown-900 transition-colors group-hover:text-brown-500">

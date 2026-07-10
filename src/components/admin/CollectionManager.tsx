@@ -17,9 +17,15 @@ export type FieldDef = {
   key: string;
   /** message key under `<ns>.fields.` */
   labelKey: string;
-  type: "text" | "textarea" | "ltr" | "number" | "select" | "media";
+  type: "text" | "textarea" | "ltr" | "number" | "select" | "media" | "tags";
   required?: boolean;
-  options?: { value: string; labelKey: string }[];
+  /** For `select`: static options translated via `<ns>.options.<labelKey>`,
+   * or dynamic options carrying a ready-to-render `label`. */
+  options?: { value: string; labelKey?: string; label?: string }[];
+  /** For `select`: allow an empty choice (sends `null` instead of `""`). */
+  nullable?: boolean;
+  /** For `select`: enable the searchable combobox (default off). */
+  searchable?: boolean;
 };
 
 type BaseItem = {
@@ -88,6 +94,13 @@ export default function CollectionManager<T extends BaseItem>({
         const rel = (item as Record<string, unknown>)[field.key.replace(/_id$/, "")] as MediaAsset | null;
         next[field.key] = rel?.id ?? null;
         if (rel?.url) preview[field.key] = rel.url;
+      } else if (field.type === "tags") {
+        const arr = (item as Record<string, unknown>)[field.key];
+        next[field.key] = Array.isArray(arr) ? arr.join("، ") : "";
+      } else if (field.type === "select" && field.key.endsWith("_id")) {
+        // Relational select — read the id off the nested object (e.g. category_id ← category).
+        const rel = (item as Record<string, unknown>)[field.key.replace(/_id$/, "")] as { id: string } | null;
+        next[field.key] = rel?.id ?? "";
       } else {
         next[field.key] = (item as Record<string, unknown>)[field.key] ?? "";
       }
@@ -107,7 +120,18 @@ export default function CollectionManager<T extends BaseItem>({
       const payload: Record<string, unknown> = {};
       for (const field of fields) {
         const raw = form[field.key];
-        payload[field.key] = field.type === "number" ? Number(raw) || 0 : raw ?? "";
+        if (field.type === "number") {
+          payload[field.key] = Number(raw) || 0;
+        } else if (field.type === "tags") {
+          payload[field.key] = String(raw ?? "")
+            .split(/[,،]/)
+            .map((s) => s.trim())
+            .filter(Boolean);
+        } else if (field.type === "select" && field.nullable) {
+          payload[field.key] = raw ? raw : null;
+        } else {
+          payload[field.key] = raw ?? "";
+        }
       }
       if (editing === "new") {
         await api.create(payload);
@@ -231,14 +255,14 @@ export default function CollectionManager<T extends BaseItem>({
                 ) : field.type === "select" ? (
                   <SearchableSelect
                     size="sm"
-                    searchable={false}
+                    searchable={field.searchable ?? false}
                     placeholder=""
                     ariaLabel={t(`fields.${field.labelKey}` as "fields")}
                     value={String(form[field.key] ?? "") || null}
                     onChange={(v) => setForm((f) => ({ ...f, [field.key]: v ?? "" }))}
                     options={(field.options ?? []).map((o) => ({
                       value: o.value,
-                      label: t(`options.${o.labelKey}` as "options"),
+                      label: o.label ?? t(`options.${o.labelKey}` as "options"),
                     }))}
                   />
                 ) : field.type === "media" ? (

@@ -652,7 +652,7 @@
   },
   "admin": {
     "shell": {
-      "title": "Academy Admin Console",
+      "title": "Academy Website Admin Panel",
       "breadcrumb": "St. Mark Coptic Academy — Admin Console",
       "nav": {
         "users": "Users",
@@ -1477,7 +1477,11 @@
         "year": "Year",
         "titleEn": "Title (English)",
         "researcherEn": "Researcher (English)",
-        "institutionEn": "Institution (English)"
+        "institutionEn": "Institution (English)",
+        "category": "Category",
+        "abstractAr": "Abstract",
+        "keywords": "Keywords (comma-separated)",
+        "fileUrl": "File link (PDF)"
       },
       "options": {
         "masters": "Master's",
@@ -1491,7 +1495,8 @@
         "deleted": "Deleted",
         "published": "Now visible",
         "unpublished": "Hidden"
-      }
+      },
+      "noCategory": "No category"
     },
     "programsAdmin": {
       "publishedBadge": "Visible — click to hide",
@@ -1548,11 +1553,28 @@
         "gallery": "Gallery"
       },
       "groups": {
+        "visibility": "Show & hide sections",
         "hero": "Hero",
         "vision": "Vision & photos",
         "stats": "Statistics",
         "features": "Academy features",
         "sections": "Other section headings"
+      },
+      "visibilityHint": "Control which sections appear on the home page — enabled sections are shown to visitors",
+      "sectionNames": {
+        "hero": "Hero",
+        "partners": "Partners",
+        "vision": "Vision",
+        "stats": "Stats",
+        "programs": "Programs",
+        "theses": "Theses",
+        "features": "Features",
+        "articles": "Articles",
+        "testimonials": "Testimonials",
+        "gallery": "Gallery",
+        "events": "Events",
+        "apply": "Apply form",
+        "faq": "FAQ"
       },
       "emptyFallback": "Leave empty for the original copy",
       "fallbackNote": "Any empty field shows the originally designed text — you can't break anything",
@@ -1704,8 +1726,7 @@
     },
     "hero": {
       "eyebrow": "The Academy Digital Library",
-      "title": "Articles & Academic Publications",
-      "subtitle": "Theological articles, academic papers, and church publications — from the Academy's journal and scholarly periodicals.",
+      "title": "Articles & Topics",
       "searchLabel": "Search articles",
       "searchPlaceholder": "Search an article, topic, or author…",
       "searchHint": "Press /",
@@ -1779,11 +1800,80 @@
     },
     "newsletter": {
       "title": "Subscribe to the Academy newsletter",
-      "subtitle": "Get the latest articles and academic publications in your inbox.",
+      "subtitle": "Get the latest articles in your inbox.",
       "emailLabel": "Email",
       "placeholder": "name@example.com",
       "cta": "Subscribe",
       "thanks": "Thanks for subscribing — the newsletter is on its way."
+    }
+  },
+  "thesesPage": {
+    "breadcrumb": {
+      "label": "Breadcrumb",
+      "home": "Home",
+      "theses": "Theses Library"
+    },
+    "hero": {
+      "eyebrow": "The Academy's Digital Library",
+      "title": "Theses Library",
+      "searchLabel": "Search theses",
+      "searchPlaceholder": "Search by thesis, researcher, or institution…",
+      "searchHint": "Press /",
+      "statTheses": "published theses",
+      "statCategories": "categories",
+      "statYears": "years"
+    },
+    "filters": {
+      "filters": "Filters",
+      "category": "Category",
+      "allCategories": "All categories",
+      "degree": "Degree",
+      "allDegrees": "All degrees",
+      "year": "Year",
+      "allYears": "All years",
+      "sortBy": "Sort by",
+      "sort": {
+        "newest": "Newest",
+        "oldest": "Oldest",
+        "updated": "Recently updated",
+        "alphabetical": "Alphabetical"
+      },
+      "clearAll": "Clear all",
+      "close": "Close",
+      "apply": "Show results"
+    },
+    "degree": {
+      "masters": "Master's",
+      "doctorate": "Doctorate"
+    },
+    "results": {
+      "count": "{count} theses",
+      "loading": "Loading…"
+    },
+    "card": {
+      "researcher": "Researcher",
+      "institution": "Institution",
+      "download": "Download thesis",
+      "noFile": "Not available"
+    },
+    "sidebar": {
+      "categories": "Categories",
+      "degrees": "Degrees",
+      "keywords": "Keywords"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "prev": "Previous",
+      "next": "Next"
+    },
+    "empty": {
+      "none": "No theses published yet — check back soon.",
+      "filtered": "No theses match your search. Try adjusting the filters.",
+      "clear": "Clear filters"
+    },
+    "error": {
+      "text": "Couldn't load theses — check your connection.",
+      "retry": "Retry"
     }
   }
 }

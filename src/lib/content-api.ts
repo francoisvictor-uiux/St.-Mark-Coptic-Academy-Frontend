@@ -397,6 +397,10 @@ export type Thesis = {
   degree: "masters" | "doctorate";
   institution_ar: string; institution_en: string;
   year: number;
+  category: Category | null;
+  abstract_ar: string; abstract_en: string;
+  keywords: string[];
+  file_url: string;
   sort_order: number; is_published: boolean; created_at: string;
 };
 
@@ -446,12 +450,20 @@ export const programsApi = collectionApi<Program>("/admin/programs", "programs")
 
 // ─── Nested homepage settings (v2) ───
 
+/** Homepage sections that can be shown/hidden, in page render order. */
+export const HOME_SECTION_KEYS = [
+  "hero", "partners", "vision", "stats", "programs", "theses", "features",
+  "articles", "testimonials", "gallery", "events", "apply", "faq",
+] as const;
+export type HomeSectionKey = (typeof HOME_SECTION_KEYS)[number];
+
 export type HomeSettings = {
   hero?: Record<string, string>;
   vision?: Record<string, string>;
   sections?: Record<string, string>;
   stats?: { value: number; label_ar: string; label_en: string }[];
   features?: { title_ar: string; title_en: string; summary_ar: string; summary_en: string; body_ar: string; body_en: string }[];
+  visibility?: Partial<Record<HomeSectionKey, boolean>>;
 };
 
 export function getHomeSettings() {

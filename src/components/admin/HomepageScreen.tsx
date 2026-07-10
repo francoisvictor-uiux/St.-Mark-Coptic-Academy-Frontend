@@ -9,6 +9,8 @@ import {
   partnersApi,
   saveHomeSettings,
   testimonialsApi,
+  HOME_SECTION_KEYS,
+  type HomeSectionKey,
   type HomeSettings,
 } from "@/lib/content-api";
 import { SpinnerIcon, ChevronDownIcon } from "@/components/auth/icons";
@@ -82,6 +84,7 @@ function TextsEditor() {
           sections: value.sections ?? {},
           stats: value.stats ?? [],
           features: value.features ?? [],
+          visibility: value.visibility ?? {},
         });
       })
       .catch(() => setError(true));
@@ -98,6 +101,14 @@ function TextsEditor() {
 
   function patchGroup(group: "hero" | "vision" | "sections", key: string, value: string) {
     setSettings((s) => (s ? { ...s, [group]: { ...s[group], [key]: value } } : s));
+  }
+
+  // A section is visible unless explicitly set to false.
+  const isVisible = (key: HomeSectionKey) => settings?.visibility?.[key] !== false;
+  function toggleSection(key: HomeSectionKey) {
+    setSettings((s) =>
+      s ? { ...s, visibility: { ...s.visibility, [key]: s.visibility?.[key] === false } } : s
+    );
   }
 
   function renderFields(group: "hero" | "vision" | "sections", keys: string[]) {
@@ -144,6 +155,7 @@ function TextsEditor() {
         sections: homepage.sections ?? {},
         stats: homepage.stats ?? [],
         features: homepage.features ?? [],
+        visibility: homepage.visibility ?? {},
       });
       toast("success", t("saved"));
     } catch (err) {
@@ -157,7 +169,37 @@ function TextsEditor() {
     <div className="space-y-4">
       <p className="rounded-xl bg-blue-50 px-4 py-2.5 text-[12.5px] text-blue-500">{t("fallbackNote")}</p>
 
-      <Accordion title={t("groups.hero")} defaultOpen>
+      <Accordion title={t("groups.visibility")} defaultOpen>
+        <p className="mb-1 text-[12.5px] text-brown-300">{t("visibilityHint")}</p>
+        <ul className="divide-y divide-line">
+          {HOME_SECTION_KEYS.map((key) => {
+            const on = isVisible(key);
+            return (
+              <li key={key} className="flex items-center justify-between py-2.5">
+                <span className="text-[14px] font-bold text-brown-900">{t(`sectionNames.${key}` as "sectionNames")}</span>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={on}
+                  aria-label={t(`sectionNames.${key}` as "sectionNames")}
+                  onClick={() => toggleSection(key)}
+                  className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${
+                    on ? "bg-brown-500" : "bg-creamy-300"
+                  }`}
+                >
+                  <span
+                    className={`inline-block size-5 rounded-full bg-white shadow transition-transform ${
+                      on ? "translate-x-[22px] rtl:-translate-x-[22px]" : "translate-x-0.5 rtl:-translate-x-0.5"
+                    }`}
+                  />
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </Accordion>
+
+      <Accordion title={t("groups.hero")}>
         {renderFields("hero", HERO_KEYS)}
       </Accordion>
 

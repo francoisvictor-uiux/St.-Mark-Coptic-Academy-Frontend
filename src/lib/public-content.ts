@@ -113,6 +113,63 @@ export async function getArticleBySlug(slug: string): Promise<PublicArticleDetai
   }
 }
 
+// ── مكتبة الرسائل (Theses library): faceted query ──
+
+export type ThesisDegree = "masters" | "doctorate";
+
+export type ThesisCard = {
+  id: string;
+  title_ar: string;
+  title_en: string;
+  researcher_ar: string;
+  researcher_en: string;
+  degree: ThesisDegree;
+  institution_ar: string;
+  institution_en: string;
+  year: number;
+  category: { slug: string; name_ar: string; name_en: string } | null;
+  abstract_ar: string;
+  abstract_en: string;
+  keywords: string[];
+  file_url: string;
+  created_at: string;
+};
+
+export type ThesisFacets = {
+  total_theses: number;
+  categories: { slug: string; name_ar: string; name_en: string; count: number }[];
+  degrees: { degree: ThesisDegree; count: number }[];
+  years: number[];
+  keywords: { keyword: string; count: number }[];
+};
+
+export type ThesesResponse = {
+  results: ThesisCard[];
+  page: number;
+  pages: number;
+  total: number;
+  facets: ThesisFacets;
+};
+
+export type ThesisQuery = {
+  q?: string; category?: string; degree?: string; year?: string;
+  keyword?: string; sort?: string; page?: number; page_size?: number;
+};
+
+const EMPTY_THESES: ThesesResponse = {
+  results: [], page: 1, pages: 1, total: 0,
+  facets: { total_theses: 0, categories: [], degrees: [], years: [], keywords: [] },
+};
+
+export async function queryTheses(params: ThesisQuery): Promise<ThesesResponse> {
+  const search = new URLSearchParams();
+  for (const [k, v] of Object.entries(params)) {
+    if (v !== undefined && v !== "" && v !== null) search.set(k, String(v));
+  }
+  const qs = search.toString();
+  return safeFetch<ThesesResponse>(`/content/theses${qs ? `?${qs}` : ""}`, EMPTY_THESES);
+}
+
 export async function getPublishedEvents(scope?: "upcoming" | "past"): Promise<PublicEvent[]> {
   return safeFetch<PublicEvent[]>(`/content/events${scope ? `?scope=${scope}` : ""}`, []);
 }
@@ -274,6 +331,7 @@ export type HomeData = {
     sections?: Record<string, string>;
     stats?: { value: number; label_ar: string; label_en: string }[];
     features?: Record<string, string>[];
+    visibility?: Record<string, boolean>;
   };
   testimonials: { name_ar: string; name_en: string; role_ar: string; role_en: string; quote_ar: string; quote_en: string }[];
   partners: { name_ar: string; name_en: string; url: string; logo: PublicMedia | null }[];
@@ -296,11 +354,27 @@ function pickField(group: Record<string, string> | undefined, base: string, loca
   return (locale === "en" ? en || ar : ar) || undefined;
 }
 
+/** Homepage section keys that can be shown/hidden (page render order). */
+export const HOME_SECTION_KEYS = [
+  "hero", "partners", "vision", "stats", "programs", "theses", "features",
+  "articles", "testimonials", "gallery", "events", "apply", "faq",
+] as const;
+export type HomeSectionKey = (typeof HOME_SECTION_KEYS)[number];
+
+/** Resolve per-section visibility; a section shows unless explicitly hidden. */
+export function homeVisibility(data: HomeData): Record<HomeSectionKey, boolean> {
+  const v = data.settings?.visibility ?? {};
+  return Object.fromEntries(
+    HOME_SECTION_KEYS.map((k) => [k, v[k] !== false])
+  ) as Record<HomeSectionKey, boolean>;
+}
+
 export function mapHome(data: HomeData, locale: string) {
   const s = data.settings;
   const sec = (base: string) => pickField(s.sections, base, locale);
 
   return {
+    visibility: homeVisibility(data),
     hero: {
       eyebrow: pickField(s.hero, "eyebrow", locale),
       title: pickField(s.hero, "title", locale),

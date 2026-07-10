@@ -1,5 +1,19 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import ComingSoon from "@/components/ui/ComingSoon";
+import { Link } from "@/i18n/navigation";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import ThesesExplorer from "@/components/theses/ThesesExplorer";
+import { ChevronRight } from "@/components/articles/icons";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "thesesPage" });
+  return { title: t("hero.title"), description: t("hero.eyebrow") };
+}
 
 export default async function ThesesPage({
   params,
@@ -8,6 +22,24 @@ export default async function ThesesPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("theses");
-  return <ComingSoon title={t("label")} />;
+  const t = await getTranslations("thesesPage");
+
+  return (
+    <>
+      <Header />
+      <main>
+        {/* Breadcrumb — offset below the fixed header so it isn't hidden underneath */}
+        <nav aria-label={t("breadcrumb.label")} className="mx-auto max-w-[1280px] px-4 pt-24 pb-1 md:px-8 md:pt-28">
+          <ol className="flex items-center gap-1.5 font-sans text-[13px] text-brown-300">
+            <li><Link href="/" className="transition-colors hover:text-brown-500">{t("breadcrumb.home")}</Link></li>
+            <li aria-hidden><ChevronRight className="size-3.5 rtl:rotate-180" /></li>
+            <li className="font-bold text-brown-500" aria-current="page">{t("breadcrumb.theses")}</li>
+          </ol>
+        </nav>
+
+        <ThesesExplorer />
+      </main>
+      <Footer />
+    </>
+  );
 }

@@ -5,6 +5,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { AuthProvider } from "@/lib/auth-context";
 import Preloader from "@/components/layout/Preloader";
+import ScrollToTop from "@/components/layout/ScrollToTop";
 import {
   thmanyahSans,
   thmanyahSerifText,
@@ -55,6 +56,7 @@ export default async function LocaleLayout({
       <body className="min-h-screen">
         <NextIntlClientProvider>
           <AuthProvider>
+            <ScrollToTop />
             <Preloader />
             {children}
           </AuthProvider>

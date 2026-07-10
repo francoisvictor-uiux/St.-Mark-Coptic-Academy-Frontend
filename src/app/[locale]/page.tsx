@@ -40,23 +40,24 @@ export default async function HomePage({
     getHomeData(),
   ]);
   const cms = mapHome(home, locale);
+  const show = cms.visibility;
 
   return (
     <>
       <Header />
       <main>
-        <Hero overrides={cms.hero} />
-        <Partners items={cms.partners.items} label={cms.partners.label} />
-        <Vision data={cms.vision} />
-        <Programs items={cms.programs.items} labels={cms.programs.labels} />
-        <Theses items={cms.theses.items} labels={cms.theses.labels} />
-        <Features items={cms.features.items} labels={cms.features.labels} />
-        <Articles items={toSectionArticles(articles, locale)} />
-        <Testimonials items={cms.testimonials.items} labels={cms.testimonials.labels} />
-        <Gallery images={cms.gallery.images} labels={cms.gallery.labels} />
-        <Events items={toSectionEvents(events, locale)} />
-        <ApplyForm labels={cms.apply.labels} programOptions={cms.apply.programOptions} />
-        <Faq items={toSectionFaqs(faqs, locale)} />
+        {show.hero ? <Hero overrides={cms.hero} /> : null}
+        {show.partners ? <Partners items={cms.partners.items} label={cms.partners.label} /> : null}
+        {show.vision ? <Vision data={cms.vision} showStats={show.stats} /> : null}
+        {show.programs ? <Programs items={cms.programs.items} labels={cms.programs.labels} /> : null}
+        {show.theses ? <Theses items={cms.theses.items} labels={cms.theses.labels} /> : null}
+        {show.features ? <Features items={cms.features.items} labels={cms.features.labels} /> : null}
+        {show.articles ? <Articles items={toSectionArticles(articles, locale)} /> : null}
+        {show.testimonials ? <Testimonials items={cms.testimonials.items} labels={cms.testimonials.labels} /> : null}
+        {show.gallery ? <Gallery images={cms.gallery.images} labels={cms.gallery.labels} /> : null}
+        {show.events ? <Events items={toSectionEvents(events, locale)} /> : null}
+        {show.apply ? <ApplyForm labels={cms.apply.labels} programOptions={cms.apply.programOptions} /> : null}
+        {show.faq ? <Faq items={toSectionFaqs(faqs, locale)} /> : null}
       </main>
       <Footer />
     </>

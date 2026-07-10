@@ -1,19 +1,48 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { Link } from "@/i18n/navigation";
 import { pickLang, formatDate, type ArticleCard as ArticleData } from "@/lib/public-content";
-import { useBookmarks } from "@/lib/bookmarks";
-import { BookmarkIcon, ShareIcon, ClockIcon, ArrowIcon } from "./icons";
+import { ShareIcon, ClockIcon, ArrowIcon } from "./icons";
+
+gsap.registerPlugin(useGSAP);
 
 /** Lead editorial card — large, image-forward. `wide` spans two grid columns. */
 export default function FeaturedCard({ article, wide }: { article: ArticleData; wide?: boolean }) {
   const t = useTranslations("articlesPage");
   const locale = useLocale();
-  const { has, toggle } = useBookmarks();
-  const bookmarked = has(article.slug);
   const href = `/articles/${article.slug}`;
+  const cardRef = useRef<HTMLElement>(null);
+
+  // Simple, smooth hover: a subtle cover zoom + slight brighten, driven by GSAP.
+  useGSAP(
+    (_ctx, contextSafe) => {
+      const card = cardRef.current;
+      if (!card || !contextSafe) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      const media = card.querySelector<HTMLElement>("[data-featured-media]");
+      if (!media) return;
+      const enter = contextSafe(() => gsap.to(media, { scale: 1.05, opacity: 0.72, duration: 0.6, ease: "power2.out" }));
+      const leave = contextSafe(() => gsap.to(media, { scale: 1, opacity: 0.62, duration: 0.6, ease: "power2.out" }));
+
+      card.addEventListener("pointerenter", enter);
+      card.addEventListener("pointerleave", leave);
+      card.addEventListener("focusin", enter);
+      card.addEventListener("focusout", leave);
+      return () => {
+        card.removeEventListener("pointerenter", enter);
+        card.removeEventListener("pointerleave", leave);
+        card.removeEventListener("focusin", enter);
+        card.removeEventListener("focusout", leave);
+      };
+    },
+    { scope: cardRef },
+  );
 
   async function share(e: React.MouseEvent) {
     e.preventDefault();
@@ -25,7 +54,8 @@ export default function FeaturedCard({ article, wide }: { article: ArticleData; 
 
   return (
     <article
-      className={`group relative flex min-h-[320px] overflow-hidden rounded-[28px] border border-line bg-brown-900 text-creamy-100 transition-shadow duration-300 hover:shadow-[0_24px_60px_-28px_rgba(36,17,15,0.7)] ${
+      ref={cardRef}
+      className={`group relative flex min-h-[320px] overflow-hidden rounded-[28px] border border-line bg-brown-900 text-creamy-100 ${
         wide ? "md:min-h-[420px]" : ""
       }`}
     >
@@ -33,15 +63,19 @@ export default function FeaturedCard({ article, wide }: { article: ArticleData; 
       <Link href={href} aria-hidden="true" tabIndex={-1} className="absolute inset-0">
         {article.cover ? (
           <Image
+            data-featured-media
             src={article.cover.url}
             alt=""
             fill
             sizes={wide ? "(min-width:1024px) 760px, 100vw" : "(min-width:1024px) 380px, 100vw"}
-            className="object-cover opacity-[0.62] transition-[transform,opacity] duration-[700ms] ease-out group-hover:scale-[1.04] group-hover:opacity-70 motion-reduce:group-hover:scale-100"
+            className="object-cover opacity-[0.62] will-change-transform"
             priority
           />
         ) : (
-          <span className="flex h-full items-center justify-center bg-brown-600 text-[44px] text-creamy-100/30">✢</span>
+          <div aria-hidden className="relative flex h-full items-center justify-center bg-gradient-to-br from-brown-700 to-brown-900">
+            <span className="absolute inset-0 opacity-[0.12]" style={{ backgroundImage: "url(/Pattern.svg)", backgroundSize: "220px" }} />
+            <span className="relative text-[46px] text-creamy-100/25">✢</span>
+          </div>
         )}
         <span aria-hidden className="absolute inset-0 bg-[linear-gradient(to_top,rgba(36,17,15,0.95),rgba(36,17,15,0.55)_45%,rgba(36,17,15,0.15)_78%)]" />
       </Link>
@@ -52,17 +86,6 @@ export default function FeaturedCard({ article, wide }: { article: ArticleData; 
           ✦ {t("featured.badge")}
         </span>
         <span className="pointer-events-auto flex gap-2">
-          <button
-            type="button"
-            onClick={(e) => { e.preventDefault(); toggle(article.slug); }}
-            aria-pressed={bookmarked}
-            aria-label={bookmarked ? t("card.bookmarked") : t("card.bookmark")}
-            className={`flex size-9 items-center justify-center rounded-full border backdrop-blur transition-colors ${
-              bookmarked ? "border-red-500 bg-red-500 text-creamy-50" : "border-creamy-100/30 bg-brown-900/40 text-creamy-100 hover:bg-brown-900/70"
-            }`}
-          >
-            <BookmarkIcon filled={bookmarked} className="size-[18px]" />
-          </button>
           <button
             type="button"
             onClick={share}

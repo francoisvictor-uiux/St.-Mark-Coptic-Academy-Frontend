@@ -10,19 +10,32 @@ import { Link, usePathname, useRouter } from "@/i18n/navigation";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
+// Real pages route to their dedicated route; homepage-only sections (About,
+// FAQ) route to the home page anchor so they work from any page.
 const NAV_ITEMS = [
-  { key: "about", href: "#vision" },
-  { key: "programs", href: "#programs" },
-  { key: "theses", href: "#theses" },
-  { key: "articles", href: "#articles" },
-  { key: "events", href: "#events" },
-  { key: "faq", href: "#faq" },
+  { key: "about", href: "/about" },
+  { key: "programs", href: "/programs" },
+  { key: "theses", href: "/theses" },
+  { key: "articles", href: "/articles" },
+  { key: "events", href: "/events" },
+  { key: "faq", href: "/#faq" },
 ] as const;
+
+// Highlight the current page. Home-anchor items (path "/") are skipped since
+// the home page hosts several of them.
+function useIsActive(pathname: string) {
+  return (href: string) => {
+    const path = href.split("#")[0].replace(/\/+$/, "") || "/";
+    if (path === "/") return false;
+    return pathname === path || pathname.startsWith(`${path}/`);
+  };
+}
 
 export default function Header() {
   const t = useTranslations("nav");
   const locale = useLocale();
   const pathname = usePathname();
+  const isActive = useIsActive(pathname);
   const router = useRouter();
   const headerRef = useRef<HTMLElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -70,21 +83,23 @@ export default function Header() {
       className="group/header fixed inset-x-0 top-0 z-50 border-b border-transparent bg-transparent transition-all duration-300 data-scrolled:border-line/60 data-scrolled:bg-creamy-100/90 data-scrolled:shadow-[0_1px_0_0_rgba(86,40,35,0.04)] data-scrolled:backdrop-blur-md"
     >
       <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-4 px-4 md:h-[84px] md:px-8">
-        {/* Logo */}
-        <a href="#top" className="flex shrink-0 items-center gap-3" aria-label={t("home")}>
+        {/* Logo — routes to the home page from any page */}
+        <Link href="/" className="flex shrink-0 items-center gap-3" aria-label={t("home")}>
           <Image src="/Logo.svg" alt="" width={48} height={48} className="size-10 md:size-12" priority />
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <nav aria-label="Main" className="hidden items-center gap-7 lg:flex">
           {NAV_ITEMS.map((item) => (
-            <a
+            <Link
               key={item.key}
               href={item.href}
-              className="font-serif text-[16px] text-brown-400 transition-colors hover:text-brown-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brown-500"
+              aria-current={isActive(item.href) ? "page" : undefined}
+              data-active={isActive(item.href) ? "true" : undefined}
+              className="font-serif text-[16px] text-brown-400 transition-colors hover:text-brown-500 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brown-500 data-active:font-bold data-active:text-brown-500"
             >
               {t(item.key)}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -178,14 +193,16 @@ export default function Header() {
         >
           <nav aria-label="Mobile" className="flex flex-col gap-1 px-4 py-4">
             {NAV_ITEMS.map((item) => (
-              <a
+              <Link
                 key={item.key}
                 href={item.href}
                 onClick={closeMenu}
-                className="rounded-2xl px-4 py-3 font-serif text-lg text-brown-500 transition-colors hover:bg-brown-500/5"
+                aria-current={isActive(item.href) ? "page" : undefined}
+                data-active={isActive(item.href) ? "true" : undefined}
+                className="rounded-2xl px-4 py-3 font-serif text-lg text-brown-500 transition-colors hover:bg-brown-500/5 data-active:bg-brown-500/10 data-active:font-bold"
               >
                 {t(item.key)}
-              </a>
+              </Link>
             ))}
             <div className="mt-3 flex gap-2 border-t border-line/60 pt-4">
               <Link

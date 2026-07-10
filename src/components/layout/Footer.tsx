@@ -2,14 +2,16 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import LogoMark from "@/components/ui/LogoMark";
 
+// Dedicated pages route to their route; homepage-only sections route to the
+// home page anchor so every link works from any page.
 const QUICK_LINKS = [
-  { key: "home", href: "#top" },
-  { key: "about", href: "#vision" },
-  { key: "features", href: "#features" },
-  { key: "programs", href: "#programs" },
-  { key: "campus", href: "#top" },
-  { key: "articles", href: "#articles" },
-  { key: "contact", href: "#apply" },
+  { key: "home", href: "/" },
+  { key: "about", href: "/about" },
+  { key: "features", href: "/#features" },
+  { key: "programs", href: "/programs" },
+  { key: "campus", href: "/#vision" },
+  { key: "articles", href: "/articles" },
+  { key: "contact", href: "/#apply" },
 ] as const;
 
 export default function Footer() {
@@ -39,12 +41,12 @@ export default function Footer() {
               <ul className="flex flex-wrap gap-x-5 gap-y-2">
                 {QUICK_LINKS.map((link) => (
                   <li key={link.key}>
-                    <a
+                    <Link
                       href={link.href}
                       className="font-serif text-[16px] font-light text-creamy-100/90 transition-colors hover:text-creamy-50 md:text-[18.4px]"
                     >
                       {t(`links.${link.key}`)}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

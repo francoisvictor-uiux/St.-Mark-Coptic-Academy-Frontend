@@ -130,7 +130,6 @@ export default function ArticlesExplorer() {
   if (query.author) chips.push({ key: "auth", label: authorName(query.author), clear: () => patch({ author: "" }) });
   if (query.year) chips.push({ key: "year", label: query.year, clear: () => patch({ year: "" }) });
   if (query.tag) chips.push({ key: "tag", label: `#${query.tag}`, clear: () => patch({ tag: "" }) });
-  if (query.reading_time) chips.push({ key: "rt", label: t(`filters.reading.${query.reading_time}` as "filters.reading.short"), clear: () => patch({ reading_time: "" }) });
 
   const stats = [
     { value: facets.total_articles, label: t("hero.statArticles") },
@@ -219,9 +218,6 @@ export default function ArticlesExplorer() {
                 <FilterSelect label={t("filters.year")} value={query.year} searchable={false}
                   onChange={(v) => patch({ year: v })} placeholder={t("filters.allYears")}
                   options={facets.years.map((y) => ({ value: String(y), label: String(y) }))} />
-                <FilterSelect label={t("filters.readingTime")} value={query.reading_time} searchable={false}
-                  onChange={(v) => patch({ reading_time: v })} placeholder={t("filters.anyLength")}
-                  options={["short", "medium", "long"].map((r) => ({ value: r, label: t(`filters.reading.${r}` as "filters.reading.short") }))} />
               </div>
 
               {/* Mobile filter trigger */}
@@ -539,12 +535,6 @@ function MobileFilters({
           <MobileGroup title={t("filters.year")}>
             {facets.years.map((y) => (
               <Choice key={y} active={query.year === String(y)} onClick={() => patch({ year: query.year === String(y) ? "" : String(y) })} label={String(y)} />
-            ))}
-          </MobileGroup>
-          <MobileGroup title={t("filters.readingTime")}>
-            {["short", "medium", "long"].map((r) => (
-              <Choice key={r} active={query.reading_time === r} onClick={() => patch({ reading_time: query.reading_time === r ? "" : r })}
-                label={t(`filters.reading.${r}` as "filters.reading.short")} />
             ))}
           </MobileGroup>
           {facets.tags.length > 0 ? (

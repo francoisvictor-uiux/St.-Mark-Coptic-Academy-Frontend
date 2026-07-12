@@ -46,13 +46,6 @@ export default function Header() {
       const el = headerRef.current;
       if (!el) return;
 
-      // Solidify the bar once the page starts scrolling.
-      ScrollTrigger.create({
-        start: 60,
-        onEnter: () => el.setAttribute("data-scrolled", "true"),
-        onLeaveBack: () => el.removeAttribute("data-scrolled"),
-      });
-
       // Hide on scroll down, reveal on scroll up.
       const show = gsap
         .from(el, { yPercent: -110, duration: 0.35, ease: "power2.out", paused: true })
@@ -80,12 +73,12 @@ export default function Header() {
   return (
     <header
       ref={headerRef}
-      className="group/header fixed inset-x-0 top-0 z-50 border-b border-transparent bg-transparent transition-all duration-300 data-scrolled:border-line/60 data-scrolled:bg-creamy-100/90 data-scrolled:shadow-[0_1px_0_0_rgba(86,40,35,0.04)] data-scrolled:backdrop-blur-md"
+      className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-6 md:pt-5"
     >
-      <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-4 px-4 md:h-[84px] md:px-8">
+      <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-3 rounded-full border border-line/70 bg-creamy-100/80 px-3 py-2 shadow-[0_14px_44px_-20px_rgba(36,17,15,0.45)] backdrop-blur-xl md:gap-4 md:px-4 md:py-2.5">
         {/* Logo — routes to the home page from any page */}
-        <Link href="/" className="flex shrink-0 items-center gap-3" aria-label={t("home")}>
-          <Image src="/Logo.svg" alt="" width={48} height={48} className="size-10 md:size-12" priority />
+        <Link href="/" className="flex shrink-0 items-center gap-3 ps-1" aria-label={t("home")}>
+          <Image src="/Logo.svg" alt="" width={44} height={44} className="size-9 md:size-11" priority />
         </Link>
 
         {/* Desktop nav */}
@@ -189,7 +182,7 @@ export default function Header() {
       {menuOpen ? (
         <div
           id="mobile-menu"
-          className="border-t border-line/60 bg-creamy-100/95 backdrop-blur-md lg:hidden"
+          className="mx-auto mt-2 max-w-[1200px] overflow-hidden rounded-3xl border border-line/70 bg-creamy-100/95 shadow-[0_14px_44px_-20px_rgba(36,17,15,0.45)] backdrop-blur-xl lg:hidden"
         >
           <nav aria-label="Mobile" className="flex flex-col gap-1 px-4 py-4">
             {NAV_ITEMS.map((item) => (

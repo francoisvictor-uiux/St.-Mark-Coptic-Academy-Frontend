@@ -21,6 +21,19 @@ export type VisionData = {
 type TabKey = "vision" | "mission";
 const TABS: TabKey[] = ["vision", "mission"];
 
+// Cross.svg tinted to the current text colour via mask.
+const CROSS_ICON: React.CSSProperties = {
+  backgroundColor: "currentColor",
+  WebkitMaskImage: "url(/Cross.svg)",
+  maskImage: "url(/Cross.svg)",
+  WebkitMaskRepeat: "no-repeat",
+  maskRepeat: "no-repeat",
+  WebkitMaskPosition: "center",
+  maskPosition: "center",
+  WebkitMaskSize: "contain",
+  maskSize: "contain",
+};
+
 export default function Vision({ data, showStats = true }: { data?: VisionData; showStats?: boolean }) {
   const t = useTranslations("vision");
   const messages = useMessages() as { stats: { items: StatItem[] } };
@@ -136,8 +149,9 @@ export default function Vision({ data, showStats = true }: { data?: VisionData; 
           <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <p
               ref={kicker}
-              className="font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-creamy-100/85"
+              className="flex items-center gap-2.5 font-sans text-[16px] font-semibold uppercase tracking-[0.16em] text-creamy-100/90 md:text-[20px]"
             >
+              <span aria-hidden="true" className="size-[1.05em] shrink-0" style={CROSS_ICON} />
               {t("kicker")}
             </p>
             <div

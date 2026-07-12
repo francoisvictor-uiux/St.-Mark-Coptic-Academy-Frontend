@@ -67,7 +67,7 @@ function InfoItem({ icon, label, value }: { icon: React.ReactNode; label: string
   );
 }
 
-export default function ProgramCard({ program }: { program: ProgramItem }) {
+export default function ProgramCard({ program, featured = false }: { program: ProgramItem; featured?: boolean }) {
   const t = useTranslations("programs");
   const root = useRef<HTMLElement>(null);
 
@@ -125,7 +125,11 @@ export default function ProgramCard({ program }: { program: ProgramItem }) {
     >
       <div
         data-card
-        className="relative flex flex-1 flex-col overflow-hidden rounded-[20px] border border-line bg-creamy-50 transition-colors duration-300 [transform-origin:50%_50%] [will-change:transform] hover:border-brown-200"
+        className={`relative flex flex-1 flex-col overflow-hidden rounded-[20px] bg-creamy-50 transition-colors duration-300 [transform-origin:50%_50%] [will-change:transform] ${
+          featured
+            ? "border-2 border-blue-500 hover:border-blue-600"
+            : "border border-line hover:border-brown-200"
+        }`}
       >
       {/* Featured image */}
       <div className="relative aspect-[16/10] overflow-hidden">
@@ -177,7 +181,7 @@ export default function ProgramCard({ program }: { program: ProgramItem }) {
         </dl>
 
         {/* Actions */}
-        <div className="mt-auto flex gap-3 border-t border-line pt-5 max-[380px]:flex-col">
+        <div className="mt-auto flex gap-3 pt-5 max-[380px]:flex-col">
           <Link
             href="/programs"
             className="inline-flex min-h-[46px] flex-1 items-center justify-center gap-2 rounded-xl bg-brown-500 px-4 font-serif text-[15px] font-bold text-creamy-50 transition-colors duration-200 hover:bg-brown-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brown-500"

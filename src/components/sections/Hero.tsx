@@ -60,18 +60,6 @@ export default function Hero({ overrides }: { overrides?: { eyebrow?: string; ti
           window.addEventListener("preloader:done", startEntrance, { once: true });
         }
 
-        // Gentle parallax on the campus video while scrolling away.
-        gsap.to("[data-hero-image] video", {
-          yPercent: 8,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ref.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-          },
-        });
-
         return () => {
           window.removeEventListener("preloader:done", startEntrance);
           window.removeEventListener("touchstart", tryPlay);
@@ -81,6 +69,25 @@ export default function Hero({ overrides }: { overrides?: { eyebrow?: string; ti
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
         videoRef.current?.pause();
+      });
+
+      // Smooth scroll-linked parallax between the hero and the next section.
+      // Scrubbed directly by scroll input, so it stays subtle and runs for
+      // everyone (kept out of the reduced-motion gate above on purpose).
+      const parallax = { trigger: ref.current, start: "top top", end: "bottom top", scrub: 0.8 } as const;
+      // Foreground copy lifts up and dissolves ahead of the scroll…
+      gsap.to("[data-hero-content]", {
+        yPercent: -14,
+        autoAlpha: 0.15,
+        ease: "none",
+        scrollTrigger: parallax,
+      });
+      // …while the campus film lags behind and drifts, creating depth.
+      gsap.to("[data-hero-image] video", {
+        yPercent: 14,
+        scale: 1.08,
+        ease: "none",
+        scrollTrigger: parallax,
       });
     },
     { scope: ref },
@@ -94,7 +101,7 @@ export default function Hero({ overrides }: { overrides?: { eyebrow?: string; ti
       className="relative flex min-h-svh flex-col overflow-hidden bg-creamy-100 pt-[112px] md:pt-[140px]"
     >
       {/* Content */}
-      <div className="relative z-10 mx-auto flex w-full max-w-[820px] flex-col items-center gap-8 px-4 text-center md:gap-10">
+      <div data-hero-content className="relative z-10 mx-auto flex w-full max-w-[820px] flex-col items-center gap-8 px-4 text-center md:gap-10">
         <div className="flex flex-col items-center gap-8 md:gap-10">
           <div data-hero-eyebrow className="flex items-center justify-center gap-2">
             <CopticCross className="size-5 text-brown-500" />

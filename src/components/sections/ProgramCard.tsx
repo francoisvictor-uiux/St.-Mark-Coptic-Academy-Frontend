@@ -79,7 +79,11 @@ export default function ProgramCard({ program }: { program: ProgramItem }) {
   useGSAP(
     () => {
       const el = root.current;
-      if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (!el) return;
+      // NOTE: hover is a subtle, user-initiated micro-interaction, so it runs even
+      // under prefers-reduced-motion (Windows "Show animations off" reports reduce).
+      // The larger scroll-reveal still respects reduced motion in Reveal.tsx.
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
       // Scale an inner wrapper — NOT the [data-reveal] <article>, whose transform
       // is owned by <Reveal> (its reveal tween uses overwrite:true and would kill this).
       const cardEl = el.querySelector<HTMLElement>("[data-card]");
@@ -88,13 +92,15 @@ export default function ProgramCard({ program }: { program: ProgramItem }) {
       const badge = el.querySelector<HTMLElement>("[data-badge]");
       const arrow = el.querySelector<HTMLElement>("[data-arrow]");
       const dir = el.closest('[dir="rtl"]') ? -1 : 1;
+      const dur = reduce ? 0.25 : 0.5;
+      const ease = reduce ? "power2.out" : "back.inOut(1.7)";
 
-      const card = gsap.quickTo(cardEl, "scale", { duration: 0.5, ease: "back.inOut(1.7)" });
+      const card = gsap.quickTo(cardEl, "scale", { duration: dur, ease });
       const imgTo = img ? gsap.quickTo(img, "scale", { duration: 0.65, ease: "power2.out" }) : null;
       const badgeTo = badge ? gsap.quickTo(badge, "scale", { duration: 0.45, ease: "back.out(2.6)" }) : null;
       const arrowTo = arrow ? gsap.quickTo(arrow, "x", { duration: 0.4, ease: "power3.out" }) : null;
 
-      const enter = () => { card(1.04); imgTo?.(1.05); badgeTo?.(1.08); arrowTo?.(5 * dir); };
+      const enter = () => { card(1.05); imgTo?.(1.06); badgeTo?.(1.08); arrowTo?.(5 * dir); };
       const leave = () => { card(1); imgTo?.(1); badgeTo?.(1); arrowTo?.(0); };
 
       el.addEventListener("pointerenter", enter);

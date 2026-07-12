@@ -161,7 +161,7 @@ export default function Theses({ items: itemsProp, labels }: { items?: ThesisIte
   );
 
   const mask =
-    "radial-gradient(circle calc(var(--r,0) * 1px) at calc(var(--x,-9999) * 1px) calc(var(--y,-9999) * 1px), #000 68%, transparent 100%)";
+    "radial-gradient(circle calc(var(--r,0) * 1px) at calc(var(--x,-9999) * 1px) calc(var(--y,-9999) * 1px), #000 99%, transparent 100%)";
 
   return (
     <section id="theses" aria-labelledby="theses-label" className="bg-creamy-100 py-8 md:py-12">

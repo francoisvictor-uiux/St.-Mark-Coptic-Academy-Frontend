@@ -67,7 +67,7 @@ function InfoItem({ icon, label, value }: { icon: React.ReactNode; label: string
   );
 }
 
-export default function ProgramCard({ program, featured = false }: { program: ProgramItem; featured?: boolean }) {
+export default function ProgramCard({ program }: { program: ProgramItem }) {
   const t = useTranslations("programs");
   const root = useRef<HTMLElement>(null);
 
@@ -75,7 +75,7 @@ export default function ProgramCard({ program, featured = false }: { program: Pr
   const mode = program.mode ?? t("info.modeValue");
   const award = program.award ?? t("info.awardValue");
 
-  // Smooth zoom with a squash-and-stretch settle on hover.
+  // Interactive tilt — the card leans toward the moving cursor, with a gentle lift.
   useGSAP(
     (_context, contextSafe) => {
       const el = root.current;
@@ -85,30 +85,33 @@ export default function ProgramCard({ program, featured = false }: { program: Pr
       const cardEl = el.querySelector<HTMLElement>("[data-card]");
       if (!cardEl) return;
       const imgEl = el.querySelector<HTMLElement>("[data-img]");
-      gsap.set(cardEl, { transformOrigin: "50% 50%" });
-      if (imgEl) gsap.set(imgEl, { transformOrigin: "50% 50%" });
+      gsap.set(cardEl, { transformPerspective: 900, transformOrigin: "50% 50%" });
 
-      // Enter: zoom in, briefly squashing wide-and-flat, then jelly-settle to a clean zoom.
-      const enter = contextSafe(() => {
-        gsap.timeline({ defaults: { overwrite: "auto" } })
-          .to(cardEl, { scaleX: 1.06, scaleY: 1.005, duration: 0.19, ease: "power3.out" })
-          .to(cardEl, { scaleX: 1.045, scaleY: 1.045, duration: 0.62, ease: "elastic.out(1, 0.45)" });
-        if (imgEl) gsap.to(imgEl, { scale: 1.09, duration: 0.7, ease: "power2.out", overwrite: "auto" });
+      const TILT = 16; // full-range tilt span in degrees (±8°)
+      const rotX = gsap.quickTo(cardEl, "rotationX", { duration: 0.5, ease: "power3.out" });
+      const rotY = gsap.quickTo(cardEl, "rotationY", { duration: 0.5, ease: "power3.out" });
+      const scaleTo = gsap.quickTo(cardEl, "scale", { duration: 0.5, ease: "power3.out" });
+      const imgScale = imgEl ? gsap.quickTo(imgEl, "scale", { duration: 0.6, ease: "power2.out" }) : null;
+
+      const enter = contextSafe(() => { scaleTo(1.04); imgScale?.(1.07); });
+      const move = contextSafe((e: PointerEvent) => {
+        if (e.pointerType !== "mouse") return;
+        const r = cardEl.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;  // -0.5 (left) .. 0.5 (right)
+        const py = (e.clientY - r.top) / r.height - 0.5;  // -0.5 (top) .. 0.5 (bottom)
+        rotX(py * TILT);   // lean the edge under the cursor toward the viewer
+        rotY(-px * TILT);
       });
-      // Leave: dip through a subtle squash back to rest with a soft bounce.
-      const leave = contextSafe(() => {
-        gsap.timeline({ defaults: { overwrite: "auto" } })
-          .to(cardEl, { scaleX: 1.015, scaleY: 0.99, duration: 0.14, ease: "power2.out" })
-          .to(cardEl, { scaleX: 1, scaleY: 1, duration: 0.5, ease: "elastic.out(1, 0.55)" });
-        if (imgEl) gsap.to(imgEl, { scale: 1, duration: 0.5, ease: "power2.out", overwrite: "auto" });
-      });
+      const leave = contextSafe(() => { rotX(0); rotY(0); scaleTo(1); imgScale?.(1); });
 
       el.addEventListener("pointerenter", enter);
+      el.addEventListener("pointermove", move);
       el.addEventListener("pointerleave", leave);
       el.addEventListener("focusin", enter);
       el.addEventListener("focusout", leave);
       return () => {
         el.removeEventListener("pointerenter", enter);
+        el.removeEventListener("pointermove", move);
         el.removeEventListener("pointerleave", leave);
         el.removeEventListener("focusin", enter);
         el.removeEventListener("focusout", leave);
@@ -125,11 +128,7 @@ export default function ProgramCard({ program, featured = false }: { program: Pr
     >
       <div
         data-card
-        className={`relative flex flex-1 flex-col overflow-hidden rounded-[20px] bg-creamy-50 transition-colors duration-300 [transform-origin:50%_50%] [will-change:transform] ${
-          featured
-            ? "border-2 border-blue-500 hover:border-blue-600"
-            : "border border-line hover:border-brown-200"
-        }`}
+        className="relative flex flex-1 flex-col overflow-hidden rounded-[20px] border border-line bg-creamy-50 transition-colors duration-300 [transform-origin:50%_50%] [will-change:transform] hover:border-brown-200"
       >
       {/* Featured image */}
       <div className="relative aspect-[16/10] overflow-hidden">
@@ -183,17 +182,17 @@ export default function ProgramCard({ program, featured = false }: { program: Pr
         {/* Actions */}
         <div className="mt-auto flex gap-3 pt-5 max-[380px]:flex-col">
           <Link
-            href="/programs"
+            href="/register"
             className="inline-flex min-h-[46px] flex-1 items-center justify-center gap-2 rounded-xl bg-brown-500 px-4 font-serif text-[15px] font-bold text-creamy-50 transition-colors duration-200 hover:bg-brown-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brown-500"
           >
-            {t("learnMore")}
-            <span data-arrow className="inline-flex [will-change:transform]"><ArrowIcon className="size-4" /></span>
+            {t("apply")}
+            <span className="inline-flex"><ArrowIcon className="size-4" /></span>
           </Link>
           <Link
-            href="/register"
+            href="/programs"
             className="inline-flex min-h-[46px] flex-1 items-center justify-center rounded-xl border border-line px-4 font-serif text-[15px] font-bold text-brown-500 transition-colors duration-200 hover:border-brown-400 hover:bg-brown-500/[0.04] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brown-500"
           >
-            {t("apply")}
+            {t("learnMore")}
           </Link>
         </div>
       </div>

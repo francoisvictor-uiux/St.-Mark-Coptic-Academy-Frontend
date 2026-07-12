@@ -17,8 +17,8 @@ export default function Programs({ items: itemsProp, labels }: { items?: Program
         <SectionHeader label={labels?.label || t("label")} subtitle={labels?.subtitle || t("subtitle")} />
 
         <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-          {programs.slice(0, 3).map((program, i, arr) => (
-            <ProgramCard key={program.id} program={program} featured={arr.length === 3 && i === 1} />
+          {programs.slice(0, 3).map((program) => (
+            <ProgramCard key={program.id} program={program} />
           ))}
         </div>
 

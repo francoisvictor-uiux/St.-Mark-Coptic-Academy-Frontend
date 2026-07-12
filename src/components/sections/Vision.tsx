@@ -70,19 +70,28 @@ export default function Vision({ data, showStats = true }: { data?: VisionData; 
   // Background parallax, sliding highlight init, and scroll-in text reveal.
   const { contextSafe } = useGSAP(
     () => {
-      // Perspective entrance: the image expands from a scaled-down rounded card
-      // in perspective to full-bleed as the section scrolls into place.
+      // Perspective section transition (à la Olivier Larose): the panel rises
+      // from a scaled-down, tilted-back rounded card with a soft depth shadow
+      // and settles flat, full-bleed, as the section scrolls into place.
       if (stage.current) {
-        gsap.set(stage.current, { transformPerspective: 1200, transformOrigin: "50% 50%" });
+        gsap.set(stage.current, { transformPerspective: 1400, transformOrigin: "50% 50%" });
         gsap.fromTo(
           stage.current,
-          { scale: 0.88, rotationX: 7, borderRadius: 48 },
+          {
+            scale: 0.82,
+            rotationX: 13,
+            yPercent: 7,
+            borderRadius: 56,
+            boxShadow: "0 50px 110px -35px rgba(36,17,15,0.55)",
+          },
           {
             scale: 1,
             rotationX: 0,
+            yPercent: 0,
             borderRadius: 0,
+            boxShadow: "0 0px 0px 0px rgba(36,17,15,0)",
             ease: "none",
-            scrollTrigger: { trigger: root.current, start: "top bottom", end: "top 12%", scrub: 0.6 },
+            scrollTrigger: { trigger: root.current, start: "top bottom", end: "top 6%", scrub: 0.6 },
           },
         );
       }

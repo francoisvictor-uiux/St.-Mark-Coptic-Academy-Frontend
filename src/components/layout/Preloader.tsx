@@ -24,12 +24,13 @@ const EMBLEM: React.CSSProperties = {
   maskSize: "contain",
 };
 
-// Cream motif band: Pattern.svg tiled, intersected with a vertical fade.
+// Cream motif band at the bottom: Pattern.svg tiled, intersected with a fade
+// that's strongest at the bottom and blends up into the brown background.
 const PATTERN: React.CSSProperties = {
   opacity: 0,
   backgroundColor: CREAM,
-  WebkitMaskImage: "url(/Pattern.svg), linear-gradient(to bottom, transparent, #000 25%, #000 75%, transparent)",
-  maskImage: "url(/Pattern.svg), linear-gradient(to bottom, transparent, #000 25%, #000 75%, transparent)",
+  WebkitMaskImage: "url(/Pattern.svg), linear-gradient(to top, #000, #000 18%, transparent)",
+  maskImage: "url(/Pattern.svg), linear-gradient(to top, #000, #000 18%, transparent)",
   WebkitMaskRepeat: "repeat, no-repeat",
   maskRepeat: "repeat, no-repeat",
   WebkitMaskSize: "374px 212px, 100% 100%",
@@ -130,7 +131,7 @@ export default function Preloader() {
       <div
         data-loader-pattern
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-1/2 h-[430px] -translate-y-1/2 opacity-[0.08]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[52vh] opacity-[0.1]"
         style={PATTERN}
       />
 

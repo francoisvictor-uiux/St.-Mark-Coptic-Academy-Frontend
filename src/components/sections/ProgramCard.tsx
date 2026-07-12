@@ -75,33 +75,33 @@ export default function ProgramCard({ program }: { program: ProgramItem }) {
   const mode = program.mode ?? t("info.modeValue");
   const award = program.award ?? t("info.awardValue");
 
-  // Squishy, smooth hover — GSAP quickTo setters created in-context.
+  // Smooth zoom with a squash-and-stretch settle on hover.
   useGSAP(
-    () => {
+    (_context, contextSafe) => {
       const el = root.current;
-      if (!el) return;
-      // NOTE: hover is a subtle, user-initiated micro-interaction, so it runs even
-      // under prefers-reduced-motion (Windows "Show animations off" reports reduce).
-      // The larger scroll-reveal still respects reduced motion in Reveal.tsx.
-      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-      // Scale an inner wrapper — NOT the [data-reveal] <article>, whose transform
+      if (!el || !contextSafe) return;
+      // Animate an inner wrapper — NOT the [data-reveal] <article>, whose transform
       // is owned by <Reveal> (its reveal tween uses overwrite:true and would kill this).
       const cardEl = el.querySelector<HTMLElement>("[data-card]");
       if (!cardEl) return;
-      const img = el.querySelector<HTMLElement>("[data-img]");
-      const badge = el.querySelector<HTMLElement>("[data-badge]");
-      const arrow = el.querySelector<HTMLElement>("[data-arrow]");
-      const dir = el.closest('[dir="rtl"]') ? -1 : 1;
-      const dur = reduce ? 0.25 : 0.5;
-      const ease = reduce ? "power2.out" : "back.inOut(1.7)";
+      const imgEl = el.querySelector<HTMLElement>("[data-img]");
+      gsap.set(cardEl, { transformOrigin: "50% 50%" });
+      if (imgEl) gsap.set(imgEl, { transformOrigin: "50% 50%" });
 
-      const card = gsap.quickTo(cardEl, "scale", { duration: dur, ease });
-      const imgTo = img ? gsap.quickTo(img, "scale", { duration: 0.65, ease: "power2.out" }) : null;
-      const badgeTo = badge ? gsap.quickTo(badge, "scale", { duration: 0.45, ease: "back.out(2.6)" }) : null;
-      const arrowTo = arrow ? gsap.quickTo(arrow, "x", { duration: 0.4, ease: "power3.out" }) : null;
-
-      const enter = () => { card(1.05); imgTo?.(1.06); badgeTo?.(1.08); arrowTo?.(5 * dir); };
-      const leave = () => { card(1); imgTo?.(1); badgeTo?.(1); arrowTo?.(0); };
+      // Enter: zoom in, briefly squashing wide-and-flat, then jelly-settle to a clean zoom.
+      const enter = contextSafe(() => {
+        gsap.timeline({ defaults: { overwrite: "auto" } })
+          .to(cardEl, { scaleX: 1.06, scaleY: 1.005, duration: 0.19, ease: "power3.out" })
+          .to(cardEl, { scaleX: 1.045, scaleY: 1.045, duration: 0.62, ease: "elastic.out(1, 0.45)" });
+        if (imgEl) gsap.to(imgEl, { scale: 1.09, duration: 0.7, ease: "power2.out", overwrite: "auto" });
+      });
+      // Leave: dip through a subtle squash back to rest with a soft bounce.
+      const leave = contextSafe(() => {
+        gsap.timeline({ defaults: { overwrite: "auto" } })
+          .to(cardEl, { scaleX: 1.015, scaleY: 0.99, duration: 0.14, ease: "power2.out" })
+          .to(cardEl, { scaleX: 1, scaleY: 1, duration: 0.5, ease: "elastic.out(1, 0.55)" });
+        if (imgEl) gsap.to(imgEl, { scale: 1, duration: 0.5, ease: "power2.out", overwrite: "auto" });
+      });
 
       el.addEventListener("pointerenter", enter);
       el.addEventListener("pointerleave", leave);

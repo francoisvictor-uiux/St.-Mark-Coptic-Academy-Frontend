@@ -312,8 +312,10 @@ class Media {
     if (screen) this.screen = screen;
     if (viewport) this.viewport = viewport;
     this.scale = this.screen.height / 1500;
-    this.plane.scale.y = (this.viewport.height * (1150 * this.scale)) / this.screen.height;
-    this.plane.scale.x = (this.viewport.width * (890 * this.scale)) / this.screen.width;
+    // Keep the card ~60% of the viewport height so the bend never pushes the
+    // edge cards out of frame; the container height controls the actual size.
+    this.plane.scale.y = (this.viewport.height * (900 * this.scale)) / this.screen.height;
+    this.plane.scale.x = (this.viewport.width * (700 * this.scale)) / this.screen.width;
     this.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
     this.padding = 2;
     this.width = this.plane.scale.x + this.padding;

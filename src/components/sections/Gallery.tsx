@@ -31,7 +31,7 @@ export default function Gallery({ images, labels }: { images?: { image: string; 
       <Reveal>
         <SectionHeader label={labels?.label || t("title")} subtitle={labels?.subtitle || t("subtitle")} />
       </Reveal>
-      <div className="relative mt-10 h-[500px] md:mt-14 md:h-[680px]">
+      <div className="relative mt-10 h-[560px] md:mt-14 md:h-[780px]">
         <CircularGallery items={items} bend={3} borderRadius={0.05} scrollSpeed={2} scrollEase={0.05} />
       </div>
     </section>

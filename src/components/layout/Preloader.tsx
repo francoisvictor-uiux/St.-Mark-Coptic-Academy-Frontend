@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP);
 
-const CREAM = "#FEF6F0"; // page-cream — emblem, hairline, pattern
+const CREAM = "#FEF6F0"; // page-cream — the emblem colour
 
 // loading.svg rendered in cream via mask (preserves its shapes and text holes).
 // Starts hidden so there's no first-paint flash before GSAP fades it in.
@@ -22,21 +22,6 @@ const EMBLEM: React.CSSProperties = {
   maskPosition: "center",
   WebkitMaskSize: "contain",
   maskSize: "contain",
-};
-
-// Cream motif band at the bottom: Pattern.svg tiled, intersected with a fade
-// that's strongest at the bottom and blends up into the brown background.
-const PATTERN: React.CSSProperties = {
-  opacity: 0,
-  backgroundColor: CREAM,
-  WebkitMaskImage: "url(/Pattern.svg), linear-gradient(to top, #000, transparent 50%)",
-  maskImage: "url(/Pattern.svg), linear-gradient(to top, #000, transparent 50%)",
-  WebkitMaskRepeat: "repeat, no-repeat",
-  maskRepeat: "repeat, no-repeat",
-  WebkitMaskSize: "374px 212px, 100% 100%",
-  maskSize: "374px 212px, 100% 100%",
-  WebkitMaskComposite: "source-in",
-  maskComposite: "intersect",
 };
 
 // Cross.svg used as an *inverted* mask: the sheet is everything EXCEPT the
@@ -80,19 +65,13 @@ export default function Preloader() {
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         // Pre-hide (already opacity:0 inline) so nothing flashes on first paint.
-        gsap.set(["[data-loader-pattern]", "[data-loader-emblem]"], { autoAlpha: 0 });
+        gsap.set("[data-loader-emblem]", { autoAlpha: 0 });
         gsap
           .timeline({ defaults: { ease: "power2.out" }, onComplete: finish })
-          // Pattern band appears first…
-          .to("[data-loader-pattern]", { autoAlpha: 1, duration: 1.1 })
-          // …then the emblem fades in smoothly (opacity only — no mask re-raster)
-          .to("[data-loader-emblem]", { autoAlpha: 1, duration: 1.0 }, "-=0.35")
-          // Exit: fade the content, then open a cross-shaped hole to the page
-          .to(
-            "[data-loader-emblem], [data-loader-pattern]",
-            { autoAlpha: 0, duration: 0.5, ease: "power2.in" },
-            "+=0.5",
-          )
+          // Emblem fades in smoothly (opacity only — no mask re-raster)
+          .to("[data-loader-emblem]", { autoAlpha: 1, duration: 1.1 })
+          // Exit: fade the emblem, then open a cross-shaped hole to the page
+          .to("[data-loader-emblem]", { autoAlpha: 0, duration: 0.5, ease: "power2.in" }, "+=0.6")
           // Open the cross and dive into it — the sheet scales up so we pass
           // through the growing cross onto the page (no fade).
           .to(
@@ -111,7 +90,7 @@ export default function Preloader() {
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(["[data-loader-pattern]", "[data-loader-emblem]"], { autoAlpha: 1 });
+        gsap.set("[data-loader-emblem]", { autoAlpha: 1 });
         gsap.to(ref.current, { autoAlpha: 0, duration: 0.4, onComplete: finish });
       });
     },
@@ -129,14 +108,6 @@ export default function Preloader() {
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-brown-500"
       style={CROSS_REVEAL}
     >
-      {/* Cream motif band */}
-      <div
-        data-loader-pattern
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[52vh] opacity-[0.015]"
-        style={PATTERN}
-      />
-
       <div className="relative flex flex-col items-center px-6">
         {/* Cream loading emblem (loading.svg via mask) */}
         <div data-loader-emblem aria-hidden="true" className="aspect-[860/640] w-[min(460px,72vw)]" style={EMBLEM} />

@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import MobileMenu from "@/components/layout/MobileMenu";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -71,6 +72,7 @@ export default function Header() {
   const closeMenu = () => setMenuOpen(false);
 
   return (
+    <>
     <header
       ref={headerRef}
       className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-6 md:pt-5"
@@ -178,44 +180,19 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile menu */}
-      {menuOpen ? (
-        <div
-          id="mobile-menu"
-          className="mx-auto mt-2 max-w-[1200px] overflow-hidden rounded-3xl border border-line/70 bg-creamy-100/95 shadow-[0_14px_44px_-20px_rgba(36,17,15,0.45)] backdrop-blur-xl lg:hidden"
-        >
-          <nav aria-label="Mobile" className="flex flex-col gap-1 px-4 py-4">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.key}
-                href={item.href}
-                onClick={closeMenu}
-                aria-current={isActive(item.href) ? "page" : undefined}
-                data-active={isActive(item.href) ? "true" : undefined}
-                className="rounded-2xl px-4 py-3 font-serif text-lg text-brown-500 transition-colors hover:bg-brown-500/5 data-active:bg-brown-500/10 data-active:font-bold"
-              >
-                {t(item.key)}
-              </Link>
-            ))}
-            <div className="mt-3 flex gap-2 border-t border-line/60 pt-4">
-              <Link
-                href="/login"
-                onClick={closeMenu}
-                className="flex h-12 flex-1 items-center justify-center rounded-full border border-brown-500 font-serif font-bold text-brown-500"
-              >
-                {t("login")}
-              </Link>
-              <Link
-                href="/register"
-                onClick={closeMenu}
-                className="flex h-12 flex-1 items-center justify-center rounded-full bg-brown-500 font-serif font-bold text-creamy-50"
-              >
-                {t("register")}
-              </Link>
-            </div>
-          </nav>
-        </div>
-      ) : null}
     </header>
+
+      <MobileMenu
+        open={menuOpen}
+        onClose={closeMenu}
+        items={NAV_ITEMS.map((item) => ({
+          href: item.href,
+          label: t(item.key),
+          active: isActive(item.href),
+        }))}
+        loginLabel={t("login")}
+        registerLabel={t("register")}
+      />
+    </>
   );
 }

@@ -21,6 +21,11 @@ export default function Footer() {
   const t = useTranslations("footer");
   const innerRef = useRef<HTMLElement>(null);
   const [height, setHeight] = useState(0);
+  // The fixed sticky-reveal effect only runs on large screens. On mobile the
+  // footer stacks tall (often taller than the viewport); a `fixed` element
+  // taller than the viewport has its top cut off and unreachable, so there the
+  // footer stays in normal flow and scrolls fully.
+  const [reveal, setReveal] = useState(false);
 
   // Sticky-footer reveal (Olivier Larose): a spacer of the footer's height with
   // a rectangular clip-path pins the fixed footer to it, so the page slides up
@@ -28,25 +33,33 @@ export default function Footer() {
   useEffect(() => {
     const el = innerRef.current;
     if (!el) return;
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const onChange = () => setReveal(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
     const update = () => setHeight(el.offsetHeight);
     update();
     const ro = new ResizeObserver(update);
     ro.observe(el);
-    return () => ro.disconnect();
+    return () => {
+      ro.disconnect();
+      mq.removeEventListener("change", onChange);
+    };
   }, []);
 
   return (
     <div
       className="relative"
-      style={{
-        height: height || undefined,
-        clipPath: "polygon(0% 0, 100% 0, 100% 100%, 0% 100%)",
-      }}
+      style={
+        reveal
+          ? { height: height || undefined, clipPath: "polygon(0% 0, 100% 0, 100% 100%, 0% 100%)" }
+          : undefined
+      }
     >
       <footer
         ref={innerRef}
         id="contact"
-        className="fixed bottom-0 left-0 w-full bg-brown-500 text-creamy-100"
+        className={`w-full bg-brown-500 text-creamy-100 ${reveal ? "fixed bottom-0 left-0" : "relative"}`}
       >
         <div className="mx-auto flex max-w-[1440px] flex-col gap-12 px-4 py-16 md:px-12 md:py-24">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-end lg:gap-16">

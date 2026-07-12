@@ -173,7 +173,7 @@ export default function Vision({ data, showStats = true }: { data?: VisionData; 
         {/* Legibility gradient (top + bottom darkened) */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-b from-brown-900/85 via-brown-900/55 to-brown-900/95"
+          className="absolute inset-0 bg-gradient-to-b from-brown-900/92 via-brown-900/72 to-brown-900/97"
         />
 
         <div className="relative z-10 mx-auto flex h-full max-w-[1440px] flex-col justify-between px-5 py-10 md:px-12 md:py-16">

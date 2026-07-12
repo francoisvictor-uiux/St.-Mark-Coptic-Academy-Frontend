@@ -114,6 +114,12 @@ html.lenis body {
   pointer-events: none;
 }
 
+/* Arabic is cursive — letter-spacing breaks the letter joins, so neutralize
+   the tracking utilities (meant for Latin labels) when rendering RTL. */
+[dir="rtl"] * {
+  letter-spacing: 0 !important;
+}
+
 body {
   background: var(--color-surface);
   color: var(--color-brown-900);

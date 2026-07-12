@@ -163,7 +163,7 @@ export default function Vision({ data, showStats = true }: { data?: VisionData; 
       <div ref={stage} className="relative h-[88vh] min-h-[560px] w-full overflow-hidden [will-change:transform]">
         <div ref={bg} className="absolute inset-x-0 -top-[10%] h-[120%] [will-change:transform]">
           <Image
-            src="/images/vision-campus.jpg"
+            src="/images/vision-mission.jpg"
             alt={t("imageAlt")}
             fill
             sizes="100vw"
@@ -173,7 +173,7 @@ export default function Vision({ data, showStats = true }: { data?: VisionData; 
         {/* Legibility gradient (top + bottom darkened) */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-b from-brown-900/70 via-brown-900/25 to-brown-900/90"
+          className="absolute inset-0 bg-gradient-to-b from-brown-900/85 via-brown-900/55 to-brown-900/95"
         />
 
         <div className="relative z-10 mx-auto flex h-full max-w-[1440px] flex-col justify-between px-5 py-10 md:px-12 md:py-16">

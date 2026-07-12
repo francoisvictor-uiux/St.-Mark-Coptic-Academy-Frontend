@@ -61,7 +61,7 @@ function InfoItem({ icon, label, value }: { icon: React.ReactNode; label: string
       </span>
       <span className="min-w-0 pt-0.5">
         <span className="block font-sans text-[10px] font-semibold uppercase tracking-[0.09em] text-brown-400">{label}</span>
-        <span className="mt-0.5 block font-serif text-[14px] font-medium leading-snug text-balance text-brown-900">{value}</span>
+        <span className="mt-0.5 block font-serif text-[14px] font-medium leading-snug text-pretty break-words text-brown-900">{value}</span>
       </span>
     </div>
   );
@@ -80,12 +80,16 @@ export default function ProgramCard({ program }: { program: ProgramItem }) {
     () => {
       const el = root.current;
       if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      // Scale an inner wrapper — NOT the [data-reveal] <article>, whose transform
+      // is owned by <Reveal> (its reveal tween uses overwrite:true and would kill this).
+      const cardEl = el.querySelector<HTMLElement>("[data-card]");
+      if (!cardEl) return;
       const img = el.querySelector<HTMLElement>("[data-img]");
       const badge = el.querySelector<HTMLElement>("[data-badge]");
       const arrow = el.querySelector<HTMLElement>("[data-arrow]");
       const dir = el.closest('[dir="rtl"]') ? -1 : 1;
 
-      const card = gsap.quickTo(el, "scale", { duration: 0.5, ease: "back.inOut(1.7)" });
+      const card = gsap.quickTo(cardEl, "scale", { duration: 0.5, ease: "back.inOut(1.7)" });
       const imgTo = img ? gsap.quickTo(img, "scale", { duration: 0.65, ease: "power2.out" }) : null;
       const badgeTo = badge ? gsap.quickTo(badge, "scale", { duration: 0.45, ease: "back.out(2.6)" }) : null;
       const arrowTo = arrow ? gsap.quickTo(arrow, "x", { duration: 0.4, ease: "power3.out" }) : null;
@@ -111,8 +115,12 @@ export default function ProgramCard({ program }: { program: ProgramItem }) {
     <article
       ref={root}
       data-reveal
-      className="group relative z-0 flex flex-col overflow-hidden rounded-[20px] border border-line bg-creamy-50 transition-colors duration-300 [will-change:transform] hover:z-10 hover:border-brown-200 focus-within:z-10"
+      className="group relative z-0 flex hover:z-10 focus-within:z-10"
     >
+      <div
+        data-card
+        className="relative flex flex-1 flex-col overflow-hidden rounded-[20px] border border-line bg-creamy-50 transition-colors duration-300 [transform-origin:50%_50%] [will-change:transform] hover:border-brown-200"
+      >
       {/* Featured image */}
       <div className="relative aspect-[16/10] overflow-hidden">
         <div data-img className="absolute inset-0 [will-change:transform]">
@@ -177,6 +185,7 @@ export default function ProgramCard({ program }: { program: ProgramItem }) {
             {t("apply")}
           </Link>
         </div>
+      </div>
       </div>
     </article>
   );

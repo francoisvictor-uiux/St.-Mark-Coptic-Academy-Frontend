@@ -61,7 +61,9 @@ export default function Vision({ data, showStats = true }: { data?: VisionData; 
     if (!bar || !hl) return;
     const active = bar.querySelector<HTMLElement>('[data-active="true"]');
     if (!active) return;
-    const x = active.getBoundingClientRect().left - bar.getBoundingClientRect().left;
+    // Layout-based offsets — immune to the section's perspective/scale entrance
+    // transform (getBoundingClientRect would be distorted by it).
+    const x = active.offsetLeft;
     const width = active.offsetWidth;
     if (animate) gsap.to(hl, { x, width, duration: 0.45, ease: "power3.out" });
     else gsap.set(hl, { x, width });
@@ -115,6 +117,10 @@ export default function Vision({ data, showStats = true }: { data?: VisionData; 
         once: true,
         onEnter: () => gsap.to(els, { autoAlpha: 1, y: 0, duration: 1.1, ease: "expo.out", stagger: 0.14 }),
       });
+      // Keep the tab highlight aligned when the layout reflows.
+      const onResize = () => moveHighlight(false);
+      window.addEventListener("resize", onResize);
+      return () => window.removeEventListener("resize", onResize);
     },
     { scope: root },
   );

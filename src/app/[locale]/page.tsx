@@ -5,8 +5,6 @@ import Hero from "@/components/sections/Hero";
 import Partners from "@/components/sections/Partners";
 import Vision from "@/components/sections/Vision";
 import Programs from "@/components/sections/Programs";
-import SectionRecede from "@/components/ui/SectionRecede";
-import RisingPanel from "@/components/ui/RisingPanel";
 import Theses from "@/components/sections/Theses";
 import Features from "@/components/sections/Features";
 import Articles from "@/components/sections/Articles";
@@ -50,16 +48,8 @@ export default async function HomePage({
       <main>
         {show.hero ? <Hero overrides={cms.hero} /> : null}
         {show.partners ? <Partners items={cms.partners.items} label={cms.partners.label} /> : null}
-        {show.vision ? (
-          <SectionRecede>
-            <Vision data={cms.vision} showStats={show.stats} />
-          </SectionRecede>
-        ) : null}
-        {show.programs ? (
-          <RisingPanel>
-            <Programs items={cms.programs.items} labels={cms.programs.labels} />
-          </RisingPanel>
-        ) : null}
+        {show.vision ? <Vision data={cms.vision} showStats={show.stats} /> : null}
+        {show.programs ? <Programs items={cms.programs.items} labels={cms.programs.labels} /> : null}
         {show.theses ? <Theses items={cms.theses.items} labels={cms.theses.labels} /> : null}
         {show.features ? <Features items={cms.features.items} labels={cms.features.labels} /> : null}
         {show.articles ? <Articles items={toSectionArticles(articles, locale)} /> : null}

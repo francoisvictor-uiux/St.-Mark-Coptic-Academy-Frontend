@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import LogoMark from "@/components/ui/LogoMark";
@@ -16,10 +19,36 @@ const QUICK_LINKS = [
 
 export default function Footer() {
   const t = useTranslations("footer");
+  const innerRef = useRef<HTMLElement>(null);
+  const [height, setHeight] = useState(0);
+
+  // Sticky-footer reveal (Olivier Larose): a spacer of the footer's height with
+  // a rectangular clip-path pins the fixed footer to it, so the page slides up
+  // over the footer and reveals it as you reach the bottom.
+  useEffect(() => {
+    const el = innerRef.current;
+    if (!el) return;
+    const update = () => setHeight(el.offsetHeight);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   return (
-    <footer id="contact" className="bg-brown-500 text-creamy-100">
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-12 px-4 py-16 md:px-12 md:py-24">
+    <div
+      className="relative"
+      style={{
+        height: height || undefined,
+        clipPath: "polygon(0% 0, 100% 0, 100% 100%, 0% 100%)",
+      }}
+    >
+      <footer
+        ref={innerRef}
+        id="contact"
+        className="fixed bottom-0 left-0 w-full bg-brown-500 text-creamy-100"
+      >
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-12 px-4 py-16 md:px-12 md:py-24">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-end lg:gap-16">
           {/* Identity + links */}
           <div className="flex flex-col gap-8">
@@ -119,6 +148,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-    </footer>
+      </footer>
+    </div>
   );
 }

@@ -56,7 +56,7 @@ const AwardIcon = () => (
 function InfoItem({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div className="flex items-start gap-2.5 min-w-0">
-      <span className="grid size-9 flex-none place-items-center rounded-[10px] border border-line bg-brown-500/[0.04] text-brown-500">
+      <span className="grid size-9 flex-none place-items-center rounded-[10px] border border-line bg-creamy-50 text-brown-500">
         {icon}
       </span>
       <span className="min-w-0 pt-0.5">
@@ -155,7 +155,7 @@ export default function ProgramCard({ program }: { program: ProgramItem }) {
         {program.faculty ? (
           <p className="font-sans text-[11px] font-semibold uppercase tracking-[0.14em] text-brown-400">{program.faculty}</p>
         ) : null}
-        <h3 className={`${program.faculty ? "mt-2" : ""} font-serif text-[23px] font-bold leading-[1.2] text-balance text-brown-900`}>
+        <h3 className={`${program.faculty ? "mt-2" : ""} line-clamp-2 font-serif text-[23px] font-bold leading-[1.2] text-balance text-brown-900`}>
           <Link
             href="/programs"
             className="rounded-sm outline-none transition-colors hover:text-brown-600 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brown-500"
@@ -163,12 +163,13 @@ export default function ProgramCard({ program }: { program: ProgramItem }) {
             {program.title}
           </Link>
         </h3>
-        <p className="mt-3 line-clamp-2 font-serif text-[15px] font-light leading-[1.62] text-brown-400">
+        {/* Reserve 2 lines so short and long descriptions keep cards aligned */}
+        <p className="mt-3 line-clamp-2 min-h-[2lh] font-serif text-[15px] font-light leading-[1.62] text-brown-400">
           {program.description}
         </p>
 
-        {/* Information row */}
-        <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-4 border-t border-line pt-5">
+        {/* Details panel */}
+        <dl className="mt-5 grid grid-cols-2 gap-x-3 gap-y-4 rounded-2xl border border-line bg-creamy-100/70 p-4">
           <InfoItem icon={<DurationIcon />} label={t("duration")} value={program.duration} />
           <InfoItem icon={<ModeIcon />} label={t("info.mode")} value={mode} />
           <InfoItem icon={<LanguageIcon />} label={t("info.language")} value={language} />

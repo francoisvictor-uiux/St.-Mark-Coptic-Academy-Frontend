@@ -6,6 +6,7 @@ import Partners from "@/components/sections/Partners";
 import Vision from "@/components/sections/Vision";
 import Programs from "@/components/sections/Programs";
 import SectionRecede from "@/components/ui/SectionRecede";
+import RisingPanel from "@/components/ui/RisingPanel";
 import Theses from "@/components/sections/Theses";
 import Features from "@/components/sections/Features";
 import Articles from "@/components/sections/Articles";
@@ -55,9 +56,9 @@ export default async function HomePage({
           </SectionRecede>
         ) : null}
         {show.programs ? (
-          <div className="relative z-10 -mt-8 overflow-hidden rounded-t-[44px] bg-creamy-100 shadow-[0_-24px_60px_-28px_rgba(36,17,15,0.4)]">
+          <RisingPanel>
             <Programs items={cms.programs.items} labels={cms.programs.labels} />
-          </div>
+          </RisingPanel>
         ) : null}
         {show.theses ? <Theses items={cms.theses.items} labels={cms.theses.labels} /> : null}
         {show.features ? <Features items={cms.features.items} labels={cms.features.labels} /> : null}

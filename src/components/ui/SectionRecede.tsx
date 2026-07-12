@@ -8,24 +8,24 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /**
- * Perspective handoff: as this section scrolls up and out, it scales down and
- * tilts back in perspective while a dark overlay fades in — so it reads as
- * receding into the distance while the next section rises over it. Scroll-
- * scrubbed (synced to the smooth scroll); the transform lives on an inner node
- * so it never feeds back into the ScrollTrigger's measurements.
+ * Cinematic recede: as this section scrolls out, it eases back (a gentle
+ * scale-down + upward drift) while a soft shadow gradient deepens from the
+ * bottom — as if the next section is settling on top and casting onto it.
+ * Fully scroll-scrubbed (synced to the smooth scroll) and buttery via scrub:1.
+ * The transform lives on an inner node so it never feeds back into the trigger.
  */
 export default function SectionRecede({ children }: { children: React.ReactNode }) {
   const trigger = useRef<HTMLDivElement>(null);
   const inner = useRef<HTMLDivElement>(null);
-  const overlay = useRef<HTMLDivElement>(null);
+  const shade = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      if (!trigger.current || !inner.current || !overlay.current) return;
-      const st = { trigger: trigger.current, start: "bottom bottom", end: "bottom top", scrub: 0.5 };
-      gsap.set(inner.current, { transformPerspective: 1400, transformOrigin: "50% 45%" });
-      gsap.to(inner.current, { scale: 0.9, rotationX: 8, ease: "none", scrollTrigger: st });
-      gsap.to(overlay.current, { opacity: 0.42, ease: "none", scrollTrigger: st });
+      if (!trigger.current || !inner.current || !shade.current) return;
+      const st = { trigger: trigger.current, start: "bottom bottom", end: "bottom top", scrub: 1 };
+      gsap.set(inner.current, { transformOrigin: "50% 35%" });
+      gsap.to(inner.current, { scale: 0.93, yPercent: -3, ease: "none", scrollTrigger: st });
+      gsap.to(shade.current, { opacity: 0.6, ease: "none", scrollTrigger: st });
     },
     { scope: trigger },
   );
@@ -35,9 +35,9 @@ export default function SectionRecede({ children }: { children: React.ReactNode 
       <div ref={inner} className="relative [will-change:transform]">
         {children}
         <div
-          ref={overlay}
+          ref={shade}
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-brown-900 opacity-0"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-brown-900/0 to-brown-900 opacity-0"
         />
       </div>
     </div>

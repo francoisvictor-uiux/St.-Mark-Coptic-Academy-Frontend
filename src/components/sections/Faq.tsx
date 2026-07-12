@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useRef, useState } from "react";
 import { useTranslations, useMessages } from "next-intl";
 import gsap from "gsap";
@@ -46,18 +45,7 @@ export default function Faq({ items: itemsProp }: { items?: FaqItem[] }) {
       <Reveal className="mx-auto flex max-w-[1248px] flex-col gap-10 px-4 md:gap-14 md:px-8">
         <SectionHeader label={t("label")} subtitle={t("subtitle")} />
 
-        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,460px)_1fr] lg:gap-16">
-          {/* Image column */}
-          <div data-reveal className="relative hidden h-[350px] self-center overflow-hidden rounded-card lg:block">
-            <Image
-              src="/images/campus-2.webp"
-              alt={t("imageAlt")}
-              fill
-              sizes="(min-width: 1024px) 460px, 0px"
-              className="object-cover"
-            />
-          </div>
-
+        <div className="mx-auto w-full max-w-[860px]">
           {/* FAQ list */}
           <div ref={listRef} className="flex flex-col" data-reveal>
             {items.map((item, index) => {

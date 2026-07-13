@@ -219,7 +219,7 @@ export default function Vision({ data, showStats = true }: { data?: VisionData; 
             <h2
               id="vision-title"
               ref={headline}
-              className="max-w-[15ch] text-balance font-serif text-[34px] font-medium leading-[1.1] text-creamy-50 sm:text-5xl md:text-6xl lg:text-[68px]"
+              className="max-w-[15ch] text-balance font-serif text-[34px] font-medium leading-[1.4] text-creamy-50 sm:text-5xl md:text-6xl lg:text-[68px]"
             >
               {headlineText}
             </h2>

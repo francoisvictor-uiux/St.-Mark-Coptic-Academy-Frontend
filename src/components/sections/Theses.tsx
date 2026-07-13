@@ -109,7 +109,7 @@ export default function Theses({ items: itemsProp, labels }: { items?: ThesisIte
       <div
         className={`mx-auto flex max-w-[1248px] flex-col gap-10 md:gap-14 ${
           dark
-            ? "[&_h2]:text-brown-900 [&_svg]:text-brown-900 [&_p]:text-brown-900"
+            ? "[&_h2]:text-creamy-100 [&_svg]:text-brown-900 [&_p]:text-brown-900"
             : "[&_h2]:text-creamy-100 [&_svg]:text-creamy-100 [&_p]:text-creamy-100/70"
         }`}
       >

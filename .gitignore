@@ -20,6 +20,10 @@
 # production
 /build
 
+# cPanel deploy bundle (built locally by `npm run build:cpanel`)
+/cpanel-frontend.zip
+/cpanel-frontend.tar.gz
+
 # misc
 .DS_Store
 *.pem

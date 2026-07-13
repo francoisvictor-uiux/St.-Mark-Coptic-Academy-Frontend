@@ -11,6 +11,12 @@ const rawBackend = process.env.BACKEND_URL ?? "http://localhost:8000";
 const backend = (/^https?:\/\//i.test(rawBackend) ? rawBackend : `https://${rawBackend}`).replace(/\/+$/, "");
 
 const nextConfig: NextConfig = {
+  // Self-contained Node server output. The cPanel host cannot BUILD Next (4 GB
+  // memory cap) but it can RUN a build made elsewhere. `npm run build:cpanel`
+  // produces .next/standalone/, which is uploaded and run by Passenger.
+  // Harmless on Vercel — Vercel uses its own build output.
+  output: "standalone",
+
   // Proxy API calls to Django so the browser sees one origin — the httpOnly
   // refresh cookie works without CORS (docs/auth-spec/04-backend-django.md §3).
   // NOTE: rewrites are baked in at BUILD time, so BACKEND_URL must be set when building.

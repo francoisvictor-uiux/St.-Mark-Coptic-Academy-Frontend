@@ -351,12 +351,27 @@ class App {
   viewport!: Size;
   raf = 0;
 
-  boundOnResize = () => this.onResize();
+  // Render-loop gating: only run rAF while the gallery is visible, the tab is
+  // active, and the carousel is actually in motion. A static WebGL scene that
+  // keeps re-rendering 60fps is pure wasted CPU/GPU and a common cause of lag.
+  running = false;
+  isVisible = true;
+  isTabActive = true;
+  observer?: IntersectionObserver;
+
+  boundOnResize = () => {
+    this.onResize();
+    this.wake();
+  };
   boundOnWheel = (e: Event) => this.onWheel(e as WheelEvent);
   boundOnTouchDown = (e: MouseEvent | TouchEvent) => this.onTouchDown(e);
   boundOnTouchMove = (e: MouseEvent | TouchEvent) => this.onTouchMove(e);
   boundOnTouchUp = () => this.onTouchUp();
   boundUpdate = () => this.update();
+  boundOnVisibility = () => {
+    this.isTabActive = document.visibilityState === "visible";
+    this.wake();
+  };
 
   constructor(container: HTMLElement, options: AppOptions) {
     this.container = container;
@@ -370,8 +385,8 @@ class App {
     this.onResize();
     this.createGeometry();
     this.createMedias(options);
-    this.update();
     this.addEventListeners();
+    this.wake();
   }
 
   createRenderer() {
@@ -426,6 +441,7 @@ class App {
     this.isDown = true;
     this.scroll.position = this.scroll.current;
     this.start = "touches" in e ? e.touches[0].clientX : e.clientX;
+    this.wake();
   }
 
   onTouchMove(e: MouseEvent | TouchEvent) {
@@ -433,6 +449,7 @@ class App {
     const x = "touches" in e ? e.touches[0].clientX : e.clientX;
     const distance = (this.start - x) * (this.scrollSpeed * 0.025);
     this.scroll.target = this.scroll.position + distance;
+    this.wake();
   }
 
   onTouchUp() {
@@ -444,6 +461,7 @@ class App {
     const delta = e.deltaY || e.detail;
     this.scroll.target += (delta > 0 ? this.scrollSpeed : -this.scrollSpeed) * 0.2;
     this.onCheckDebounce();
+    this.wake();
   }
 
   onCheck() {
@@ -470,28 +488,65 @@ class App {
     );
   }
 
+  // Start the render loop if it isn't already running and the gallery is
+  // actually on screen with an active tab.
+  wake() {
+    if (this.running || !this.isVisible || !this.isTabActive) return;
+    this.running = true;
+    this.raf = window.requestAnimationFrame(this.boundUpdate);
+  }
+
+  stop() {
+    this.running = false;
+    if (this.raf) window.cancelAnimationFrame(this.raf);
+    this.raf = 0;
+  }
+
   update() {
     this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
     const direction = this.scroll.current > this.scroll.last ? "right" : "left";
     this.medias.forEach((media) => media.update(this.scroll, direction));
     this.renderer.render({ scene: this.scene, camera: this.camera });
     this.scroll.last = this.scroll.current;
+
+    // If the carousel has settled (and the user isn't dragging), park the loop
+    // so we stop burning frames until the next interaction wakes it back up.
+    const atRest = Math.abs(this.scroll.target - this.scroll.current) < 0.001;
+    if (atRest && !this.isDown) {
+      this.running = false;
+      this.raf = 0;
+      return;
+    }
     this.raf = window.requestAnimationFrame(this.boundUpdate);
   }
 
   addEventListeners() {
     window.addEventListener("resize", this.boundOnResize);
-    window.addEventListener("wheel", this.boundOnWheel);
+    window.addEventListener("wheel", this.boundOnWheel, { passive: true });
     this.container.addEventListener("mousedown", this.boundOnTouchDown);
     window.addEventListener("mousemove", this.boundOnTouchMove);
     window.addEventListener("mouseup", this.boundOnTouchUp);
-    this.container.addEventListener("touchstart", this.boundOnTouchDown);
-    window.addEventListener("touchmove", this.boundOnTouchMove);
+    this.container.addEventListener("touchstart", this.boundOnTouchDown, { passive: true });
+    window.addEventListener("touchmove", this.boundOnTouchMove, { passive: true });
     window.addEventListener("touchend", this.boundOnTouchUp);
+    document.addEventListener("visibilitychange", this.boundOnVisibility);
+
+    // Pause the whole render loop whenever the gallery scrolls out of view.
+    this.observer = new IntersectionObserver(
+      ([entry]) => {
+        this.isVisible = entry.isIntersecting;
+        if (this.isVisible) this.wake();
+        else this.stop();
+      },
+      { threshold: 0 },
+    );
+    this.observer.observe(this.container);
   }
 
   destroy() {
-    window.cancelAnimationFrame(this.raf);
+    this.stop();
+    this.observer?.disconnect();
+    document.removeEventListener("visibilitychange", this.boundOnVisibility);
     window.removeEventListener("resize", this.boundOnResize);
     window.removeEventListener("wheel", this.boundOnWheel);
     this.container.removeEventListener("mousedown", this.boundOnTouchDown);

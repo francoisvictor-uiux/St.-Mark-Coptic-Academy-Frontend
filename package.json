@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:cpanel": "node scripts/build-cpanel.mjs",
+    "package:cpanel": "node scripts/build-cpanel.mjs --no-build",
     "start": "next start",
     "lint": "eslint"
   },
@@ -16,7 +18,6 @@
     "@tiptap/react": "^3.27.3",
     "@tiptap/starter-kit": "^3.27.3",
     "gsap": "^3.15.0",
-    "lenis": "^1.3.25",
     "next": "16.2.10",
     "next-intl": "^4.13.1",
     "ogl": "^1.0.11",

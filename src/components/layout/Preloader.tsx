@@ -69,9 +69,9 @@ export default function Preloader() {
         gsap
           .timeline({ defaults: { ease: "power2.out" }, onComplete: finish })
           // Emblem fades in smoothly (opacity only — no mask re-raster)
-          .to("[data-loader-emblem]", { autoAlpha: 1, duration: 1.1 })
+          .to("[data-loader-emblem]", { autoAlpha: 1, duration: 0.5 })
           // Exit: fade the emblem, then open a cross-shaped hole to the page
-          .to("[data-loader-emblem]", { autoAlpha: 0, duration: 0.5, ease: "power2.in" }, "+=0.6")
+          .to("[data-loader-emblem]", { autoAlpha: 0, duration: 0.3, ease: "power2.in" }, "+=0.12")
           // Open the cross and dive into it — the sheet scales up so we pass
           // through the growing cross onto the page (no fade).
           .to(
@@ -80,12 +80,12 @@ export default function Preloader() {
               ["--cross"]: 2600,
               scale: 3.6,
               transformOrigin: "50% 50%",
-              duration: 1.2,
+              duration: 0.8,
               ease: "power2.in",
               // Let the hero begin its entrance while the cross opens
               onStart: () => window.dispatchEvent(new Event("preloader:done")),
             },
-            "-=0.15",
+            "-=0.1",
           );
       });
 

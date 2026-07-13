@@ -66,7 +66,7 @@ export default function ArticleCard({ article }: { article: ArticleCardData }) {
   }
 
   return (
-    <article ref={cardRef} className="group relative flex flex-col overflow-hidden rounded-[24px] border border-line bg-card will-change-transform">
+    <article ref={cardRef} className="group relative flex flex-col overflow-hidden rounded-[24px] border border-line bg-card transition-colors duration-300 will-change-transform hover:bg-white">
       <Link href={href} aria-hidden="true" tabIndex={-1} className="relative block aspect-[16/10] overflow-hidden bg-creamy-300">
         {article.cover ? (
           <Image
@@ -91,12 +91,12 @@ export default function ArticleCard({ article }: { article: ArticleCardData }) {
       </Link>
 
       <div className="flex flex-1 flex-col gap-3 p-5">
-        <h3 className="font-serif text-[19px] font-bold leading-[1.5] text-brown-900 transition-colors group-hover:text-brown-500">
-          <Link href={href} className="after:absolute after:inset-0 after:content-['']">
+        <h3 className="min-h-[3em] font-serif text-[19px] font-bold leading-[1.5] text-brown-900 transition-colors group-hover:text-brown-500">
+          <Link href={href} className="line-clamp-2 after:absolute after:inset-0 after:content-['']">
             {pickLang(locale, article.title_ar, article.title_en)}
           </Link>
         </h3>
-        <p className="line-clamp-2 font-serif text-[14.5px] font-light leading-[1.7] text-brown-400">
+        <p className="line-clamp-2 min-h-[3.4em] font-serif text-[14.5px] font-light leading-[1.7] text-brown-400">
           {pickLang(locale, article.excerpt_ar, article.excerpt_en)}
         </p>
 

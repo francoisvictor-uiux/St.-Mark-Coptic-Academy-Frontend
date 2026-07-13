@@ -105,7 +105,7 @@ export default function Header() {
       ref={headerRef}
       className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-6 md:pt-5"
     >
-      <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-3 rounded-full border border-line/70 bg-creamy-100/70 px-3 py-2 backdrop-blur-xl md:gap-4 md:px-4 md:py-2.5">
+      <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-3 rounded-full border border-line/70 bg-creamy-100/80 px-3 py-2 backdrop-blur-md [transform:translateZ(0)] md:gap-4 md:px-4 md:py-2.5">
         {/* Logo — routes to the home page from any page */}
         <Link href="/" className="flex shrink-0 items-center gap-3 ps-1" aria-label={t("home")}>
           <Image src="/Logo.svg" alt="" width={44} height={44} className="size-9 md:size-11" priority />

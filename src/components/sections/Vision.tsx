@@ -76,24 +76,19 @@ export default function Vision({ data, showStats = true }: { data?: VisionData; 
       // from a scaled-down, tilted-back rounded card with a soft depth shadow
       // and settles flat, full-bleed, as the section scrolls into place.
       if (stage.current) {
+        // Transform-only (scale/rotationX/y) so it stays GPU-composited — no
+        // per-frame paint. borderRadius/boxShadow were removed: scrubbing paint
+        // properties on this 88vh panel repainted every frame and caused jank.
         gsap.set(stage.current, { transformPerspective: 1400, transformOrigin: "50% 50%" });
         gsap.fromTo(
           stage.current,
-          {
-            scale: 0.82,
-            rotationX: 13,
-            yPercent: 7,
-            borderRadius: 56,
-            boxShadow: "0 50px 110px -35px rgba(36,17,15,0.55)",
-          },
+          { scale: 0.86, rotationX: 10, yPercent: 6 },
           {
             scale: 1,
             rotationX: 0,
             yPercent: 0,
-            borderRadius: 0,
-            boxShadow: "0 0px 0px 0px rgba(36,17,15,0)",
             ease: "none",
-            scrollTrigger: { trigger: root.current, start: "top bottom", end: "top 6%", scrub: 0.6 },
+            scrollTrigger: { trigger: root.current, start: "top bottom", end: "top 8%", scrub: 0.6 },
           },
         );
       }

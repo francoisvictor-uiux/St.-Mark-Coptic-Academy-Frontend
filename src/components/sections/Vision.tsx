@@ -104,6 +104,20 @@ export default function Vision({ data, showStats = true }: { data?: VisionData; 
         );
       }
       moveHighlight(false);
+      // The Arabic serif web font usually loads AFTER this first measure, which
+      // reflows the tab labels and leaves the pill sized for the fallback font
+      // (so the text no longer sits centred inside it). Re-align once the real
+      // font metrics are in…
+      if (typeof document !== "undefined" && "fonts" in document) {
+        document.fonts.ready.then(() => moveHighlight(false)).catch(() => {});
+      }
+      // …and keep the pill matched to the label on any later reflow (font swap,
+      // container resize) — a plain resize listener misses the font reflow.
+      let ro: ResizeObserver | undefined;
+      if (tabsBar.current && typeof ResizeObserver !== "undefined") {
+        ro = new ResizeObserver(() => moveHighlight(false));
+        ro.observe(tabsBar.current);
+      }
       const els = [kicker.current, tabsBar.current, headline.current, body.current];
       gsap.set(els, { autoAlpha: 0, y: 44 });
       ScrollTrigger.create({
@@ -115,7 +129,10 @@ export default function Vision({ data, showStats = true }: { data?: VisionData; 
       // Keep the tab highlight aligned when the layout reflows.
       const onResize = () => moveHighlight(false);
       window.addEventListener("resize", onResize);
-      return () => window.removeEventListener("resize", onResize);
+      return () => {
+        window.removeEventListener("resize", onResize);
+        ro?.disconnect();
+      };
     },
     { scope: root },
   );

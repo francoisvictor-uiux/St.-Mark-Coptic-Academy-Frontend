@@ -68,29 +68,22 @@ export default function Header() {
     { scope: headerRef },
   );
 
-  // Animate the mobile dropdown: reveal height + stagger links on open,
-  // collapse on close (then unmount so it leaves no layout gap).
+  // Animate the mobile dropdown with transforms/opacity only (no layout
+  // thrash): quick fade-slide the panel + a light link stagger on open,
+  // and a fast fade-out on close before unmounting.
   useGSAP(
     () => {
       const el = menuRef.current;
       if (!menuMounted || !el) return;
-      const items = el.querySelectorAll<HTMLElement>("[data-m-item]");
       if (menuOpen) {
-        gsap.set(el, { height: "auto" });
-        const full = el.offsetHeight;
+        gsap.fromTo(el, { autoAlpha: 0, y: -10 }, { autoAlpha: 1, y: 0, duration: 0.26, ease: "power2.out", overwrite: true });
         gsap.fromTo(
-          el,
-          { height: 0 },
-          { height: full, duration: 0.42, ease: "power3.out", overwrite: true, onComplete: () => gsap.set(el, { height: "auto" }) },
-        );
-        gsap.fromTo(
-          items,
-          { autoAlpha: 0, y: 12 },
-          { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.06, delay: 0.06, overwrite: true },
+          el.querySelectorAll<HTMLElement>("[data-m-item]"),
+          { autoAlpha: 0, y: 10 },
+          { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out", stagger: 0.045, delay: 0.04, overwrite: true },
         );
       } else {
-        gsap.to(items, { autoAlpha: 0, y: 8, duration: 0.2, overwrite: true });
-        gsap.to(el, { height: 0, duration: 0.34, ease: "power3.in", overwrite: true, onComplete: () => setMenuMounted(false) });
+        gsap.to(el, { autoAlpha: 0, y: -8, duration: 0.18, ease: "power2.in", overwrite: true, onComplete: () => setMenuMounted(false) });
       }
     },
     { dependencies: [menuOpen, menuMounted], scope: headerRef },
@@ -217,7 +210,7 @@ export default function Header() {
 
       {/* Mobile menu — animated dropdown */}
       {menuMounted ? (
-        <div id="mobile-menu" ref={menuRef} className="overflow-hidden lg:hidden">
+        <div id="mobile-menu" ref={menuRef} className="lg:hidden [will-change:transform,opacity]">
           <div className="mx-auto mt-2 max-w-[1200px] overflow-hidden rounded-3xl border border-line/70 bg-creamy-100/95 shadow-[0_14px_44px_-20px_rgba(36,17,15,0.45)] backdrop-blur-xl">
             <nav aria-label="Mobile" className="flex flex-col gap-1 px-4 py-4">
               {NAV_ITEMS.map((item) => (

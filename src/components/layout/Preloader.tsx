@@ -24,27 +24,12 @@ const EMBLEM: React.CSSProperties = {
   maskSize: "contain",
 };
 
-// Cross.svg used as an *inverted* mask: the sheet is everything EXCEPT the
-// cross, so growing the cross opens a cross-shaped hole that reveals the page.
-const CROSS_REVEAL: React.CSSProperties = {
-  ["--cross" as string]: 0,
-  WebkitMaskImage: "url(/Cross.svg), linear-gradient(#000, #000)",
-  maskImage: "url(/Cross.svg), linear-gradient(#000, #000)",
-  WebkitMaskRepeat: "no-repeat, no-repeat",
-  maskRepeat: "no-repeat, no-repeat",
-  WebkitMaskPosition: "center, center",
-  maskPosition: "center, center",
-  WebkitMaskSize: "calc(var(--cross, 0) * 1px), cover",
-  maskSize: "calc(var(--cross, 0) * 1px), cover",
-  WebkitMaskComposite: "xor",
-  maskComposite: "exclude",
-};
-
 /**
  * Full-screen intro overlay shown on every hard page load. The hero pauses
  * its entrance while `[data-preloader]` is in the DOM and resumes on the
- * `preloader:done` window event. On exit a cross-shaped hole (Cross.svg used
- * as an inverted mask) grows open to reveal the page.
+ * `preloader:done` window event. On exit the emblem zooms toward the viewer
+ * and the sheet dissolves to reveal the page — transform/opacity only, so it
+ * stays smooth (the old mask-size cross-reveal repainted every frame).
  */
 export default function Preloader() {
   const t = useTranslations("misc");
@@ -64,29 +49,27 @@ export default function Preloader() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // Pre-hide (already opacity:0 inline) so nothing flashes on first paint.
-        gsap.set("[data-loader-emblem]", { autoAlpha: 0 });
+        // Promote to their own layers so the transforms composite on the GPU.
+        gsap.set(ref.current, { willChange: "opacity" });
+        gsap.set("[data-loader-emblem]", { autoAlpha: 0, scale: 0.94, transformOrigin: "50% 50%", willChange: "transform, opacity" });
         gsap
           .timeline({ defaults: { ease: "power2.out" }, onComplete: finish })
-          // Emblem fades in smoothly (opacity only — no mask re-raster)
-          .to("[data-loader-emblem]", { autoAlpha: 1, duration: 1.1 })
-          // Exit: fade the emblem, then open a cross-shaped hole to the page
-          .to("[data-loader-emblem]", { autoAlpha: 0, duration: 0.5, ease: "power2.in" }, "+=0.6")
-          // Open the cross and dive into it — the sheet scales up so we pass
-          // through the growing cross onto the page (no fade).
+          // Emblem eases in (opacity + a touch of scale — no mask re-raster)
+          .to("[data-loader-emblem]", { autoAlpha: 1, scale: 1, duration: 1.0 })
+          // Exit: emblem dives toward the viewer while the sheet dissolves to
+          // reveal the page. Pure transform/opacity → GPU-composited, smooth.
           .to(
-            ref.current,
+            "[data-loader-emblem]",
             {
-              ["--cross"]: 2600,
-              scale: 3.6,
-              transformOrigin: "50% 50%",
-              duration: 1.2,
+              scale: 5,
+              autoAlpha: 0,
+              duration: 0.9,
               ease: "power2.in",
-              // Let the hero begin its entrance while the cross opens
               onStart: () => window.dispatchEvent(new Event("preloader:done")),
             },
-            "-=0.15",
-          );
+            "+=0.55",
+          )
+          .to(ref.current, { autoAlpha: 0, duration: 0.7, ease: "power1.out" }, "-=0.7");
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
@@ -106,7 +89,6 @@ export default function Preloader() {
       role="status"
       aria-label={t("loading")}
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-brown-500"
-      style={CROSS_REVEAL}
     >
       <div className="relative flex flex-col items-center px-6">
         {/* Cream loading emblem (loading.svg via mask) */}

@@ -50,10 +50,12 @@ export default function Hero({ overrides }: { overrides?: { eyebrow?: string; ti
           )
           .from("[data-hero-subtitle]", { autoAlpha: 0, y: 24, duration: 0.8 }, "-=0.6")
           .from("[data-hero-cta]", { autoAlpha: 0, y: 24, duration: 0.7, stagger: 0.12 }, "-=0.5")
+          // Transform-only slide (no opacity) — fading a large, decoding video
+          // via autoAlpha every frame was the main entrance jank.
           .from(
             "[data-hero-image]",
-            { autoAlpha: 0, y: 80, duration: 1.2, ease: "power2.out" },
-            "-=0.6",
+            { yPercent: 12, duration: 1.0, ease: "power2.out" },
+            "-=0.55",
           );
 
         const startEntrance = () => entrance.play();
@@ -152,7 +154,7 @@ export default function Hero({ overrides }: { overrides?: { eyebrow?: string; ti
       {/* Campus film, pulled up under the CTAs and blended into the cream sky */}
       <div
         data-hero-image
-        className="relative -mt-32 h-[440px] w-full sm:-mt-48 sm:h-[580px] md:-mt-72 md:h-[800px] lg:-mt-88 lg:h-[920px]"
+        className="relative -mt-32 h-[440px] w-full [will-change:transform] sm:-mt-48 sm:h-[580px] md:-mt-72 md:h-[800px] lg:-mt-88 lg:h-[920px]"
       >
         <video
           ref={videoRef}
@@ -164,7 +166,7 @@ export default function Hero({ overrides }: { overrides?: { eyebrow?: string; ti
           playsInline
           preload="metadata"
           aria-label={t("imageAlt")}
-          className="absolute inset-0 size-full object-cover"
+          className="absolute inset-0 size-full object-cover [will-change:transform] [transform:translateZ(0)]"
         />
         <div
           aria-hidden="true"

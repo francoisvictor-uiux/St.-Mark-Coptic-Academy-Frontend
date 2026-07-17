@@ -19,6 +19,18 @@ const BROWN = "#562823"; // --color-brown-500 — the curtain colour
 const CURVE = 16; // bulge of the bottom edge, in viewBox units
 const SHEET = "124vh"; // taller than the viewport so the curve can't reveal the page early
 
+// The flatten and the slide MUST share a duration and ease — they're two tweens
+// describing one motion, and any drift between them makes the curved edge lag
+// the sheet. Kept as constants so they can't be edited apart.
+//
+// `power2.in` rather than an inOut: the sheet travels 124vh but clears the
+// viewport at ~84% of that, so an inOut spends its whole deceleration phase
+// while the trailing edge is still on screen — the curtain visibly slows as it
+// leaves, which reads as a stall. Accelerating out keeps the edge speeding up
+// until it's gone, and the gentle start still eases in cleanly.
+const EXIT_DURATION = 1;
+const EXIT_EASE = "power2.in";
+
 // Rectangle with a quadratic-curved bottom edge that rises `curve` toward the
 // middle. At CURVE the mid-point sits at (1 - 16/100) * 124vh = 104vh — still
 // below the fold on ANY viewport height, since it's all in vh. curve 0 = flat.
@@ -91,12 +103,12 @@ export default function Preloader() {
           // Flatten the curved edge and slide the sheet up — one coherent wipe.
           .to(
             state,
-            { curve: 0, duration: 0.9, ease: "power2.inOut", onUpdate: draw },
+            { curve: 0, duration: EXIT_DURATION, ease: EXIT_EASE, onUpdate: draw },
             "exit",
           )
           .to(
             root.current,
-            { yPercent: -100, duration: 0.9, ease: "power2.inOut" },
+            { yPercent: -100, duration: EXIT_DURATION, ease: EXIT_EASE },
             "exit",
           );
       });

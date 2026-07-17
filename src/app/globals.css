@@ -88,6 +88,12 @@
 
 html {
   scroll-behavior: smooth;
+  /* Always reserve the scrollbar gutter. The preloader locks the page with
+     `body { overflow: hidden }` and releases it when the reveal ends — without
+     a stable gutter the scrollbar vanishes and reappears, so the whole page
+     shifts sideways by its width at exactly the moment the curtain lifts. That
+     jump reads as a glitch in the reveal. */
+  scrollbar-gutter: stable;
 }
 
 @media (prefers-reduced-motion: reduce) {

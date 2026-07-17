@@ -49,17 +49,10 @@ export default function Hero({ overrides }: { overrides?: { eyebrow?: string; ti
             "-=0.35",
           )
           .from("[data-hero-subtitle]", { autoAlpha: 0, y: 24, duration: 0.8 }, "-=0.6")
-          .from("[data-hero-cta]", { autoAlpha: 0, y: 24, duration: 0.7, stagger: 0.12 }, "-=0.5")
-          // Gentle zoom-settle (transform only — still no opacity, which was
-          // the original jank). Deliberately NOT a vertical slide: the video is
-          // tucked under the headline with a big negative margin, so a yPercent
-          // rise made its top edge lift up and clip. A centred scale settles it
-          // into place without any vertical shift.
-          .from(
-            "[data-hero-image]",
-            { scale: 1.06, duration: 1.1, ease: "power2.out", transformOrigin: "50% 50%" },
-            "-=0.55",
-          );
+          .from("[data-hero-cta]", { autoAlpha: 0, y: 24, duration: 0.7, stagger: 0.12 }, "-=0.5");
+        // The campus film is deliberately NOT animated on entrance — it sits
+        // fixed at full size. Any transform on it (slide or zoom) shifted its
+        // framing and clipped the top edge under the headline.
 
         const startEntrance = () => entrance.play();
         if (preloading) {
@@ -174,7 +167,7 @@ export default function Hero({ overrides }: { overrides?: { eyebrow?: string; ti
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-b from-creamy-100 from-[50%] to-creamy-100/0"
+          className="absolute inset-0 bg-gradient-to-b from-creamy-100 from-[8%] via-creamy-100/10 via-[24%] to-creamy-100/0"
         />
       </div>
     </section>

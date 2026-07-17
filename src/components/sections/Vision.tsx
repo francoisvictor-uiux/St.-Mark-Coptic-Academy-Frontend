@@ -240,9 +240,13 @@ export default function Vision({ data, showStats = true }: { data?: VisionData; 
             >
               {headlineText}
             </h2>
+            {/* Justified, with hyphenation on: justifying a column this narrow
+                without it opens ragged "rivers" of whitespace between words.
+                (Browsers correctly ignore hyphens for Arabic, which justifies
+                on its own rules.) */}
             <p
               ref={body}
-              className="font-serif text-[16px] font-light leading-[1.85] text-creamy-100/90 md:text-[18px]"
+              className="hyphens-auto text-justify font-serif text-[16px] font-light leading-[1.85] text-creamy-100/90 md:text-[18px]"
             >
               {bodyText}
             </p>

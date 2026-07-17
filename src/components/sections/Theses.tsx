@@ -20,35 +20,32 @@ type ThesisItem = {
 
 const RADIUS = 200; // px radius of the cursor reveal circle
 
-const CREAM = "#FEF6F0"; // creamy-100 — the pattern colour on both bands
+// Pattern-cream.svg is Pattern.svg recoloured: the logo shapes are creamy and
+// the white inner detail is knocked out to transparent, so the band colour
+// shows through it. It is deliberately NOT used as a mask — a mask flattens the
+// alpha of both tones together, which fuses every logo into a solid blob and
+// makes the units read as collapsed/overlapping.
+const PATTERN_SRC = "url(/Pattern-cream.svg)";
 
-// Pattern.svg tiled at its EXPLICIT native size. Both axes are pinned (rather
-// than height:auto, which SVG backgrounds can resolve unpredictably and squash)
-// so every tile is identical and the repeat grid stays evenly spaced in both
-// directions — no collapsing or overlapping motifs.
-const PATTERN_TILE = "374px 212px";
+// The tile is one full 374x212 block of the logo grid. Both axes are pinned
+// (never height:auto — SVG backgrounds resolve `auto` unpredictably and squash
+// the tile, which is what overlapped the units), scaled up 1.25x so each logo
+// sits further from its neighbours. Keep the 374:212 ratio when tuning or the
+// horizontal and vertical spacing stop matching.
+const PATTERN_TILE = "468px 265px";
 
-// Rises out of the bottom of the band and dissolves before reaching the heading.
+// Rises out of the very bottom of the band and dissolves quickly, so the
+// pattern stays a whisper and never reaches the heading.
 const PATTERN_FADE =
-  "linear-gradient(to top, #000 0%, rgba(0,0,0,0.55) 32%, transparent 72%)";
+  "linear-gradient(to top, #000 0%, rgba(0,0,0,0.35) 20%, transparent 55%)";
 
-// The SVG's own fills are hardcoded (#562823 / #fff), so it's used as a MASK
-// over a creamy fill instead — that way the pattern is creamy on the brown base
-// AND the pink hover copy. Layer 1 = the tiled pattern, layer 2 = the fade;
-// compositing them with `intersect` shows the pattern only where the fade is.
 const PATTERN_STYLE = (dark: boolean): React.CSSProperties => ({
-  backgroundColor: CREAM,
-  opacity: dark ? 0.16 : 0.14,
-  WebkitMaskImage: `url(/Pattern.svg), ${PATTERN_FADE}`,
-  maskImage: `url(/Pattern.svg), ${PATTERN_FADE}`,
-  WebkitMaskRepeat: "repeat, no-repeat",
-  maskRepeat: "repeat, no-repeat",
-  WebkitMaskSize: `${PATTERN_TILE}, cover`,
-  maskSize: `${PATTERN_TILE}, cover`,
-  WebkitMaskPosition: "top left, center",
-  maskPosition: "top left, center",
-  WebkitMaskComposite: "source-in",
-  maskComposite: "intersect",
+  backgroundImage: PATTERN_SRC,
+  backgroundRepeat: "repeat",
+  backgroundSize: PATTERN_TILE,
+  opacity: dark ? 0.12 : 0.1,
+  WebkitMaskImage: PATTERN_FADE,
+  maskImage: PATTERN_FADE,
 });
 
 export default function Theses({ items: itemsProp, labels }: { items?: ThesisItem[]; labels?: { label?: string; subtitle?: string } }) {

@@ -20,6 +20,13 @@ type ThesisItem = {
 
 const RADIUS = 200; // px radius of the cursor reveal circle
 
+// Pattern.svg is tiled at its NATIVE 374x212 (width-only background-size keeps
+// the height auto, so it can never stretch or collapse). It's faded in from the
+// bottom of the band via a mask so it dissolves before it reaches the heading.
+const PATTERN_TILE = "374px";
+const PATTERN_FADE =
+  "linear-gradient(to top, #000 0%, rgba(0,0,0,0.55) 32%, transparent 72%)";
+
 export default function Theses({ items: itemsProp, labels }: { items?: ThesisItem[]; labels?: { label?: string; subtitle?: string } }) {
   const t = useTranslations("theses");
   const messages = useMessages() as {
@@ -105,18 +112,38 @@ export default function Theses({ items: itemsProp, labels }: { items?: ThesisIte
 
   // One band, rendered light (base) or dark-on-pink (reveal copy).
   const band = (dark: boolean) => (
-    <div className={`rounded-card px-6 py-14 md:px-14 md:py-20 ${dark ? "bg-[#D46A6B]" : "bg-brown-500"}`}>
+    <div
+      className={`relative overflow-hidden rounded-card px-6 py-14 md:px-14 md:py-20 ${
+        dark ? "bg-[#D46A6B]" : "bg-brown-500"
+      }`}
+    >
+      {/* Coptic pattern wash, rising out of the bottom of the band. Absolutely
+          positioned behind the content (which is `relative`), so it can never
+          overlap the text. */}
       <div
-        className={`mx-auto flex max-w-[1248px] flex-col gap-10 md:gap-14 ${
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: "url(/Pattern.svg)",
+          backgroundRepeat: "repeat",
+          backgroundSize: PATTERN_TILE,
+          opacity: dark ? 0.14 : 0.16,
+          WebkitMaskImage: PATTERN_FADE,
+          maskImage: PATTERN_FADE,
+        }}
+      />
+
+      <div
+        className={`relative mx-auto flex max-w-[1248px] flex-col gap-10 md:gap-14 ${
           dark
-            ? "[&_h2]:text-creamy-100 [&_svg]:text-brown-900 [&_p]:text-brown-900"
+            ? "[&_h2]:text-creamy-100 [&_svg]:text-creamy-100 [&_p]:text-creamy-100"
             : "[&_h2]:text-creamy-100 [&_svg]:text-creamy-100 [&_p]:text-creamy-100/70"
         }`}
       >
         <SectionHeader label={labels?.label || t("label")} subtitle={labels?.subtitle || t("subtitle")} />
       </div>
 
-      <div className="mx-auto mt-10 grid max-w-[1248px] gap-5 md:mt-14 md:grid-cols-2 xl:grid-cols-4">
+      <div className="relative mx-auto mt-10 grid max-w-[1248px] gap-5 md:mt-14 md:grid-cols-2 xl:grid-cols-4">
         {theses.map((thesis) => (
           <article
             key={thesis.title}
@@ -152,7 +179,7 @@ export default function Theses({ items: itemsProp, labels }: { items?: ThesisIte
         ))}
       </div>
 
-      <div className="mt-10 flex justify-center md:mt-14" {...(!dark && { "data-reveal": true })}>
+      <div className="relative mt-10 flex justify-center md:mt-14" {...(!dark && { "data-reveal": true })}>
         <PillButton href="/theses" variant="light" withArrow>
           {t("showAll")}
         </PillButton>
